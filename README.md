@@ -6,12 +6,12 @@ Community-powered browser extension for threat protection. Homepage at [nehboro.
 
 This is the **public GitHub Pages site** for the Nehboro browser extension. It serves four purposes:
 
-1. **Marketing / documentation** - the landing page at the root describes the extension
-2. **Live threat feeds** - the `/feeds/` folder holds CSV files that the extension fetches every 6 hours
-3. **URL Scanner** - the `/scan/` page runs Nehboro detections client-side against any URL
+1. **Documentation** - the landing page at the root describes the extension
+2. **Live threat feeds** - the `/feeds/` folder holds CSV files that the extension fetches
+3. **URL Scanner** - the `/scan/` page runs Nehboro detections client-side against any URL (but less detection logics than the extension itself)
 4. **Community Reports browser** - the `/reports/` page shows all threats reported by users
 
-The browser extension source code lives in [github.com/Nehboro/nehboro](https://github.com/Nehboro/nehboro) (separate repo).
+The browser extension source code lives in [github.com/Nehboro/nehboro](https://github.com/Nehboro/nehboro)
 
 ## Contents
 
@@ -33,7 +33,7 @@ The browser extension source code lives in [github.com/Nehboro/nehboro](https://
 │   ├── reports.json        # Aggregated report index (auto-generated)
 │   └── *.jsonl             # Raw NDJSON dumps from ntfy (auto-generated)
 └── .github/workflows/
-    └── fetch-reports.yml   # Pulls reports from ntfy.sh/nehboro-reports every 6h
+    └── fetch-reports.yml   # Pulls reports from ntfy.sh/nehboro-reports
 ```
 
 ## Feeds
@@ -57,18 +57,16 @@ Reports flow into this repo automatically:
 
 1. **Extension** sends reports to `ntfy.sh/nehboro-reports` when the user reports a page (or auto-reports at score ≥110)
 2. **URL Scanner** sends reports to the same topic when the user clicks Report (or auto-reports at score ≥110)
-3. **GitHub Action** (`fetch-reports.yml`) runs every 6 hours, polls `ntfy.sh/nehboro-reports/json?poll=1&since=...` for new messages, archives them as `reports/{timestamp}.jsonl` and rebuilds `reports/reports.json` (the aggregated index)
+3. **GitHub Action** (`fetch-reports.yml`) polls `ntfy.sh/nehboro-reports/json?poll=1&since=...` for new messages, archives them as `reports/{timestamp}.jsonl` and rebuilds `reports/reports.json` (the aggregated index)
 4. **Reports page** (`/reports/`) fetches `reports.json` and displays browsable, filterable, searchable list with permalinks
-
-No secrets to configure - the topic name is hardcoded to match what the extension uses.
 
 ## URL Scanner
 
-`/scan/` runs Nehboro's full detection engine entirely client-side:
+`/scan/` runs some of the Nehboro extension detections entirely client-side:
 
 - Detection modules loaded at runtime from `cdn.jsdelivr.net/gh/Nehboro/nehboro@main/`
 - Target HTML fetched via `api.allorigins.win` (free public CORS proxy, no signup)
-- All 94+ detections run against the fetched content
+- Most of the detections run against the fetched content
 - Results saved to `localStorage` for 24h dedup
 - Auto-reports threats at score ≥110 to the same ntfy topic
 - Manual Report button for any score
@@ -76,10 +74,6 @@ No secrets to configure - the topic name is hardcoded to match what the extensio
 
 ## Contributing
 
-- **Report a threat**: use the extension's Report button, the scanner's Report button, or open an issue.
+- **Report a threat**: use the extension's Report button or the web scanner's Report button, or open an issue.
 - **Submit a detection**: open a PR on the [extension repo](https://github.com/Nehboro/nehboro) with a new `detections/*.js` module.
 - **Add to feeds**: open a PR modifying the CSV files in `/feeds/`.
-
-## License
-
-MIT.
