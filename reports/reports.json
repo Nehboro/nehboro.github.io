@@ -1,5 +1,20 @@
 [
   {
+    "id": "J2AjSF2htYzN",
+    "time": 1776349085,
+    "title": "[THREAT] unknown - Score 100",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_100"
+    ],
+    "source": "extension",
+    "url": "64.144.29.0/24",
+    "host": null,
+    "score": 100,
+    "body": "**URL:** `64.144.29.0/24`\n**Host:** ``\n**Score:** 100 / 100\n**Reported:** 2026-04-16 14:18:04 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** N/A\n**Description:** N/A\n**Language:** N/A\n**Protocol:** N/A\n**Referrer:** direct\n\n### Page Structure\n**Forms:** ? | **Password/text/email inputs:** ?\n**Iframes:** ? | **External scripts:** ? | **Links:** ?\n\n### Detections\n- *(manual report - no automated detections)*\n\n### Extracted URLs (0)\n- *(no URLs extracted from page)*"
+  },
+  {
     "id": "G17JRkc8WMYv",
     "time": 1776344439,
     "title": "[THREAT] nehboro.github.io - Score 50",
