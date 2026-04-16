@@ -1,5 +1,35 @@
 [
   {
+    "id": "G17JRkc8WMYv",
+    "time": 1776344439,
+    "title": "[THREAT] nehboro.github.io - Score 50",
+    "tags": [
+      "warning",
+      "shield",
+      "score_50"
+    ],
+    "source": "extension",
+    "url": "https://nehboro.github.io/nehboro-testing-pages/phishing-docusign.html",
+    "host": "nehboro.github.io",
+    "score": 50,
+    "body": "**URL:** `https://nehboro.github.io/nehboro-testing-pages/phishing-docusign.html`\n**Host:** `nehboro.github.io`\n**Score:** 50 / 100\n**Reported:** 2026-04-16 13:00:39 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** DocuSign Device Code Phish\n**Description:** N/A\n**Language:** en\n**Protocol:** https:\n**Referrer:** https://nehboro.github.io/nehboro-testing-pages/index.html\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 1\n\n### Detections\n- **DEVICE CODE PHISH** *(+50pts)*: Device code phishing: YOUR VERIFICATION CODE, Continue to Microsoft, DocuSign, large/styled code display, non-official domain\n  > `YOUR VERIFICATION CODE | Continue to Microsoft | DocuSign | large/styled code display`\n\n### Extracted URLs (0)\n- *(no URLs extracted from page)*"
+  },
+  {
+    "id": "rRxVNlHJj0UR",
+    "time": 1776344421,
+    "title": "[THREAT] nehboro.github.io - Score 419",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_419"
+    ],
+    "source": "extension",
+    "url": "https://nehboro.github.io/nehboro-testing-pages/index.html",
+    "host": "nehboro.github.io",
+    "score": 419,
+    "body": "**URL:** `https://nehboro.github.io/nehboro-testing-pages/index.html`\n**Host:** `nehboro.github.io`\n**Score:** 419 / 100\n**Reported:** 2026-04-16 13:00:20 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Nehboro Detection Test Suite\n**Description:** N/A\n**Language:** en\n**Protocol:** https:\n**Referrer:** https://nehboro.github.io/nehboro-testing-pages/clickfix-winx.html\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 40\n\n### Detections\n- **CLICKFIX PARTIAL** *(+25pts)*: Partial ClickFix sequence (2/3): open dialog + paste\n  > `Win+R`\n  - *Suspicious keywords matched (3):*\n    - `Win+R`\n    - `Win+X`\n    - `Ctrl+V`\n- **CLICKFIX PRETEXT** *(+40pts)*: ClickFix pretext with execution instructions: audio drivers are outdated\n  > `audio drivers are outdated | Missing Font`\n  - *Suspicious keywords matched (2):*\n    - `Win+R`\n    - `Win+X`\n- **CONSENTFIX** *(+42pts)*: OAuth ConsentFix token theft pattern\n  > `device code flow`\n- **DEVICE CODE PHISH** *(+50pts)*: Device code phishing: verification code\n\nDEVICE, DocuSign, non-official domain\n  > `verification code\n\nDEVICE | DocuSign | non-official domain`\n- **FAKE ANTIVIRUS** *(+35pts)*: 2 fake antivirus scan signals\n  > `threats found | Windows Defender threats`\n- **FAKE COUNTDOWN** *(+10pts)*: Countdown timer with 2 signals: time format displayed, scarcity context\n  > `time format displayed | scarcity context`\n- **FAKE ERROR PAGE** *(+30pts)*: 2 fake error/crash page signals\n  > `Windows Defender warning | BSOD`\n- **FAKE SOCIAL PROOF** *(+17pts)*: Fake social proof (2 signals)\n  > `user-count: 2,847 people | user-count: 2,847 people downloaded this`\n\n### Extracted URLs (0)\n- *(no URLs extracted from page)*"
+  },
+  {
     "id": "wUIcdOWUPGEh",
     "time": 1776342454,
     "title": "[THREAT] nehboro.github.io - Score 0",
@@ -8,10 +38,26 @@
       "shield",
       "score_0"
     ],
-    "url": null,
-    "host": null,
-    "score": null,
-    "body": "==gKpU2ZhBHIt9mcmBCZlR3YhJHd4VGIzxkUVBybuhiKg0iCpADKgMHTSVFIkVGdjFmc0hXRgMyIjogCqkycu9Wa0NWZ0VGZgQWZ0FWbvRXdhBybuBSLgQncvBXZyBCbhVnbh1GKqASLKMnbvlGdjVGdlREIjMyIKowPgoiK6M3aulGTqoCI8ByPgoiK6MHdwlmcjNHIsFmbyVGd4VkKqACfg8DIqoiOzVWbhJnZJpiKK8DIqoiOzRXdw5WagwWah1WZvQHelR3LkJ3b3N3chBlKqACfg8DIqoiOz1mcvZkKqoQZyVHdjVnc0NFIldWYQByIjMiCKQ3YlJXakBiKqojclJnclZWZSpiKKE0LOBiKqoDbvN2b09mcQpiKKE0LOBiKqoTZnFWdn5WYMpiKKE0LOBiKqojbvlGdwlmcjNXZEpiKKE0LOBiKqoTZsRXaUpiKK8mZulEIldWYQByIjMiCKAjLw4SM2BiKqojbvl2cuVGd4VkKqowQUVFIzMjO3IjOyEDI2ETL0ATL2IDMyAiKqoDZlRncvBXZSpiKKADMxAyLgADIqoiOlJ3bjNlKqoAYvlmLiVHa0l2Zu8mcvJGal5GYgoiK6Q3cvhkKqoAYs1Gdo5SZ0FGZwVXLltWYm1Cbhl2YvN3LzV2ZhBXLn5Wa0NXZ01yby9mYoVmbv8WauIWdoRXan5yby9mYoVmbv8iOzBHd0hGYgoiK6wkUVpiK"
+    "source": "extension",
+    "url": "https://nehboro.github.io/nehboro-testing-pages/social-fake-update.html",
+    "host": "nehboro.github.io",
+    "score": 0,
+    "body": "**URL:** `https://nehboro.github.io/nehboro-testing-pages/social-fake-update.html`\n**Host:** `nehboro.github.io`\n**Score:** 0 / 100\n**Reported:** 2026-04-16 12:27:33 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** N/A\n**Description:** N/A\n**Language:** N/A\n**Protocol:** N/A\n**Referrer:** direct\n\n### Page Structure\n**Forms:** ? | **Password/text/email inputs:** ?\n**Iframes:** ? | **External scripts:** ? | **Links:** ?\n\n### Detections\n- *(manual report - no automated detections)*\n\n### Extracted URLs (0)\n- *(no URLs extracted from page)*"
+  },
+  {
+    "id": "wUIcdOWUPGEh",
+    "time": 1776342454,
+    "title": "[THREAT] nehboro.github.io - Score 0",
+    "tags": [
+      "information_source",
+      "shield",
+      "score_0"
+    ],
+    "source": "extension",
+    "url": "https://nehboro.github.io/nehboro-testing-pages/social-fake-update.html",
+    "host": "nehboro.github.io",
+    "score": 0,
+    "body": "**URL:** `https://nehboro.github.io/nehboro-testing-pages/social-fake-update.html`\n**Host:** `nehboro.github.io`\n**Score:** 0 / 100\n**Reported:** 2026-04-16 12:27:33 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** N/A\n**Description:** N/A\n**Language:** N/A\n**Protocol:** N/A\n**Referrer:** direct\n\n### Page Structure\n**Forms:** ? | **Password/text/email inputs:** ?\n**Iframes:** ? | **External scripts:** ? | **Links:** ?\n\n### Detections\n- *(manual report - no automated detections)*\n\n### Extracted URLs (0)\n- *(no URLs extracted from page)*"
   },
   {
     "id": "EssAG7jPfg9e",
