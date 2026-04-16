@@ -3,7 +3,7 @@ name: Fetch community reports
 on:
   schedule:
     # Every 6 hours
-    - cron: '0 */6 * * *'
+    - cron: '*/20 * * * *'
   workflow_dispatch:
 
 jobs:
