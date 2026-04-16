@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nehboro — Community Threat Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f6f2e8;
+  --bg-soft: #fbf8f1;
+  --paper: rgba(255, 252, 245, 0.74);
+  --paper-strong: rgba(255, 252, 245, 0.92);
+  --forest-900: #173122;
+  --forest-800: #214633;
+  --forest-700: #2f5c42;
+  --forest-600: #4e785f;
+  --forest-500: #70977d;
+  --leaf: #9ac2a5;
+  --mist: #dfe9df;
+  --gold: #b98a36;
+  --line: rgba(28, 54, 39, 0.12);
+  --line-strong: rgba(28, 54, 39, 0.2);
+  --text: #1d2a21;
+  --text-soft: #536257;
+  --text-faint: #7a897f;
+  --shadow-sm: 0 8px 30px rgba(25, 52, 37, 0.06);
+  --shadow-md: 0 18px 60px rgba(23, 49, 34, 0.1);
+  --shadow-lg: 0 28px 90px rgba(23, 49, 34, 0.15);
+  --r-sm: 14px;
+  --r-md: 20px;
+  --r-lg: 28px;
+  --max: 1180px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 12% 10%, rgba(154,194,165,0.28), transparent 24%),
+    radial-gradient(circle at 88% 12%, rgba(255,255,255,0.75), transparent 20%),
+    radial-gradient(circle at 50% 0%, rgba(223,233,223,0.4), transparent 28%),
+    linear-gradient(180deg, #eef4ea 0%, #f6f2e8 30%, #f8f4ec 100%);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: inherit; }
+button, input { font: inherit; }
+
+::selection {
+  background: rgba(73, 119, 88, 0.18);
+  color: var(--forest-900);
+}
+
+.page-shell {
+  position: relative;
+  overflow: hidden;
+}
+
+.page-shell::before,
+.page-shell::after {
+  content: '';
+  position: fixed;
+  inset: auto;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.page-shell::before {
+  width: 480px;
+  height: 480px;
+  left: -120px;
+  top: 120px;
+  background: radial-gradient(circle, rgba(154,194,165,0.22), transparent 65%);
+  filter: blur(10px);
+}
+
+.page-shell::after {
+  width: 540px;
+  height: 540px;
+  right: -180px;
+  top: 240px;
+  background: radial-gradient(circle, rgba(255,255,255,0.7), transparent 62%);
+  filter: blur(8px);
+}
+
+h1, h2, h3, h4, .brand-name, .section-title, .stat-val, .v-label {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 600;
+}
+
+.container {
+  width: min(var(--max), calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.header-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding-top: 14px;
+}
+
+.header {
+  width: min(var(--max), calc(100% - 24px));
+  margin: 0 auto;
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: rgba(255, 251, 244, 0.68);
+  border: 1px solid rgba(255,255,255,0.6);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border-radius: 22px;
+  box-shadow: 0 10px 40px rgba(24, 46, 32, 0.08);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+}
+
+.logo-mark {
+  width: 58px;
+  height: 58px;
+  flex: 0 0 auto;
+  display: block;
+  object-fit: contain;
+  border-radius: 16px;
+  filter: drop-shadow(0 8px 20px rgba(33, 70, 51, 0.18));
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.08;
+}
+
+.brand-name {
+  font-size: 24px;
+  letter-spacing: 0.04em;
+  color: var(--forest-900);
+}
+
+.brand-sub {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--text-faint);
+  margin-top: 4px;
+  font-weight: 700;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.nav a {
+  text-decoration: none;
+  color: var(--text-soft);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  padding: 10px 14px;
+  border-radius: 999px;
+  transition: 0.22s ease;
+}
+
+.nav a:hover {
+  color: var(--forest-800);
+  background: rgba(46, 92, 66, 0.07);
+}
+
+.nav .nav-cta {
+  padding-inline: 18px;
+  background: linear-gradient(180deg, var(--forest-700), var(--forest-800));
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(33, 70, 51, 0.18);
+}
+
+.nav .nav-cta:hover {
+  background: linear-gradient(180deg, var(--forest-600), var(--forest-700));
+  color: #fff;
+}
+
+.hero {
+  padding: 54px 0 34px;
+}
+
+.hero-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 18px;
+  align-items: center;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.54), rgba(255,255,255,0.28)),
+    linear-gradient(135deg, rgba(232,241,232,0.9), rgba(248,243,235,0.84));
+  border: 1px solid rgba(255,255,255,0.75);
+  border-radius: 34px;
+  padding: 42px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.hero-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255,255,255,0.7), transparent 22%),
+    radial-gradient(circle at 85% 20%, rgba(154,194,165,0.22), transparent 24%),
+    radial-gradient(circle at 60% 80%, rgba(46,92,66,0.06), transparent 34%);
+  pointer-events: none;
+}
+
+.hero-copy,
+.hero-art {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-head-wrap {
+  width: 190px;
+  height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255,255,255,0.95), rgba(255,255,255,0.55) 38%, rgba(255,255,255,0.18) 68%, transparent 72%),
+    radial-gradient(circle, rgba(154,194,165,0.2), rgba(154,194,165,0.06) 58%, transparent 72%);
+}
+
+.hero-head {
+  width: 158px;
+  height: 158px;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 34px rgba(33, 70, 51, 0.2));
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 38px;
+  padding: 6px 14px 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.56);
+  border: 1px solid rgba(46,92,66,0.12);
+  box-shadow: 0 8px 24px rgba(28,54,39,0.05);
+  color: var(--forest-700);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 22px;
+}
+
+.hero-eyebrow-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #9bc9a6, #4d7b61);
+  box-shadow: 0 0 0 6px rgba(154,194,165,0.12);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.78); opacity: 0.55; }
+}
+
+.hero h1 {
+  font-size: clamp(42px, 6vw, 68px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--forest-900);
+  margin-bottom: 18px;
+}
+
+.hero h1 .accent {
+  color: var(--forest-600);
+}
+
+.hero-lead {
+  max-width: 620px;
+  font-size: 17px;
+  line-height: 1.9;
+  color: var(--text-soft);
+  margin-bottom: 28px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 50px;
+  padding: 0 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: 0.24s ease;
+}
+
+.btn-primary {
+  color: #fff;
+  background: linear-gradient(180deg, var(--forest-700), var(--forest-800));
+  box-shadow: 0 14px 34px rgba(33, 70, 51, 0.22);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 38px rgba(33, 70, 51, 0.28);
+}
+
+.btn-secondary {
+  color: var(--forest-800);
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(46,92,66,0.14);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.75);
+  border-color: rgba(46,92,66,0.24);
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.meta-pill {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(46,92,66,0.12);
+  color: var(--text-soft);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+
+.stats-wrap {
+  padding: 22px 0 20px;
+}
+
+.stats-strip {
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(255,255,255,0.72);
+  border-radius: 26px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.stats-inner {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.stat {
+  padding: 24px 18px;
+  text-align: center;
+  border-right: 1px solid var(--line);
+}
+
+.stat:last-child { border-right: none; }
+
+.stat-val {
+  font-size: clamp(30px, 4vw, 40px);
+  line-height: 1;
+  color: var(--forest-900);
+  letter-spacing: -0.03em;
+}
+
+.stat-lbl {
+  margin-top: 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-faint);
+  font-weight: 700;
+}
+
+.section {
+  padding: 88px 0;
+}
+
+.section-head {
+  max-width: 760px;
+  margin-bottom: 42px;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  color: var(--forest-600);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.section-label::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: rgba(112,151,125,0.5);
+}
+
+.section-title {
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: var(--forest-900);
+  margin-bottom: 14px;
+}
+
+.section-lead {
+  font-size: 15px;
+  color: var(--text-soft);
+  line-height: 1.9;
+}
+
+.divider {
+  width: min(var(--max), calc(100% - 40px));
+  margin: 0 auto;
+  border: none;
+  border-top: 1px solid var(--line);
+}
+
+.feat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.feat-card {
+  position: relative;
+  padding: 28px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.82), rgba(255,255,255,0.66));
+  border: 1px solid rgba(255,255,255,0.74);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
+}
+
+.feat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 100% 0%, rgba(154,194,165,0.18), transparent 30%);
+  pointer-events: none;
+}
+
+.feat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(154,194,165,0.62);
+}
+
+.feat-icon {
+  width: 52px;
+  height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(233,241,233,0.9));
+  border: 1px solid rgba(46,92,66,0.08);
+  font-size: 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 24px rgba(27,54,39,0.06);
+}
+
+.feat-title {
+  font-size: 20px;
+  line-height: 1.35;
+  color: var(--forest-900);
+  margin-bottom: 8px;
+}
+
+.feat-desc {
+  font-size: 14px;
+  color: var(--text-soft);
+  line-height: 1.84;
+}
+
+.feeds-band {
+  position: relative;
+  margin-top: 12px;
+  padding: 88px 0 84px;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(255,255,255,0.05), transparent 24%),
+    radial-gradient(circle at 90% 20%, rgba(154,194,165,0.08), transparent 18%),
+    linear-gradient(180deg, #183223 0%, #13281c 100%);
+  overflow: hidden;
+}
+
+.feeds-band::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 140px;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.1));
+  pointer-events: none;
+}
+
+.feeds-band .section-title { color: #f6f2e7; }
+.feeds-band .section-label { color: var(--leaf); }
+.feeds-band .section-label::before { background: rgba(154,194,165,0.35); }
+.feeds-band .section-lead { color: rgba(246,242,231,0.68); }
+
+.inline-code {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(154,194,165,0.12);
+  border: 1px solid rgba(154,194,165,0.14);
+  color: var(--leaf);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+}
+
+.feeds-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.fc {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+  overflow: hidden;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+}
+
+.fc:hover,
+.fc.active {
+  transform: translateY(-3px);
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(154,194,165,0.38);
+  box-shadow: 0 18px 36px rgba(0,0,0,0.16);
+}
+
+.fc-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 22px 22px 14px;
+}
+
+.fc-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.08);
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.fc-meta { flex: 1; }
+
+.fc-name {
+  color: #f8f3ea;
+  font-size: 17px;
+  letter-spacing: 0.01em;
+}
+
+.fc-note {
+  margin-top: 4px;
+  color: rgba(248,243,234,0.48);
+  font-size: 12px;
+}
+
+.fc-badge {
+  min-width: 54px;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(154,194,165,0.12);
+  border: 1px solid rgba(154,194,165,0.22);
+  color: var(--leaf);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.fc-badge.ld {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.08);
+  color: rgba(248,243,234,0.28);
+}
+
+.fc-btns {
+  display: flex;
+  gap: 10px;
+  padding: 0 22px 22px;
+}
+
+.btn-dl,
+.btn-br {
+  min-height: 42px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: 0.22s ease;
+  cursor: pointer;
+}
+
+.btn-dl {
+  flex: 1;
+  color: #ecf7ee;
+  background: linear-gradient(180deg, rgba(99,141,114,0.9), rgba(62,96,71,0.95));
+  border: 1px solid rgba(154,194,165,0.22);
+}
+
+.btn-dl:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(180deg, rgba(112,151,125,0.95), rgba(73,119,88,0.98));
+}
+
+.btn-br {
+  min-width: 110px;
+  color: rgba(248,243,234,0.76);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.btn-br:hover {
+  background: rgba(255,255,255,0.11);
+  color: #fff;
+}
+
+.viewer {
+  display: none;
+  margin-top: 22px;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.09);
+  background: rgba(255,255,255,0.03);
+  box-shadow: 0 18px 44px rgba(0,0,0,0.14);
+}
+
+.viewer.open {
+  display: block;
+  animation: fadeUp 0.24s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.v-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px;
+  background: rgba(154,194,165,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.v-label {
+  color: #f8f3ea;
+  font-size: 15px;
+}
+
+.v-x {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.07);
+  color: rgba(248,243,234,0.65);
+  cursor: pointer;
+  transition: 0.22s ease;
+}
+
+.v-x:hover {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+}
+
+.v-search-wrap {
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.v-q {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  padding: 0 16px;
+  color: #fff;
+  outline: none;
+}
+
+.v-q::placeholder { color: rgba(248,243,234,0.3); }
+.v-q:focus {
+  border-color: rgba(154,194,165,0.34);
+  background: rgba(255,255,255,0.08);
+}
+
+.v-body {
+  max-height: 420px;
+  overflow: auto;
+}
+
+.v-body::-webkit-scrollbar { width: 8px; height: 8px; }
+.v-body::-webkit-scrollbar-thumb {
+  background: rgba(154,194,165,0.26);
+  border-radius: 999px;
+}
+.v-body::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
+
+.vtbl {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.vtbl th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  text-align: left;
+  padding: 10px 16px;
+  background: rgba(255,255,255,0.06);
+  color: rgba(154,194,165,0.72);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.vtbl td {
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  color: rgba(248,243,234,0.78);
+  font-size: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.vtbl tr:hover td {
+  background: rgba(255,255,255,0.04);
+}
+
+.v-status {
+  padding: 40px 20px;
+  text-align: center;
+  color: rgba(248,243,234,0.4);
+}
+
+.v-spin {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid rgba(154,194,165,0.18);
+  border-top-color: rgba(154,194,165,0.66);
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 10px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.fmt-wrap {
+  margin-top: 46px;
+}
+
+.fmt-title {
+  color: rgba(248,243,234,0.8);
+  font-size: 18px;
+  margin-bottom: 14px;
+}
+
+.fmt {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+.fmt th {
+  text-align: left;
+  padding: 12px 18px;
+  background: rgba(255,255,255,0.06);
+  color: rgba(248,243,234,0.58);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.fmt td {
+  padding: 12px 18px;
+  color: rgba(248,243,234,0.72);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.03);
+  font-size: 13px;
+}
+
+.fmt tr:nth-child(even) td {
+  background: rgba(255,255,255,0.04);
+}
+
+.fmt tr:last-child td { border-bottom: none; }
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  padding: 2px 8px;
+  border-radius: 8px;
+  background: rgba(154,194,165,0.12);
+  color: var(--leaf);
+  font-size: 12px;
+}
+
+.fmt-note {
+  margin-top: 12px;
+  color: rgba(248,243,234,0.34);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.steps {
+  display: grid;
+  gap: 14px;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 24px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.82), rgba(255,255,255,0.64));
+  border: 1px solid rgba(255,255,255,0.76);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.step:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(154,194,165,0.54);
+}
+
+.step-n {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  background: linear-gradient(180deg, var(--forest-700), var(--forest-800));
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(33, 70, 51, 0.18);
+  font-size: 16px;
+}
+
+.step h4 {
+  font-size: 18px;
+  margin-bottom: 6px;
+  color: var(--forest-900);
+}
+
+.step p {
+  font-size: 14px;
+  color: var(--text-soft);
+  line-height: 1.84;
+}
+
+.step a {
+  color: var(--forest-700);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.step a:hover { text-decoration: underline; }
+
+.install-block {
+  position: relative;
+  margin-top: 24px;
+  padding: 28px 28px 26px;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(154,194,165,0.08), transparent 24%),
+    linear-gradient(180deg, #173122 0%, #13281c 100%);
+  color: rgba(248,243,234,0.72);
+  border: 1px solid rgba(154,194,165,0.12);
+  box-shadow: 0 22px 56px rgba(17, 32, 23, 0.18);
+}
+
+.icopy {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  color: rgba(248,243,234,0.72);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.22s ease;
+}
+
+.icopy:hover {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+}
+
+.il {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  line-height: 2;
+}
+
+.il-cm { color: #7db18c; }
+.il-val { color: #f1c76d; }
+
+footer {
+  padding: 28px 0 42px;
+}
+
+.footer-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 18px 22px;
+  border-radius: 24px;
+  background: rgba(22, 39, 28, 0.9);
+  color: rgba(246,242,231,0.55);
+  box-shadow: 0 18px 50px rgba(15,28,20,0.18);
+}
+
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(246,242,231,0.78);
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  font-size: 13px;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: rgba(246,242,231,0.58);
+}
+
+.footer-links a:hover {
+  color: rgba(246,242,231,0.95);
+}
+
+@media (max-width: 980px) {
+  .hero-card {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+
+  .hero-art {
+    display: none;
+  }
+
+  .stats-inner,
+  .feat-grid,
+  .feeds-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat:nth-child(odd) {
+    border-right: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 760px) {
+  .container {
+    width: min(var(--max), calc(100% - 24px));
+  }
+
+  .header-wrap {
+    padding-top: 10px;
+  }
+
+  .header {
+    border-radius: 18px;
+    padding: 14px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .nav {
+    width: 100%;
+  }
+
+  .hero {
+    padding-top: 22px;
+  }
+
+  .hero-card {
+    padding: 24px;
+    border-radius: 28px;
+  }
+
+  .art-panel {
+    min-height: 320px;
+  }
+
+  .stats-inner,
+  .feat-grid,
+  .feeds-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-inner .stat {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .stats-inner .stat:last-child {
+    border-bottom: none;
+  }
+
+  .section {
+    padding: 68px 0;
+  }
+
+  .step {
+    padding: 20px;
+  }
+
+  .footer-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-links {
+    justify-content: center;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page-shell">
+  <div class="header-wrap">
+    <header class="header">
+      <a href="/" class="logo" aria-label="Nehboro home">
+        <img class="logo-mark" src="./nehboro_logo_256.png" alt="Nehboro logo" />
+        <span class="logo-text">
+          <span class="brand-name">Nehboro</span>
+          <span class="brand-sub">Community Threat Intelligence</span>
+        </span>
+      </a>
+
+      <nav class="nav">
+        <a href="#feeds">Feeds</a>
+        <a href="#about">About</a>
+        <a href="#install">Install</a>
+        <a href="https://github.com/Nehboro/nehboro.github.io" target="_blank" rel="noreferrer" class="nav-cta">GitHub ↗</a>
+      </nav>
+    </header>
+  </div>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-card">
+          <div class="hero-copy">
+            <div class="hero-eyebrow">
+              <span class="hero-eyebrow-dot"></span>
+              Community · Open · Free
+            </div>
+
+            <h1>
+              A softer, smarter shield<br>
+              against <span class="accent">phishing &amp; malware</span>
+            </h1>
+
+            <p class="hero-lead">
+              Nehboro is a community-powered browser extension that blocks phishing pages,
+              ClickFix attacks, and malware delivery through live shared threat feeds and on-page heuristics.
+              No backend. No account. Just fast protection with transparent intelligence.
+            </p>
+
+            <div class="hero-actions">
+              <a href="https://github.com/Nehboro/nehboro.github.io/releases" class="btn-primary">⬇ Download Extension</a>
+              <a href="#feeds" class="btn-secondary">Browse Feeds</a>
+            </div>
+
+            <div class="hero-meta">
+              <span class="meta-pill">🛡️ Local-first blocking</span>
+              <span class="meta-pill">🌿 Community-maintained feeds</span>
+              <span class="meta-pill">🔎 45+ detection patterns</span>
+            </div>
+          </div>
+
+          <div class="hero-art" aria-hidden="true">
+            <div class="hero-head-wrap">
+              <img class="hero-head" src="./nehboro_logo_256.png" alt="Nehboro hero mark" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-wrap">
+      <div class="container">
+        <div class="stats-strip">
+          <div class="stats-inner">
+            <div class="stat"><div class="stat-val" id="s-total">—</div><div class="stat-lbl">Total IOCs</div></div>
+            <div class="stat"><div class="stat-val" id="s-dom">—</div><div class="stat-lbl">Domains</div></div>
+            <div class="stat"><div class="stat-val" id="s-url">—</div><div class="stat-lbl">URLs</div></div>
+            <div class="stat"><div class="stat-val" id="s-ip">—</div><div class="stat-lbl">IPs / CIDRs</div></div>
+            <div class="stat"><div class="stat-val" id="s-port">—</div><div class="stat-lbl">Ports</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-label">What is Nehboro</div>
+          <h2 class="section-title">A cleaner, calmer interface for serious threat intelligence</h2>
+          <p class="section-lead">
+            Nehboro blends feed-based blocking with deep heuristic page analysis across ClickFix,
+            phishing, and malware-delivery techniques. Everything stays transparent, local, and easy to inspect.
+          </p>
+        </div>
+
+        <div class="feat-grid">
+          <article class="feat-card">
+            <div class="feat-icon">🛡️</div>
+            <h3 class="feat-title">Feed-based blocking</h3>
+            <p class="feat-desc">Domains, URLs, IPs, CIDRs, wildcards, and suspicious ports are auto-refreshed every six hours directly from GitHub Pages.</p>
+          </article>
+
+          <article class="feat-card">
+            <div class="feat-icon">🔍</div>
+            <h3 class="feat-title">Heuristic detection</h3>
+            <p class="feat-desc">Catches ClickFix chains, fake Cloudflare flows, clipboard hijacks, PowerShell delivery, macOS shell abuse, and more — including brand new domains.</p>
+          </article>
+
+          <article class="feat-card">
+            <div class="feat-icon">🚩</div>
+            <h3 class="feat-title">Community reporting</h3>
+            <p class="feat-desc">One click sends structured evidence through ntfy.sh. Score, detections, and context are bundled so confirmed IOCs can quickly land in public feeds.</p>
+          </article>
+
+          <article class="feat-card">
+            <div class="feat-icon">🌙</div>
+            <h3 class="feat-title">Transparent by design</h3>
+            <p class="feat-desc">Every IOC is visible, custom feeds are supported, trusted domains can be exempted, and every block can be bypassed deliberately.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <section class="feeds-band" id="feeds">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-label">Live threat feeds</div>
+          <h2 class="section-title">Browse and download</h2>
+          <p class="section-lead">
+            Plain CSV files served from <span class="inline-code">nehboro.github.io/feeds/</span> with support for wildcards, CIDR ranges, and port ranges.
+          </p>
+        </div>
+
+        <div class="feeds-grid">
+          <div class="fc" id="fc-domains">
+            <div class="fc-head">
+              <div class="fc-icon">🌐</div>
+              <div class="fc-meta">
+                <div class="fc-name">domains.csv</div>
+                <div class="fc-note">Malicious domains and subdomain wildcards</div>
+              </div>
+              <div class="fc-badge ld" id="cnt-domains">…</div>
+            </div>
+            <div class="fc-btns">
+              <a class="btn-dl" href="/feeds/domains.csv" download>⬇ Download</a>
+              <button class="btn-br" onclick="browse('domains')">Browse</button>
+            </div>
+          </div>
+
+          <div class="fc" id="fc-urls">
+            <div class="fc-head">
+              <div class="fc-icon">🔗</div>
+              <div class="fc-meta">
+                <div class="fc-name">urls.csv</div>
+                <div class="fc-note">Phishing and malware URLs</div>
+              </div>
+              <div class="fc-badge ld" id="cnt-urls">…</div>
+            </div>
+            <div class="fc-btns">
+              <a class="btn-dl" href="/feeds/urls.csv" download>⬇ Download</a>
+              <button class="btn-br" onclick="browse('urls')">Browse</button>
+            </div>
+          </div>
+
+          <div class="fc" id="fc-ips">
+            <div class="fc-head">
+              <div class="fc-icon">🖥️</div>
+              <div class="fc-meta">
+                <div class="fc-name">ips.csv</div>
+                <div class="fc-note">IPs, CIDR ranges, and wildcard IPs</div>
+              </div>
+              <div class="fc-badge ld" id="cnt-ips">…</div>
+            </div>
+            <div class="fc-btns">
+              <a class="btn-dl" href="/feeds/ips.csv" download>⬇ Download</a>
+              <button class="btn-br" onclick="browse('ips')">Browse</button>
+            </div>
+          </div>
+
+          <div class="fc" id="fc-ports">
+            <div class="fc-head">
+              <div class="fc-icon">🔌</div>
+              <div class="fc-meta">
+                <div class="fc-name">ports.csv</div>
+                <div class="fc-note">Suspicious ports and port ranges</div>
+              </div>
+              <div class="fc-badge ld" id="cnt-ports">…</div>
+            </div>
+            <div class="fc-btns">
+              <a class="btn-dl" href="/feeds/ports.csv" download>⬇ Download</a>
+              <button class="btn-br" onclick="browse('ports')">Browse</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="viewer" id="viewer">
+          <div class="v-head">
+            <div class="v-label" id="v-label">—</div>
+            <button class="v-x" onclick="closeV()">✕</button>
+          </div>
+          <div class="v-search-wrap">
+            <input class="v-q" id="v-q" type="text" placeholder="Filter entries…" oninput="filterV()" />
+          </div>
+          <div class="v-body" id="v-body">
+            <div class="v-status"><div class="v-spin"></div><br>Loading…</div>
+          </div>
+        </div>
+
+        <div class="fmt-wrap">
+          <div class="fmt-title">Feed format reference</div>
+          <table class="fmt">
+            <thead>
+              <tr><th>File</th><th>Accepts</th><th>Examples</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>domains.csv</strong></td><td>Domains, wildcards</td><td><code>evil.com</code> · <code>*.evil.com</code> · <code>pay*.net</code></td></tr>
+              <tr><td><strong>urls.csv</strong></td><td>Full URLs, wildcards</td><td><code>https://evil.com/x.ps1</code> · <code>*://evil.*/gate.php</code></td></tr>
+              <tr><td><strong>ips.csv</strong></td><td>IPs, CIDR, wildcards</td><td><code>1.2.3.4</code> · <code>10.0.0.0/24</code> · <code>192.168.*.*</code></td></tr>
+              <tr><td><strong>ports.csv</strong></td><td>Ports and ranges</td><td><code>4444</code> · <code>8080-8085</code> · <code>1337</code></td></tr>
+            </tbody>
+          </table>
+          <p class="fmt-note">
+            All files support plain text, CSV, JSON arrays, and hosts-file format. Lines starting with <code>#</code> are treated as comments.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="install">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-label">How it works</div>
+          <h2 class="section-title">Up and running in minutes</h2>
+          <p class="section-lead">
+            Load once, protect continuously. The interface stays simple while the detection logic stays opinionated.
+          </p>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-n">1</div>
+            <div class="step-body">
+              <h4>Install the extension</h4>
+              <p>Download it from <a href="https://github.com/Nehboro/nehboro.github.io/releases">GitHub Releases</a>. Set your secret topic in <code>background.js</code>, then load it from <code>chrome://extensions</code> with <code>Load unpacked</code>.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-n">2</div>
+            <div class="step-body">
+              <h4>Feeds load automatically</h4>
+              <p>All four feeds are fetched from <code>nehboro.github.io/feeds/</code> and converted into browser blocking rules on install, then refreshed every six hours.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-n">3</div>
+            <div class="step-body">
+              <h4>Every page is analyzed</h4>
+              <p>Content scripts score each page across ClickFix, phishing, and malware-delivery patterns. Scores over your thresholds trigger warnings or blocking with a deliberate bypass option.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-n">4</div>
+            <div class="step-body">
+              <h4>Report threats back to the community</h4>
+              <p>Use the report action to send score, detections, and evidence to your private <code>ntfy.sh</code> topic. Confirmed IOCs can then be added to the shared feeds.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="install-block">
+          <button class="icopy" onclick="copyIB()">Copy</button>
+          <div class="il"><span class="il-cm"># 1. Set your secret ntfy topic in background.js</span></div>
+          <div class="il"><span class="il-val">const NTFY_TOPIC = 'nehboro-reports-YOUR_SECRET';</span></div>
+          <div class="il">&nbsp;</div>
+          <div class="il"><span class="il-cm"># 2. Load unpacked in Chrome</span></div>
+          <div class="il">chrome://extensions → Developer mode → Load unpacked → <span class="il-val">nehboro_v2/</span></div>
+          <div class="il">&nbsp;</div>
+          <div class="il"><span class="il-cm"># 3. Read your private threat reports</span></div>
+          <div class="il">https://ntfy.sh/<span class="il-val">nehboro-reports-YOUR_SECRET</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-card">
+        <div class="footer-logo">
+          <img class="logo-mark" src="./nehboro_logo_256.png" alt="Nehboro logo" style="width:22px;height:22px;border-radius:8px;object-fit:contain;display:block" />
+          <span>Nehboro</span>
+        </div>
+
+        <div class="footer-links">
+          <a href="https://github.com/Nehboro/nehboro.github.io">GitHub</a>
+          <a href="https://github.com/Nehboro/nehboro.github.io/issues">Report an Issue</a>
+          <a href="/feeds/domains.csv">domains.csv</a>
+          <a href="/feeds/ips.csv">ips.csv</a>
+          <span id="footer-cnt"></span>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+const FEEDS = {
+  domains: { url: '/feeds/domains.csv', label: 'domains.csv', cols: ['Domain / Wildcard', 'Notes'] },
+  urls:    { url: '/feeds/urls.csv',    label: 'urls.csv',    cols: ['URL / Pattern', 'Notes'] },
+  ips:     { url: '/feeds/ips.csv',     label: 'ips.csv',     cols: ['IP / CIDR / Wildcard', 'Notes'] },
+  ports:   { url: '/feeds/ports.csv',   label: 'ports.csv',   cols: ['Port / Range', 'Protocol'] },
+};
+
+const TCOL = {
+  domains: '#A7D4B3',
+  urls: '#AFC2E2',
+  ips: '#D3B4DA',
+  ports: '#E2C291',
+};
+
+const cache = {};
+let curFeed = null;
+let curRows = [];
+
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  const rows = [];
+  let start = 0;
+  const first = (lines[0] || '').replace(/["']/g, '').trim();
+  if (!/[./\d]/.test(first) && /^[a-z ,_-]+$/i.test(first)) start = 1;
+
+  for (let i = start; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line || line.startsWith('#') || line.startsWith('//')) continue;
+    const cols = line.split(',').map(c => c.replace(/^["']|["']$/g, '').trim());
+    if (cols[0]) rows.push(cols);
+  }
+  return rows;
+}
+
+function esc(s) {
+  return String(s || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+async function loadCount(type) {
+  try {
+    const res = await fetch(FEEDS[type].url, { cache: 'force-cache' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const rows = parseCSV(await res.text());
+    cache[type] = rows;
+    const el = document.getElementById('cnt-' + type);
+    el.textContent = rows.length.toLocaleString();
+    el.classList.remove('ld');
+    return rows.length;
+  } catch {
+    const el = document.getElementById('cnt-' + type);
+    el.textContent = '0';
+    el.classList.remove('ld');
+    return 0;
+  }
+}
+
+(async () => {
+  const types = ['domains', 'urls', 'ips', 'ports'];
+  const counts = await Promise.all(types.map(loadCount));
+  const total = counts.reduce((a, b) => a + b, 0);
+
+  document.getElementById('s-total').textContent = total.toLocaleString();
+  document.getElementById('s-dom').textContent = counts[0].toLocaleString();
+  document.getElementById('s-url').textContent = counts[1].toLocaleString();
+  document.getElementById('s-ip').textContent = counts[2].toLocaleString();
+  document.getElementById('s-port').textContent = counts[3].toLocaleString();
+  document.getElementById('footer-cnt').textContent = total.toLocaleString() + ' IOCs';
+})();
+
+function renderRows(rows, type) {
+  const body = document.getElementById('v-body');
+  if (!rows.length) {
+    body.innerHTML = '<div class="v-status">Feed is empty or not yet populated.</div>';
+    return;
+  }
+
+  const feed = FEEDS[type];
+  const color = TCOL[type];
+  let html = '<table class="vtbl"><thead><tr><th style="width:48px">#</th>';
+  feed.cols.forEach(c => html += '<th>' + c + '</th>');
+  html += '</tr></thead><tbody>';
+
+  rows.slice(0, 2000).forEach((row, i) => {
+    html += '<tr>';
+    html += '<td style="color:rgba(248,243,234,0.26);text-align:right;padding-right:10px">' + (i + 1) + '</td>';
+    html += '<td><span style="color:' + color + ';font-weight:700">' + esc(row[0]) + '</span></td>';
+
+    if (feed.cols.length > 1) {
+      const rest = row.slice(1).filter(Boolean).join(' · ');
+      html += '<td style="font-family:Zen Kaku Gothic New,sans-serif;color:rgba(248,243,234,0.36);font-size:11px">' + esc(rest) + '</td>';
+    }
+
+    html += '</tr>';
+  });
+
+  html += '</tbody></table>';
+  if (rows.length > 2000) {
+    html += '<div style="text-align:center;padding:12px;font-size:11px;color:rgba(248,243,234,0.28)">First 2,000 of ' + rows.length.toLocaleString() + '</div>';
+  }
+  body.innerHTML = html;
+}
+
+async function browse(type) {
+  const viewer = document.getElementById('viewer');
+  if (curFeed === type && viewer.classList.contains('open')) {
+    closeV();
+    return;
+  }
+
+  curFeed = type;
+  const feed = FEEDS[type];
+  viewer.classList.add('open');
+  document.getElementById('v-q').value = '';
+  document.getElementById('v-label').textContent = feed.label;
+  document.getElementById('v-body').innerHTML = '<div class="v-status"><div class="v-spin"></div><br>Loading ' + feed.label + '…</div>';
+
+  document.querySelectorAll('.fc').forEach(c => c.classList.remove('active'));
+  document.getElementById('fc-' + type)?.classList.add('active');
+
+  setTimeout(() => viewer.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+
+  try {
+    let rows = cache[type];
+    if (!rows) {
+      const res = await fetch(feed.url, { cache: 'reload' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      rows = parseCSV(await res.text());
+      cache[type] = rows;
+    }
+    curRows = rows;
+    renderRows(rows, type);
+  } catch (e) {
+    document.getElementById('v-body').innerHTML = '<div class="v-status">⚠️ ' + esc(e.message) + '</div>';
+  }
+}
+
+function filterV() {
+  const q = document.getElementById('v-q').value.toLowerCase().trim();
+  const rows = q ? curRows.filter(r => r.join(' ').toLowerCase().includes(q)) : curRows;
+  renderRows(rows, curFeed);
+}
+
+function closeV() {
+  document.getElementById('viewer').classList.remove('open');
+  document.querySelectorAll('.fc').forEach(c => c.classList.remove('active'));
+  curFeed = null;
+}
+
+function copyIB() {
+  const lines = [...document.querySelectorAll('.il')].map(l => l.textContent).join('\n');
+  navigator.clipboard.writeText(lines).then(() => {
+    const btn = document.querySelector('.icopy');
+    btn.textContent = '✓ Copied';
+    setTimeout(() => btn.textContent = 'Copy', 1800);
+  });
+}
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>
