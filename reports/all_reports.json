@@ -592,5 +592,170 @@
         "url": "https://github.com/Nehboro/nehboro.github.io/edit/main/feeds/domains.csv"
       }
     ]
+  },
+  {
+    "id": "KOVPblLmtyFh",
+    "time": 1776319689,
+    "expires": 1776362889,
+    "event": "message",
+    "topic": "nehboro-reports",
+    "title": "[THREAT] extsentry.github.io - Score 113",
+    "message": "gJDI6MHdlN3chBCLlx2Zv92ZgoDZuFmcCBGI+ACIK4Wah12bkBCbhl2YpZmZv1ibv5GIu9GIOR0QgUGbn92bnBSbvJnZgQWZkF2bsByc0V2czFGIyAiOqkyc0BHMxsCKqAiKqQlRFhEVgQVRTNVQgQkTBJlQqoCItoAYuQWZlZGJoAibpBydvJHJoACajFWZy9mZgACIgICIsISNxAyYlNFd19WZtlGVtAyZul2cyFGUjl2chJUZzVVLgwmcVlnc05WZzRHelRCIpJXVtACdzVWdxVmUiV2VtU2avZnbJBGI+ACIKU2ZhBHIulGIuJXZ0RXYwBCZh9Gbud3bk9CZlR2bj5WZgwGblh2UyV2dvBFI6oSKzRHcwIzKooCIqoCTBlEVSFEUgwETFh0USV0VPBlKqASLKAmbpFWbvRGIsFWajlmZm9WLu9mbgwHI5FGbwNXakBSZk92YgQWZslHdz9SZnJXYsBGI+ACIK4Wah12bkBCbhl2YpZmZv1ibv5GIskXYsB3cpRGIlR2bjBCZlxWe0N3LldmchxGI6cmbph2cphGcgUGZvNGIlNWa2VGRgojKpMHdwhzMrgiKgoiKINVSIBFIFR0TDBSRDlkVFRkKqASLKAGZh9Gb5FGcgMXdvl2YpB3c1NHIrASSQFEIkJXYvJGcpx2YgBiPgAiClNmc192cgU2ZhBHIulGIzxGbhNGIJBVQgUGdpJ3dgQmch9mYwlGbjBSMgojKpMHdwVDNrgiKgoiKFNkUV90UgQkUB9kQQlETDpiKg0iCz52bpR3YlRXZEByIjMiCKMTMgoiK6M3aulGTqoCI8ByMgoiK6MHdwlmcjNHIsFmbyVGd4VkKqACfgADIqoiOzVWbhJnZJpiKKADIqoiOzRXdw5WagwWah1WZvQHelR3LkJ3b3N3chBlKqACfgADIqoiOz1mcvZkKqoQZyVHdjVnc0NFIldWYQByIjMiCKQ3YlJXakBiKqojclJnclZWZSpiKKozcwRHdoBiKqoDbvN2b09mcQpiKK4WZgoiK6U2ZhV3ZuFGTqoiCuMHdh1mcvZGItJ3bmRXYsBHI5RXayV3YlNHIrYTMgM3cvJ3YhBycu9Waz5WZ0hXZgIXZzd3byJGIlZXa0l2cuV2cgQmbhByc19WajlGbh1GIy9mZgMHZlVmZgM0TJBiLlNmbldWasxWZ05WagQXYlJHa0Bibvl2cuVGd4VGIyV2c39mciBiblZXayRWL5RXauVXbt92QgoiK642bpRHcpJ3YzVGRqoiClNmbldWasxWZ05WSgQXYlJHaUBibvl2cuVGd4VEIyV2c39mcCBSLgknc05WZTRHeFBiKqoTZsRXaUpiKK8mZulEIldWYQByIjMiCKAjLw4SM2BiKqojbvl2cuVGd4VkKqowQUVFI5AjO4AjO2ADI2ETL0ATL2IDMyAiKqoDZlRncvBXZSpiKKADMxAyLgMTMxAiKqoTZy92YTpiKKA2bp5iY1hGdpdmL5JHduV2c0hXZgBiKqoDdz9GSqoiCg9ybp5iY1hGdpdmL5JHduV2c0hXZv8iOzBHd0hGYgoiK6wkUVpiK",
+    "priority": 5,
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_113"
+    ],
+    "click": "https://extsentry.github.io/",
+    "icon": "https://www.google.com/s2/favicons?domain=extsentry.github.io&sz=128",
+    "actions": [
+      {
+        "id": "y2Sg35Fb7A",
+        "action": "view",
+        "label": "View flagged site",
+        "clear": false,
+        "url": "https://extsentry.github.io/"
+      },
+      {
+        "id": "d5fc03AJTC",
+        "action": "view",
+        "label": "Add to domains feed",
+        "clear": true,
+        "url": "https://github.com/Nehboro/nehboro.github.io/edit/main/feeds/domains.csv"
+      }
+    ]
+  },
+  {
+    "id": "SWMjcbSa9jVP",
+    "time": 1776321656,
+    "expires": 1776364856,
+    "event": "message",
+    "topic": "nehboro-reports",
+    "title": "[THREAT] 127.0.0.1 - Score 371",
+    "message": "gxGblh2UyV2dvBFYg4DIgowcu9Wa0NWdyR3culGIu9Wa0V3YlhXZgUGZpN3Zu9GbhBSKzhibpJETPxEIxAiOqkyc0BXNzsCKqAiKqQFWFRlTPNEIOlEIOlkQM9ETqoCItoAYyFmYgM3clJHZkFGIyVmcvxGc4VEIlxWaGBGI+ACIKIXYiByczVmckRWYgIXZy9GbwhXRg8GdulGIlR3chBHI6gXaGVGbpZEI6oSKzRHc4MzKooCIqoCWJZURMlkRqoCItoAYE90UCBCfgQnclxWYgIXZk5WZmVGRgM3dvRmbpdFYg4DIgowcsFmbnl2cgU2ZhBHIoNXYyN2Ly9mcyVGIltWYmBiMgojKpMHdwBzMrgiKgoiKFdUQQBiUPJlUFBSRLFkRqoCItoAYulWYt9GZgwWYpNWamZ2bt42buBCfg42ZpNVdj9GRgwHIn5WaoNXaoBHIlR2bjBSZjlmdlRGYg4DIgogbpFWbvRGIsFWajlmZm9WLu9mbgwibnl2U1N2bEBCLn5WaoNXaoBHIlR2bjBSZjlmdlRGI6cmbph2cphGcgUGZvNGIlNWa2VGRgojKpMHdwBTNrgiKgoiKINVSIBFIFR0TDBSRDlkVFRkKqASLKAGZh9Gb5FGcgMXdvl2YpB3c1NHIrASSQFEIkJXYvJGcpx2YgBiPgAiClNmc192cgU2ZhBHIulGIzxGbhNGIJBVQgUGdpJ3dgQmch9mYwlGbjBSMgojKpMHdwVDNrgiKgoiKFNkUV90UgQkUB9kQQlETDpiKg0iCgR7wi9mcg0Wdgk6wg82oD7GIlVXcgIXY29mcwBSYyFGUgwHI052bmByZul2czlWbgBiPgAiC052bmByZul2czlWbgozcu9Wa0NWdyR3culGIu9Wa0V3YlhXZggGdpdHI0hXZ0VmcwBCepZ0ajlGbDBiOqkyc0BHM0sCKqAiKqQFWFRVRSBFIYlkRLNUSMNkKqASLKAGbh5WatJXZ0BSdkBSZyRnqD7WZGBCfgQ7wi9mcg0Wdgk6wg82oD7GIlVXcgIXY29mcwBSYyFGUgwHIuN7wpNWds92cgIXYpB3bDBGI+ACIKMHbh52ZpNHIu9Wa0NWdyR3culGI4lmRrNWasNEIsFWdn5WaslGdsVXbgMDI6oSKzRHc4QzKooCIqoyROFETJRFTV1EIYlkRLNUSMNkKqASLKAmUr4WaXBGI+ACIKUGdzFGcgsCIn9GbhlGZg4WZw9GI6kyMvIDKgU2YuVWdxV2cggXaGt2Ypx2QgwWYpRnchBFI6oSKzRHc1IzKooCIqoCTBlEVSFEUggVSGt0QJx0QqoCItowcu9Wa0NWZ0VGRgMyIjogCwIDIqoiOztmbpxkKqACfgADIqoiOzRHcpJ3YzBCbh5mclRHeFpiKgwHIwAiKqozcl1WYyZWSqoiCxAiKqozc0VHculGIslWYtV2L0hXZ09CZy92dzNXYQpiKgwHIxAiKqozctJ3bGpiKKUmc1R3Y1JHdTBSZnFGUgMyIjogCvlmLiVHa0l2Zuknc05WZzRHelZkMlYkMlE0MlMHc0RHa9U3Pv4WYjN3LwADM4oTMuAjLw4yNyEzLvoDc0RHagoiK6IXZyJXZmVmUqoiCwADM4AiKqoDdy9GUqoCI8BiOwRHdoBiKqoDbvN2b09mcQpiKK4WZgoiK6U2ZhV3ZuFGTqoiCuUmchdHbh1GIk5WYgwCepZ0ajlGbDBCLn5WaoNXaoBHI0NnbpF2ZhBibvlGdjVGdvJHUg4ycpNXesFmbhBSSBBSZkVXYsNEIsFmbvlGdw9GIk5WYgwyckVWZmByQPlEIjlGdhR3cgwycu9Wa0NWZ0VGZgMWatFmb5RGIrQTOggGdpdHIu9Waz5WZ0hXZgIXZzd3byJGIkVmcld3bw1Se0lmb11WbvNEIqoiOu9Wa0BXayN2clRkKqoQZj5WZnlGbsVGdulEI0FWZyhGVgkHdp5Wdt12bDBSLg8mcvJGal5EIqoiOlxGdpRlKqowbm5WSgU2ZhBFIjMyIKoAMuAjLxYHIqoiOu9Waz5WZ0hXRqoiCDRVVgYTN6ADN6YDMgYTMtQDMtYjMwIDIqoiOkVGdy9GclJlKqoAMwEDIvASM3MDIqoiOlJ3bjNlKqoAYx4CMuAjL3ITMgBiKqoDdz9GSqoiCgNHZlVmZj8CMwADO6EjLw4CMucjMx8yL6AHd0hGYgoiK6wkUVpiK",
+    "priority": 5,
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_371"
+    ],
+    "click": "http://127.0.0.1:8000/#feeds",
+    "icon": "https://www.google.com/s2/favicons?domain=127.0.0.1&sz=128",
+    "actions": [
+      {
+        "id": "pyn6G7AEpp",
+        "action": "view",
+        "label": "View flagged site",
+        "clear": false,
+        "url": "http://127.0.0.1:8000/#feeds"
+      },
+      {
+        "id": "FYlT1tKVWw",
+        "action": "view",
+        "label": "Add to domains feed",
+        "clear": true,
+        "url": "https://github.com/Nehboro/nehboro.github.io/edit/main/feeds/domains.csv"
+      }
+    ]
+  },
+  {
+    "id": "wmDyNXtua3T5",
+    "time": 1776321664,
+    "expires": 1776364864,
+    "event": "message",
+    "topic": "nehboro-reports",
+    "title": "[THREAT] 127.0.0.1 - Score 371",
+    "message": "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",
+    "priority": 5,
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_371"
+    ],
+    "click": "http://127.0.0.1:8000/#feeds",
+    "icon": "https://www.google.com/s2/favicons?domain=127.0.0.1&sz=128",
+    "actions": [
+      {
+        "id": "eRV7uBHyRl",
+        "action": "view",
+        "label": "View flagged site",
+        "clear": false,
+        "url": "http://127.0.0.1:8000/#feeds"
+      },
+      {
+        "id": "di17VFPXji",
+        "action": "view",
+        "label": "Add to domains feed",
+        "clear": true,
+        "url": "https://github.com/Nehboro/nehboro.github.io/edit/main/feeds/domains.csv"
+      }
+    ]
+  },
+  {
+    "id": "GMWmWxfSDhTS",
+    "time": 1776324828,
+    "expires": 1776368028,
+    "event": "message",
+    "topic": "nehboro-reports",
+    "title": "[THREAT] 127.0.0.1 - Score 396",
+    "message": "gJXYiByczVmckRWYgIXZy9GbwhXRgUGbpZEYg4DIgogchJGIzNXZyRGZhBiclJ3bsBHeFByb05WagUGdzFGcgoDepZUZslmRgojKpMHdwhzMrgiKgoiKYlkRFxUSGpiKg0iCglycoQmcvdXeltGIJV1Ln9GbhlGZgU2ahZGIxAGI+ACIKkycoQmcvdXeltGIJV1Ln9GbhlGZgU2ahZGIxAiOJVFItVGdzl3cgU2ahZEI6oSKzRHcwEzKooCIqoSSVByUPBSRLFkRqoCItoAYE90UCBCfgQnclxWYgIXZk5WZmVGRgM3dvRmbpdFYg4DIgowcsFmbnl2cgU2ZhBHIoNXYyN2Ly9mcyVGIltWYmBiMgojKpMHdwBzMrgiKgoiKFdUQQBiUPJlUFBSRLFkRqoCItoAYulWYt9GZgwWYpNWamZ2bt42buBCfg42ZpNVdj9GRgwHIn5WaoNXaoBHIlR2bjBSZjlmdlRGYg4DIgogbpFWbvRGIsFWajlmZm9WLu9mbgwibnl2U1N2bEBCLn5WaoNXaoBHIlR2bjBSZjlmdlRGI6cmbph2cphGcgUGZvNGIlNWa2VGRgojKpMHdwBTNrgiKgoiKINVSIBFIFR0TDBSRDlkVFRkKqASLKAGZh9Gb5FGcgMXdvl2YpB3c1NHIrASSQFEIkJXYvJGcpx2YgBiPgAiClNmc192cgU2ZhBHIulGIzxGbhNGIJBVQgUGdpJ3dgQmch9mYwlGbjBSMgojKpMHdwVjMrgiKgoiKFNkUV90UgQkUB9kQQlETDpiKg0iCgR7wi9mcg0Wdgk6wg82oD7GIlVXcgIXY29mcwBSYyFGUgwHI052bmByZul2czlWbgBiPgAiC052bmByZul2czlWbgozcu9Wa0NWdyR3culGIu9Wa0V3YlhXZggGdpdHI0hXZ0VmcwBCepZ0ajlGbDBiOqkyc0BHM0sCKqAiKqQFWFRVRSBFIYlkRLNUSMNkKqASLKAGbh5WatJXZ0BSdkBSZyRnqD7WZGBCfgQ7wi9mcg0Wdgk6wg82oD7GIlVXcgIXY29mcwBSYyFGUgwHIuN7wpNWds92cgIXYpB3bDBGI+ACIKMHbh52ZpNHIu9Wa0NWdyR3culGI4lmRrNWasNEIsFWdn5WaslGdsVXbgMDI6oSKzRHc4QzKooCIqoyROFETJRFTV1EIYlkRLNUSMNkKqASLKAmUr4WaXBGI+ACIKUGdzFGcgsCIn9GbhlGZg4WZw9GI6kyMvIDKgU2YuVWdxV2cggXaGt2Ypx2QgwWYpRnchBFI6oSKzRHc1IzKooCIqoCTBlEVSFEUggVSGt0QJx0QqoCItowcu9Wa0NWZ0VGRgMyIjogCwIDIqoiOztmbpxkKqACfgADIqoiOzRHcpJ3YzBCbh5mclRHeFpiKgwHIwAiKqozcl1WYyZWSqoiCxAiKqozc0VHculGIslWYtV2L0hXZ09CZy92dzNXYQpiKgwHIxAiKqozctJ3bGpiKKUmc1R3Y1JHdTBSZnFGUgMyIjogC0NWZylGZgoiK6IXZyJXZmVmUqoiCwADM4AiKqoDdy9GUqoCI8BiOwRHdoBiKqoDbvN2b09mcQpiKK4WZgoiK6U2ZhV3ZuFGTqoiCuUmchdHbh1GIk5WYgwCepZ0ajlGbDBCLn5WaoNXaoBHI0NnbpF2ZhBibvlGdjVGdvJHUg4ycpNXesFmbhBSSBBSZkVXYsNEIsFmbvlGdw9GIk5WYgwyckVWZmByQPlEIjlGdhR3cgwycu9Wa0NWZ0VGZgMWatFmb5RGIrQTOggGdpdHIu9Waz5WZ0hXZgIXZzd3byJGIkVmcld3bw1Se0lmb11WbvNEIqoiOu9Wa0BXayN2clRkKqoQZj5WZnlGbsVGdulEI0FWZyhGVgkHdp5Wdt12bDBSLg8mcvJGal5EIqoiOlxGdpRlKqowbm5WSgU2ZhBFIjMyIKoAMuAjLxYHIqoiOu9Waz5WZ0hXRqoiCDRVVggDN6MzM6cDMgYTMtQDMtYjMwIDIqoiOkVGdy9GclJlKqoAMwEDIvAiN5MDIqoiOlJ3bjNlKqoAYx4CMuAjL3ITMgBiKqoDdz9GSqoiCg9CMwADO6EjLw4CMucjMx8yL6AHd0hGYgoiK6wkUVpiK",
+    "priority": 5,
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_396"
+    ],
+    "click": "http://127.0.0.1:8000/",
+    "icon": "https://www.google.com/s2/favicons?domain=127.0.0.1&sz=128",
+    "actions": [
+      {
+        "id": "eIOG4EAfSa",
+        "action": "view",
+        "label": "View flagged site",
+        "clear": false,
+        "url": "http://127.0.0.1:8000/"
+      },
+      {
+        "id": "RHSfHWgpXm",
+        "action": "view",
+        "label": "Add to domains feed",
+        "clear": true,
+        "url": "https://github.com/Nehboro/nehboro.github.io/edit/main/feeds/domains.csv"
+      }
+    ]
+  },
+  {
+    "id": "VecrKCQfyBMX",
+    "time": 1776326484,
+    "expires": 1776369684,
+    "event": "message",
+    "topic": "nehboro-reports",
+    "title": "[THREAT] mhaggis.github.io - Score 222",
+    "message": "gR3clVXclJFc0RHSul2VuAHd0hkbpdlIoQ3YlpmYPVGdhVmcDBGI+ACIKQWYvxWehBHIlRXdjVGel9CZh9Gbud3bkBCdwlmcjNlQWBCc0RHSul2VgojKpMHdwBTNrgiKgoiKMxUVGBCUURFSOl0VqoCItoAYv8iOzBHd0h2JoUGbpZEZh9Gbud3bEBGI+ACIKU2ZhBHIulGIuJXZ0RXYwBCZh9Gbud3bk9CZlR2bj5WZgwGblh2UyV2dvBFI6oSKzRHcwIzKooCIqoCTBlEVSFEUgwETFh0USV0VPBlKqASLKA2W9QjZiZ2N0gHMfBichZHYg4DIgoAZuV3bmBSKzhibyVGd0FGcg42bpRXYjNXdmJ2bgMlSgEDI6oSKzRHcyEzKooCIqoiTPlEVBN0UVZkQPpiKg0iCgNWZ4VWaz1GIsM2LgQWbjBCLMxURINlUFd1TQBGI+ACIKU2ZhBHIulGIkV2YuVmclZWZyByck5WYt12bjBibpJETPxEI05WZyVmZmlGZgMDI6oSKzRHc1IzKooCIqoCROFUTN90Qg4USCx0TMpiKg0iCgxGblh2cyV2dvBHYg4DIgowUTNEIhlmdg4WZkRWaoByck5WYt12bjByc19WajlGczV3UgojKpMHdwBjMrgiKgoiKU5URU50TDBiTFRERJhkKqASLKAmbh1WdoBSZyFGI19WegknZpJXZWBGI+ACIKMHbh52ZpNHI0hXZ0BSQINEVQF0QvUmchxmZkV3bsNEIltWYmBCNgojKpMHdwJzMrgiKgoiKUhVRUBSRSFETGRUVPx0QgU0SBZkKqASLKAmbpFWbvRGIsFWajlmZm9WLu9mbgwHI5FGbwNXakBSZk92YgQWZslHdz9SZnJXYsBGI+ACIK4Wah12bkBCbhl2YpZmZv1ibv5GIskXYsB3cpRGIlR2bjBCZlxWe0N3LldmchxGI6cmbph2cphGcgUGZvNGIlNWa2VGRgojKpMHdwhzMrgiKgoiKINVSIBFIFR0TDBSRDlkVFRkKqASLKAGZh9Gb5FGcgMXdvl2YpB3c1NHIrASSQFEIkJXYvJGcpx2YgBiPgAiClNmc192cgU2ZhBHIulGIzxGbhNGIJBVQgUGdpJ3dgQmch9mYwlGbjByMgojKpMHdwVjMrgiKgoiKFNkUV90UgQkUB9kQQlETDpiKg0iCz52bpR3YlRXZEByIjMiCKYTMgoiK6M3aulGTqoCI8BCMgoiK6MHdwlmcjNHIsFmbyVGd4VkKqACfgADIqoiOzVWbhJnZJpiKKADIqoiOzRXdw5WagwWah1WZvQHelR3LkJ3b3N3chBlKqACfgADIqoiOz1mcvZkKqoQZyVHdjVnc0NFIldWYQByIjMiCKwWb0hmLzRncvBXZy9iYhJ3RrNWasN0LvlmLiVHa0l2ZuMXandWYo12LvozcwRHdoBiKqojclJnclZWZSpiKKozcwRHdoBiKqoDbvN2b09mcQpiKK4WZgoiK6U2ZhV3ZuFGTqoiCzVXYoxkUVBSbvJnZgMHTSVFIBh0QUBVQDV2ahZEIk5WYggXaGt2Ypx2QgwWYpRnblR3bwByclpXesFmbhBiYhJ3RrNWasNEIqoiOu9Wa0BXayN2clRkKqogNyAjMgwiMxASeyFWdyJWZGBSLgQncvBXZSBiYhJ3RrNWasNEIqoiOlxGdpRlKqowbm5WSgU2ZhBFIjMyIKoAMuAjLxYHIqoiOu9Waz5WZ0hXRqoiCDRVVgQjM6EDM6gDMgYTMtQDMtYjMwIDIqoiOkVGdy9GclJlKqoAMwEDIvAiMyIDIqoiOlJ3bjNlKqoAYvlmLiVHa0l2ZuMXandWYo1GYgoiK6Q3cvhkKqoAYs1Gdo5iMx0iMw0iNyAjMvMHdy9GclJ3LiFmcHt2Ypx2Qv8WauIWdoRXan5ycpd2ZhhWbv8iOzBHd0hGYgoiK6wkUVpiK",
+    "priority": 5,
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_222"
+    ],
+    "click": "https://mhaggis.github.io/ClickGrab/reports/2026-02-12.html",
+    "icon": "https://www.google.com/s2/favicons?domain=mhaggis.github.io&sz=128",
+    "actions": [
+      {
+        "id": "oXJM72EaJs",
+        "action": "view",
+        "label": "View flagged site",
+        "clear": false,
+        "url": "https://mhaggis.github.io/ClickGrab/reports/2026-02-12.html"
+      },
+      {
+        "id": "hRZJnWjuwI",
+        "action": "view",
+        "label": "Add to domains feed",
+        "clear": true,
+        "url": "https://github.com/Nehboro/nehboro.github.io/edit/main/feeds/domains.csv"
+      }
+    ]
   }
 ]
