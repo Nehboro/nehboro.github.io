@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
+          
       - name: Fetch and merge URLhaus ClickFix into feeds/urls.csv
         env:
           URLHAUS_AUTH_KEY: ${{ secrets.URLHAUS_AUTH_KEY }}
@@ -56,19 +56,25 @@ jobs:
               with urllib.request.urlopen(req, timeout=120) as resp:
                   return resp.read().decode("utf-8-sig", errors="replace")
 
-          def parse_remote_csv(raw_text: str):
+          def parse_urlhaus_csv(raw_text: str):
+              lines = [line.rstrip("\r") for line in raw_text.splitlines() if line.strip()]
+              header = None
               data_lines = []
-              for line in raw_text.splitlines():
-                  if not line.strip():
-                      continue
+
+              for line in lines:
                   if line.startswith("#"):
+                      candidate = line.lstrip("#").strip()
+                      if candidate.lower().startswith("id,dateadded,url,"):
+                          header = candidate
                       continue
+
                   data_lines.append(line)
 
-              if not data_lines:
-                  return []
+              if not header:
+                  raise SystemExit("Could not find URLhaus CSV header line")
 
-              return list(csv.DictReader(io.StringIO("\n".join(data_lines))))
+              csv_text = header + "\n" + "\n".join(data_lines)
+              return list(csv.DictReader(io.StringIO(csv_text)))
 
           def load_existing_feed(path: Path):
               comments = []
@@ -100,53 +106,19 @@ jobs:
                       notes = (row.get("notes") or "").strip()
                       if not url:
                           continue
-                      rows.append({
-                          "url": url,
-                          "notes": notes,
-                      })
+                      rows.append({"url": url, "notes": notes})
                       existing_urls.add(url)
 
               return comments, rows, existing_urls
 
-          def get_column_name(row, candidates):
-              if not row:
-                  return None
-
-              exact = set(row.keys())
-              for name in candidates:
-                  if name in exact:
-                      return name
-
-              lower_map = {k.lower(): k for k in row.keys()}
-              for name in candidates:
-                  if name.lower() in lower_map:
-                      return lower_map[name.lower()]
-
-              return None
-
           def split_tags(value: str):
-              raw = (value or "").strip()
-              if not raw:
+              value = (value or "").strip()
+              if not value:
                   return set()
-
-              for sep in ("|", ",", ";"):
-                  if sep in raw:
-                      return {x.strip().lower() for x in raw.split(sep) if x.strip()}
-
-              return {raw.lower()}
+              return {x.strip().lower() for x in value.split(",") if x.strip()}
 
           raw_text = fetch_text(REMOTE_URL)
-          remote_rows = parse_remote_csv(raw_text)
-
-          if not remote_rows:
-              raise SystemExit("No rows returned from URLhaus dump")
-
-          sample_row = remote_rows[0]
-          url_col = get_column_name(sample_row, ["url", "URL"])
-          tags_col = get_column_name(sample_row, ["tags", "Tags"])
-
-          if not url_col or not tags_col:
-              raise SystemExit(f"Expected URLhaus columns not found. Got: {list(sample_row.keys())}")
+          remote_rows = parse_urlhaus_csv(raw_text)
 
           comments, existing_rows, existing_urls = load_existing_feed(FEED_PATH)
 
@@ -154,11 +126,13 @@ jobs:
           matched = 0
 
           for row in remote_rows:
-              url = (row.get(url_col) or "").strip()
-              tags = split_tags(row.get(tags_col))
+              url = (row.get("url") or "").strip()
+              tags = split_tags(row.get("tags"))
 
               if not url:
                   continue
+
+              # exact ClickFix only
               if "clickfix" not in tags:
                   continue
 
