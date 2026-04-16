@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>URL Scanner - Nehboro</title>
-<meta name="description" content="Scan any URL with Nehboro's 94+ threat detections. Runs entirely in your browser - no signup, no backend." />
+<meta name="description" content="Scan any URL with Nehboro's static detections. Pattern-matching only, runs entirely in your browser. For full runtime protection, use the browser extension." />
 <link rel="icon" type="image/png" href="/favicon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -286,15 +286,16 @@ body {
   <div class="container">
 
     <div class="intro">
-      <h1>Scan any URL with <span class="accent">the same engine</span></h1>
+      <h1>URL Scanner — <span class="accent">static detections only</span></h1>
       <p>
-        Paste a suspicious URL. Nehboro's detection engine runs entirely in your browser — no server to upload to, no account required.
+        Paste a suspicious URL. Nehboro loads the target page's HTML and runs pattern-matching detections against it,
+        entirely in your browser. For behavioral / runtime threats, use the browser extension.
       </p>
       <div class="badges">
-        <span class="badge highlight">🔬 100% client-side</span>
+        <span class="badge highlight">🔬 Subset of extension checks</span>
         <span class="badge">⚡ No signup</span>
         <span class="badge">🌍 Engine via jsDelivr CDN</span>
-        <span class="badge">🔒 Nothing saved server-side</span>
+        <span class="badge">🔒 No server, no backend</span>
       </div>
     </div>
 

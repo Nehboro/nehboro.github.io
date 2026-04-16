@@ -100,15 +100,27 @@ body {
 .report-card:hover { border-color: var(--forest-600); box-shadow: var(--shadow-sm); transform: translateY(-1px); }
 .report-card.block { border-left: 4px solid var(--red); }
 .report-card.warn { border-left: 4px solid var(--amber); }
-.report-card.safe { border-left: 4px solid var(--forest-600); }
+.report-card.low { border-left: 4px solid var(--forest-600); }
+.report-card.unknown { border-left: 4px solid var(--text-faint); }
 .r-score {
   font-family: 'Noto Serif JP', serif; font-size: 26px; font-weight: 500;
   min-width: 56px; text-align: center; line-height: 1;
 }
 .r-score.block { color: var(--red); }
 .r-score.warn { color: var(--amber); }
-.r-score.safe { color: var(--forest-600); }
-.r-score-lbl { font-size: 9px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text-faint); margin-top: 4px; }
+.r-score.low { color: var(--forest-600); }
+.r-score.unknown { color: var(--text-faint); }
+.r-score-lbl { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-faint); margin-top: 4px; font-weight: 700; }
+
+.r-host-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.r-source {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px; border-radius: 999px;
+  font-size: 10px; font-weight: 700;
+  border: 1px solid;
+}
+.r-source-extension { background: rgba(78, 120, 95, 0.12); color: var(--forest-800); border-color: rgba(78, 120, 95, 0.3); }
+.r-source-scanner   { background: rgba(185, 138, 54, 0.12); color: var(--gold); border-color: rgba(185, 138, 54, 0.35); }
 .r-info { min-width: 0; }
 .r-host { font-weight: 700; color: var(--forest-900); font-size: 14px; word-break: break-all; }
 .r-url { font-family: monospace; color: var(--text-faint); font-size: 11px; margin-top: 2px; word-break: break-all; }
@@ -232,10 +244,62 @@ function timeAgo(ts) {
 }
 
 function verdict(score) {
-  if (score == null) return 'safe';
+  if (score == null) return 'unknown';
   if (score >= 79) return 'block';
   if (score >= 45) return 'warn';
-  return 'safe';
+  return 'low';
+}
+
+const VERDICT_LABELS = {
+  block:   'Malicious',
+  warn:    'Suspicious',
+  low:     'Low risk',
+  unknown: 'Unclassified',
+};
+
+function categoryToTag(catId) {
+  const c = String(catId || '').toUpperCase();
+  if (c.startsWith('CLICKFIX')) return 'ClickFix';
+  if (c.startsWith('FAKE_CLOUDFLARE') || c === 'CAPTCHA_TEXT' || c === 'FAKE_VERIFICATION_ID') return 'Fake CAPTCHA';
+  if (c.startsWith('POWERSHELL') || c === 'PS_ENCODED') return 'PowerShell';
+  if (c.startsWith('LOLBIN')) return 'LOLBin';
+  if (c.includes('PHISH') || c.startsWith('LOOKALIKE') || c === 'PUNYCODE_DOMAIN' || c === 'VISUAL_BRAND_IMPERSONATION' || c === 'FAVICON_BRAND_MISMATCH' || c === 'DEVICE_CODE_PHISH') return 'Phishing';
+  if (c.startsWith('FAKE_SOFTWARE') || c === 'FAKE_DOWNLOAD' || c === 'FAKE_UPDATE') return 'Fake software';
+  if (c === 'FAKE_ANTIVIRUS' || c === 'FAKE_OS_UI' || c === 'FAKE_ERROR_PAGE' || c === 'FAKE_ERROR_CODE' || c === 'SCAM_PHONE' || c === 'SCAM_PHONE_PROMINENT' || c === 'TECH_SUPPORT_SCAM' || c === 'SCAM_MULTILANG' || c === 'AV_DISMISSAL_PRETEXT' || c === 'IP_GEOLOCATION_SCARE' || c === 'DATA_THEFT_SCARE') return 'Tech support scam';
+  if (c === 'URGENCY' || c === 'FAKE_COUNTDOWN' || c === 'FAKE_SOCIAL_PROOF' || c === 'NOTIFICATION_SPAM' || c === 'DIALOG_SPAM') return 'Social engineering';
+  if (c === 'BROWSER_LOCK' || c === 'FULLSCREEN_SPAM' || c === 'PRINT_LOOP' || c === 'HISTORY_LOOP' || c === 'FINGER_ABUSE' || c === 'CONSENTFIX') return 'Browser hijack';
+  if (c === 'CLIPBOARD_HIJACK' || c === 'CLIPBOARD_SOURCE') return 'Clipboard hijack';
+  if (c.startsWith('CRYPTO')) return 'Crypto drainer';
+  if (c === 'CARD_SKIMMER' || c === 'CARD_SKIMMER_ENHANCED' || c === 'FORMJACKING' || c === 'KEYLOGGER_PATTERN') return 'Data theft';
+  if (c.startsWith('OBFUSCATION') || c === 'EVAL_DYNAMIC' || c === 'BASE64_PAYLOAD') return 'Obfuscated';
+  if (c === 'RAW_IP_HOSTING') return 'Raw IP';
+  if (c === 'INSECURE_LOGIN' || c === 'FORM_EXTERNAL_ACTION' || c === 'LOGIN_FORM_VISUAL') return 'Credential harvest';
+  if (c === 'FEED_MATCH') return 'IOC feed';
+  if (c.startsWith('BONUS') || c.startsWith('COMBO')) return null; // skip noise
+  return null;
+}
+
+function deriveTagsFromBody(body) {
+  const tags = new Set();
+  if (!body) return tags;
+  // Grab all detection names from the markdown body
+  const lines = body.split('\n');
+  for (const line of lines) {
+    const m = line.match(/^-\s*\*\*([A-Z][A-Z_ ]+)\*\*/);
+    if (m) {
+      const cat = m[1].trim().replace(/\s+/g, '_');
+      const tag = categoryToTag(cat);
+      if (tag) tags.add(tag);
+    }
+  }
+  return tags;
+}
+
+function isFromScanner(report) {
+  if ((report.tags || []).includes('scanner')) return true;
+  const body = report.body || '';
+  if (/\*\*Source:\*\*\s*Nehboro URL Scanner/i.test(body)) return true;
+  return false;
 }
 
 function render() {
@@ -244,8 +308,8 @@ function render() {
 
   if (currentFilter === 'block') filtered = filtered.filter(r => (r.score || 0) >= 79);
   else if (currentFilter === 'warn') filtered = filtered.filter(r => (r.score || 0) >= 45);
-  else if (currentFilter === 'extension') filtered = filtered.filter(r => !(r.tags || []).includes('scanner'));
-  else if (currentFilter === 'scanner') filtered = filtered.filter(r => (r.tags || []).includes('scanner'));
+  else if (currentFilter === 'extension') filtered = filtered.filter(r => !isFromScanner(r));
+  else if (currentFilter === 'scanner') filtered = filtered.filter(r => isFromScanner(r));
 
   if (searchQuery) {
     const q = searchQuery.toLowerCase();
@@ -268,15 +332,22 @@ function render() {
 
   container.innerHTML = filtered.map(r => {
     const v = verdict(r.score);
-    const tagsHtml = (r.tags || []).slice(0, 5).map(t => `<span class="r-tag">${escapeHtml(t)}</span>`).join('');
+    const vLabel = VERDICT_LABELS[v];
+    const fromScanner = isFromScanner(r);
+    const sourceBadge = `<span class="r-source ${fromScanner ? 'r-source-scanner' : 'r-source-extension'}">${fromScanner ? '🌐 Scanner' : '🧩 Extension'}</span>`;
+    const threatTags = [...deriveTagsFromBody(r.body)].slice(0, 4);
+    const tagsHtml = threatTags.map(t => `<span class="r-tag">${escapeHtml(t)}</span>`).join('');
     return `
       <a class="report-card ${v}" href="/reports/view/?id=${encodeURIComponent(r.id)}">
         <div>
           <div class="r-score ${v}">${r.score != null ? r.score : '—'}</div>
-          <div class="r-score-lbl">${v.toUpperCase()}</div>
+          <div class="r-score-lbl">${vLabel}</div>
         </div>
         <div class="r-info">
-          <div class="r-host">${escapeHtml(r.host || r.title || 'Unknown host')}</div>
+          <div class="r-host-row">
+            <div class="r-host">${escapeHtml(r.host || r.title || 'Unknown host')}</div>
+            ${sourceBadge}
+          </div>
           ${r.url ? `<div class="r-url">${escapeHtml(r.url.substring(0, 100))}${r.url.length > 100 ? '...' : ''}</div>` : ''}
           ${tagsHtml ? `<div class="r-tags">${tagsHtml}</div>` : ''}
         </div>

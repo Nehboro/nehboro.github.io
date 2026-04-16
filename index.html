@@ -94,6 +94,7 @@ body {
   transition: all .2s;
 }
 .nav a:hover { background: rgba(154, 194, 165, 0.2); color: var(--forest-900); }
+.nav a.active { background: var(--forest-800); color: #f6f2e8; }
 .nav-cta {
   background: var(--forest-800);
   color: #f6f2e8 !important;
@@ -276,7 +277,7 @@ body {
 }
 
 /* Section baseline */
-.section { padding: 72px 0; position: relative; z-index: 6; }
+.section { padding: 72px 0; position: relative; z-index: 6; scroll-margin-top: 110px; }
 .section-head { text-align: center; margin-bottom: 54px; max-width: 720px; margin-left: auto; margin-right: auto; }
 .section-label {
   display: inline-block;
@@ -410,7 +411,7 @@ body {
 }
 
 /* Feeds */
-.feeds-band { padding: 72px 0; position: relative; z-index: 6; }
+.feeds-band { padding: 72px 0; position: relative; z-index: 6; scroll-margin-top: 110px; }
 .feeds-note {
   background: rgba(217, 142, 55, 0.1);
   border-left: 4px solid var(--amber);
@@ -1120,9 +1121,10 @@ footer { padding: 40px 0 56px 0; position: relative; z-index: 5; }
             <span class="scan-badge">🔬 Live now</span>
             <h2>URL Scanner</h2>
             <p>
-              Paste any suspicious URL and Nehboro will analyze it with the same 94+ detections the extension uses on your browsing.
-              Runs entirely in your browser, no signup needed - powered by the extension's detection engine loaded live from
-              <code style="color: #f0c877;">cdn.jsdelivr.net</code>.
+              Paste any suspicious URL and Nehboro will run its <strong>static detections</strong> against the page source.
+              Because the scanner has no backend, it only catches threats visible in the raw HTML/JavaScript —
+              <strong>runtime checks like clipboard hijacks, print loops, or notification spam require the browser extension</strong>.
+              Fully client-side, no signup, engine loaded from <code style="color: #f0c877;">cdn.jsdelivr.net</code>.
             </p>
             <form class="scan-form" onsubmit="gotoScan(event)">
               <input class="scan-input" type="url" id="scan-url" placeholder="https://example-suspicious-site.com" />
@@ -1408,15 +1410,65 @@ function gotoScan(e) {
   return false;
 }
 
+// Update URL with hash when clicking anchor nav, and scroll smoothly
+// past the sticky header. This lets users share /#engines, /#install, etc.
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
+    const href = a.getAttribute('href');
+    if (!href || href === '#') return;
+    const target = document.querySelector(href);
     if (target) {
       e.preventDefault();
+      // Update the URL so the current section is shareable
+      history.pushState(null, '', href);
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
 });
+
+// On initial page load, if there's a hash in the URL, scroll to it respecting
+// the sticky header offset (smooth scroll after a short delay to ensure layout settled).
+if (window.location.hash) {
+  window.addEventListener('load', () => {
+    const target = document.querySelector(window.location.hash);
+    if (target) {
+      setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+    }
+  });
+}
+
+// Track which section the user is currently in (active nav highlight + URL hash).
+// Uses IntersectionObserver to detect which section is dominant in the viewport.
+(function setupScrollSpy() {
+  const sectionIds = ['engines', 'detections', 'feeds', 'install'];
+  const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+  if (sections.length === 0) return;
+  const navLinks = {};
+  for (const id of sectionIds) {
+    const link = document.querySelector(`.nav a[href="#${id}"]`);
+    if (link) navLinks[id] = link;
+  }
+  let currentHash = window.location.hash;
+  const observer = new IntersectionObserver((entries) => {
+    // Find the entry with highest intersectionRatio that is intersecting
+    const visible = entries.filter(e => e.isIntersecting);
+    if (visible.length === 0) return;
+    visible.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+    const topSection = visible[0].target;
+    const id = topSection.id;
+    // Update active nav class
+    for (const [sid, link] of Object.entries(navLinks)) {
+      link.classList.toggle('active', sid === id);
+    }
+    // Update URL hash without pushing a new history entry
+    const newHash = '#' + id;
+    if (currentHash !== newHash) {
+      history.replaceState(null, '', newHash);
+      currentHash = newHash;
+    }
+  }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
+  for (const s of sections) observer.observe(s);
+})();
 </script>
 </body>
 </html>

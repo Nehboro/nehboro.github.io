@@ -49,7 +49,8 @@ body {
 }
 .verdict-banner.block { background: linear-gradient(135deg, #a8412f, #c44d3a); }
 .verdict-banner.warn { background: linear-gradient(135deg, #b98a36, #d98e37); }
-.verdict-banner.safe { background: linear-gradient(135deg, #4e785f, #70977d); }
+.verdict-banner.low { background: linear-gradient(135deg, #4e785f, #70977d); }
+.verdict-banner.unknown { background: linear-gradient(135deg, #7a897f, #95a29a); }
 .v-name { font-family: 'Noto Serif JP', serif; font-size: 32px; font-weight: 500; line-height: 1.1; }
 .v-host { font-family: monospace; opacity: 0.9; margin-top: 8px; word-break: break-all; }
 .v-score { font-family: 'Noto Serif JP', serif; text-align: center; padding: 0 10px; }
@@ -133,6 +134,40 @@ body {
   padding: 6px 10px; font-family: monospace; font-size: 11px; color: var(--text);
   word-break: break-all;
 }
+.urls-note {
+  font-size: 12px; color: var(--text-faint); margin-bottom: 10px;
+  font-style: italic;
+}
+.urls-note-empty {
+  font-style: normal; padding: 12px 14px; background: var(--mist);
+  border-radius: 8px; color: var(--text-soft);
+}
+
+/* Source badge (extension vs scanner) */
+.source-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 12px; border-radius: 999px;
+  font-size: 12px; font-weight: 700;
+  font-family: inherit;
+}
+.source-extension {
+  background: rgba(78, 120, 95, 0.15); color: var(--forest-800);
+  border: 1px solid rgba(78, 120, 95, 0.3);
+}
+.source-scanner {
+  background: rgba(185, 138, 54, 0.15); color: var(--gold);
+  border: 1px solid rgba(185, 138, 54, 0.35);
+}
+
+/* Meaningful threat category tags */
+.tags-wrap { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+.report-tag {
+  display: inline-flex; align-items: center;
+  background: var(--mist); color: var(--forest-800);
+  padding: 3px 10px; border-radius: 999px;
+  font-size: 11px; font-weight: 600;
+  border: 1px solid var(--line);
+}
 
 .actions-row { display: flex; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
 .btn {
@@ -187,10 +222,68 @@ function escapeHtml(s) {
 }
 
 function verdict(score) {
-  if (score == null) return 'safe';
+  if (score == null) return 'unknown';
   if (score >= 79) return 'block';
   if (score >= 45) return 'warn';
-  return 'safe';
+  return 'low';
+}
+
+// Human-readable verdict labels - never say "Below threshold"
+const VERDICT_LABELS = {
+  block:   'Malicious',
+  warn:    'Suspicious',
+  low:     'Low risk',
+  unknown: 'Unclassified',
+};
+
+// Map detection category tokens to user-friendly tag labels
+function categoryToTag(catId) {
+  const c = String(catId || '').toUpperCase();
+  if (c.startsWith('CLICKFIX')) return 'ClickFix';
+  if (c.startsWith('FAKE_CLOUDFLARE') || c.startsWith('FAKE_CAPTCHA') || c === 'CAPTCHA_TEXT' || c === 'FAKE_VERIFICATION_ID') return 'Fake CAPTCHA';
+  if (c.startsWith('POWERSHELL') || c === 'PS_ENCODED') return 'PowerShell payload';
+  if (c.startsWith('LOLBIN')) return 'LOLBin';
+  if (c.includes('PHISH') || c.startsWith('LOOKALIKE') || c === 'PUNYCODE_DOMAIN' || c === 'VISUAL_BRAND_IMPERSONATION' || c === 'FAVICON_BRAND_MISMATCH' || c === 'DEVICE_CODE_PHISH') return 'Phishing';
+  if (c.startsWith('FAKE_SOFTWARE') || c === 'FAKE_DOWNLOAD' || c === 'FAKE_UPDATE') return 'Fake software';
+  if (c === 'FAKE_ANTIVIRUS' || c === 'FAKE_OS_UI' || c === 'FAKE_ERROR_PAGE' || c === 'FAKE_ERROR_CODE' || c === 'SCAM_PHONE' || c === 'SCAM_PHONE_PROMINENT' || c === 'TECH_SUPPORT_SCAM' || c === 'SCAM_MULTILANG' || c === 'AV_DISMISSAL_PRETEXT' || c === 'IP_GEOLOCATION_SCARE' || c === 'DATA_THEFT_SCARE') return 'Tech support scam';
+  if (c === 'URGENCY' || c === 'FAKE_COUNTDOWN' || c === 'FAKE_SOCIAL_PROOF' || c === 'NOTIFICATION_SPAM' || c === 'DIALOG_SPAM') return 'Social engineering';
+  if (c === 'BROWSER_LOCK' || c === 'FULLSCREEN_SPAM' || c === 'PRINT_LOOP' || c === 'HISTORY_LOOP' || c === 'URL_CREATE_LOOP' || c === 'FINGER_ABUSE' || c === 'CONSENTFIX') return 'Browser hijack';
+  if (c === 'CLIPBOARD_HIJACK' || c === 'CLIPBOARD_SOURCE') return 'Clipboard hijack';
+  if (c.startsWith('CRYPTO')) return 'Crypto drainer';
+  if (c === 'CARD_SKIMMER' || c === 'CARD_SKIMMER_ENHANCED' || c === 'FORMJACKING' || c === 'KEYLOGGER_PATTERN') return 'Data theft';
+  if (c.startsWith('OBFUSCATION') || c === 'EVAL_DYNAMIC' || c === 'BASE64_PAYLOAD' || c === 'DATA_URI') return 'Obfuscated code';
+  if (c === 'RAW_IP_HOSTING') return 'Raw IP hosting';
+  if (c === 'INSECURE_LOGIN' || c === 'FORM_EXTERNAL_ACTION' || c === 'LOGIN_FORM_VISUAL') return 'Credential harvesting';
+  if (c.startsWith('BONUS_') || c.startsWith('COMBO_') || c.startsWith('BONUS')) return 'Combo signal';
+  if (c === 'FEED_MATCH') return 'IOC feed match';
+  // Fallback: convert SNAKE_CASE to Title Case
+  return c.toLowerCase().replace(/_/g, ' ').replace(/\b\w/g, m => m.toUpperCase());
+}
+
+// Extract meaningful tags from the report (detection categories + verdict)
+function buildMeaningfulTags(report, detections) {
+  const tags = new Set();
+  // Add verdict as primary tag
+  const v = verdict(report.score);
+  if (v === 'block') tags.add('🔴 Malicious');
+  else if (v === 'warn') tags.add('🟡 Suspicious');
+  else if (v === 'low') tags.add('🟢 Low risk');
+  // Derive threat categories from the detection list
+  for (const d of detections || []) {
+    const tag = categoryToTag(d.category || d.name);
+    if (tag) tags.add(tag);
+  }
+  return [...tags];
+}
+
+// Extract detection categories from parsed detections (fallback to ntfy tags if none)
+function isFromScanner(report) {
+  // Explicit scanner tag from web scanner
+  if ((report.tags || []).includes('scanner')) return true;
+  // Report body tells us the source
+  const body = report.body || '';
+  if (/\*\*Source:\*\*\s*Nehboro URL Scanner/i.test(body)) return true;
+  return false;
 }
 
 function fmtDate(ts) {
@@ -209,18 +302,9 @@ function render(report) {
     return;
   }
 
-  const v = verdict(report.score);
-  const vname = { block: 'Block', warn: 'Warning', safe: 'Below threshold' }[v];
-
-  const tagsHtml = (report.tags || []).map(t =>
-    `<span style="background:var(--mist);color:var(--forest-800);padding:2px 8px;border-radius:999px;font-size:10px;font-weight:600;">${escapeHtml(t)}</span>`
-  ).join(' ');
-
-  // ── Parse the markdown body to extract detections, matched keywords, and URLs ──
-  // Fallback: older reports.json may have raw (reversed-base64) bodies from before
-  // the workflow was updated. Try to decode those client-side.
+  // ── Decode the body (extension encodes as reversed base64) ──
   const body = maybeDecodeAddonBody(report.body || '');
-  // If URL/host/score weren't parsed server-side, try again now that body is decoded
+  // Re-extract URL/host/score in case server-side parsing missed them
   if (!report.url || !report.host || report.score == null) {
     const urlM = body.match(/\*\*URL:\*\*\s*`([^`]+)`/);
     const hostM = body.match(/\*\*Host:\*\*\s*`([^`]+)`/);
@@ -231,6 +315,18 @@ function render(report) {
   }
   const detections = parseDetections(body);
   const extractedUrls = parseExtractedUrls(body);
+
+  const v = verdict(report.score);
+  const vname = VERDICT_LABELS[v];
+  const fromScanner = isFromScanner(report);
+  const sourceLabel = fromScanner ? 'Web Scanner' : 'Browser Extension';
+  const sourceIcon  = fromScanner ? '🌐' : '🧩';
+
+  // Build meaningful tags from detections (not ntfy internal tags like rotating_light)
+  const meaningfulTags = buildMeaningfulTags(report, detections);
+  const tagsHtml = meaningfulTags.map(t =>
+    `<span class="report-tag">${escapeHtml(t)}</span>`
+  ).join(' ');
 
   const detectionsHtml = detections.length > 0 ? `
     <div class="panel">
@@ -258,6 +354,7 @@ function render(report) {
   const urlsHtml = extractedUrls.length > 0 ? `
     <div class="panel">
       <h2>Extracted URLs (${extractedUrls.length})</h2>
+      <div class="urls-note">URLs scraped from the page: links, script src, form actions, iframe src, etc.</div>
       <div class="urls-toolbar">
         <input class="urls-filter" id="urls-filter" type="text" placeholder="Filter URLs..." />
         <button class="btn" id="urls-copy">Copy all</button>
@@ -266,7 +363,16 @@ function render(report) {
         ${extractedUrls.map(u => `<div class="url-item">${escapeHtml(u)}</div>`).join('')}
       </div>
     </div>
-  ` : '';
+  ` : `
+    <div class="panel">
+      <h2>Extracted URLs</h2>
+      <div class="urls-note urls-note-empty">
+        No URLs were extracted from this page scan.
+        ${body.match(/\*\*Extension:\*\*\s*v1\.0\.0/) ?
+          `<br><em>Note: this report was submitted by an older version of the extension (v1.0.0) that did not extract URLs. Newer reports will include them.</em>` : ''}
+      </div>
+    </div>
+  `;
 
   document.getElementById('content').innerHTML = `
     <div class="actions-row">
@@ -291,21 +397,24 @@ function render(report) {
 
     <div class="panel">
       <h2>Report info</h2>
+      <div class="kv-row">
+        <div class="kv-key">Source</div>
+        <div class="kv-val"><span class="source-badge ${fromScanner ? 'source-scanner' : 'source-extension'}">${sourceIcon} ${sourceLabel}</span></div>
+      </div>
       <div class="kv-row"><div class="kv-key">Report ID</div><div class="kv-val">${escapeHtml(report.id || '-')}</div></div>
       <div class="kv-row"><div class="kv-key">Submitted</div><div class="kv-val">${fmtDate(report.time)}</div></div>
       ${report.url ? `<div class="kv-row"><div class="kv-key">URL</div><div class="kv-val">${escapeHtml(report.url)}</div></div>` : ''}
       ${report.host ? `<div class="kv-row"><div class="kv-key">Host</div><div class="kv-val">${escapeHtml(report.host)}</div></div>` : ''}
-      ${report.title ? `<div class="kv-row"><div class="kv-key">Title</div><div class="kv-val">${escapeHtml(report.title)}</div></div>` : ''}
-      ${tagsHtml ? `<div class="kv-row"><div class="kv-key">Tags</div><div class="kv-val">${tagsHtml}</div></div>` : ''}
+      ${tagsHtml ? `<div class="kv-row"><div class="kv-key">Threat categories</div><div class="kv-val"><div class="tags-wrap">${tagsHtml}</div></div></div>` : ''}
     </div>
 
     ${detectionsHtml}
     ${urlsHtml}
 
-    ${report.body ? `
+    ${body ? `
     <details class="panel raw-toggle">
-      <summary>View raw markdown body</summary>
-      <div class="body-md">${escapeHtml(report.body)}</div>
+      <summary>View full report markdown</summary>
+      <div class="body-md">${escapeHtml(body)}</div>
     </details>` : ''}
   `;
 

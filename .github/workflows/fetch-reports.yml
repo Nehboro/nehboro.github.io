@@ -2,7 +2,6 @@ name: Fetch community reports
 
 on:
   schedule:
-    # Every 6 hours
     - cron: '*/20 * * * *'
   workflow_dispatch:
 
@@ -19,7 +18,6 @@ jobs:
           mkdir -p reports
           SINCE=$(cat reports/.last_fetch 2>/dev/null || echo 0)
           NOW=$(date +%s)
-          # Pull messages posted since last fetch (NDJSON format)
           curl -sSfL "https://ntfy.sh/nehboro-reports/json?poll=1&since=${SINCE}" \
             > reports/_latest.jsonl || true
           if [ -s reports/_latest.jsonl ]; then
@@ -33,36 +31,68 @@ jobs:
 
       - name: Build aggregated reports.json index
         run: |
-          # Combine all *.jsonl files into a single sorted JSON array for the site
           python3 - <<'PY'
-          import json, os, glob, re
+          import json, glob, re, base64
+
+          def decode_addon_body(raw):
+              """
+              Nehboro extension encodes report body as:
+                  UTF-8 plaintext -> base64 -> reversed string
+              Scanner sends plaintext markdown. This tries to decode;
+              falls back to raw if not encoded.
+              """
+              if not raw or not isinstance(raw, str):
+                  return raw
+              stripped = raw.strip()
+              if not stripped:
+                  return raw
+              if re.search(r'\s', stripped):
+                  return raw  # plaintext (scanner or manual post)
+              if not re.fullmatch(r'[A-Za-z0-9+/=]+', stripped):
+                  return raw
+              try:
+                  unreversed = stripped[::-1]
+                  pad = (-len(unreversed)) % 4
+                  unreversed += '=' * pad
+                  decoded = base64.b64decode(unreversed).decode('utf-8')
+                  if '**' in decoded or 'URL:' in decoded or 'Score:' in decoded:
+                      return decoded
+                  return raw
+              except Exception:
+                  return raw
+
           out = []
           for f in sorted(glob.glob('reports/*.jsonl')):
-              with open(f) as fh:
+              with open(f, encoding='utf-8') as fh:
                   for line in fh:
                       line = line.strip()
-                      if not line: continue
+                      if not line:
+                          continue
                       try:
                           msg = json.loads(line)
-                          body = msg.get('message', '')
-                          url_m = re.search(r'\*\*URL:\*\*\s*`([^`]+)`', body)
-                          host_m = re.search(r'\*\*Host:\*\*\s*`([^`]+)`', body)
-                          score_m = re.search(r'\*\*Score:\*\*\s*(\d+)', body)
-                          out.append({
-                              'id': msg.get('id'),
-                              'time': msg.get('time'),
-                              'title': msg.get('title', ''),
-                              'tags': msg.get('tags', []),
-                              'url': url_m.group(1) if url_m else None,
-                              'host': host_m.group(1) if host_m else None,
-                              'score': int(score_m.group(1)) if score_m else None,
-                              'body': body,
-                          })
                       except Exception as e:
-                              print('skip:', e)
+                          print('skip malformed line:', e)
+                          continue
+                      raw_body = msg.get('message', '')
+                      body = decode_addon_body(raw_body)
+                      url_m   = re.search(r'\*\*URL:\*\*\s*`([^`]+)`', body)
+                      host_m  = re.search(r'\*\*Host:\*\*\s*`([^`]+)`', body)
+                      score_m = re.search(r'\*\*Score:\*\*\s*(\d+)', body)
+                      is_scanner = bool(re.search(r'\*\*Source:\*\*\s*Nehboro URL Scanner', body))
+                      out.append({
+                          'id':       msg.get('id'),
+                          'time':     msg.get('time'),
+                          'title':    msg.get('title', ''),
+                          'tags':     msg.get('tags', []),
+                          'source':   'scanner' if is_scanner else 'extension',
+                          'url':      url_m.group(1)   if url_m   else None,
+                          'host':     host_m.group(1)  if host_m  else None,
+                          'score':    int(score_m.group(1)) if score_m else None,
+                          'body':     body,
+                      })
           out.sort(key=lambda x: x.get('time', 0), reverse=True)
-          with open('reports/reports.json', 'w') as f:
-              json.dump(out, f, indent=2)
+          with open('reports/reports.json', 'w', encoding='utf-8') as f:
+              json.dump(out, f, ensure_ascii=False, indent=2)
           print('Aggregated', len(out), 'reports into reports.json')
           PY
 
