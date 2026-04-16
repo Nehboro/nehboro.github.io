@@ -1,0 +1,186 @@
+name: Update feeds/urls.csv from URLhaus ClickFix
+
+on:
+  schedule:
+    - cron: '15 */2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-urlhaus-clickfix:
+    runs-on: ubuntu-latest
+    environment: github action urlhaus
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Fetch and merge URLhaus ClickFix into feeds/urls.csv
+        env:
+          URLHAUS_AUTH_KEY: ${{ secrets.URLHAUS_AUTH_KEY }}
+          URLHAUS_DUMP_FILE: recent.csv
+        run: |
+          python - <<'PY'
+          import csv
+          import io
+          import os
+          import urllib.request
+          from pathlib import Path
+
+          FEED_PATH = Path("feeds/urls.csv")
+          AUTH_KEY = os.environ.get("URLHAUS_AUTH_KEY", "").strip()
+          DUMP_FILE = os.environ.get("URLHAUS_DUMP_FILE", "recent.csv").strip()
+          REMOTE_URL = f"https://urlhaus-api.abuse.ch/v2/files/exports/{AUTH_KEY}/{DUMP_FILE}"
+
+          DEFAULT_HEADER = [
+              "# Nehboro malicious URLs feed",
+              "# Format: url,notes",
+              "# Supports wildcards: *://evil.*/gate.php",
+          ]
+
+          if not AUTH_KEY:
+              raise SystemExit("Missing secret: URLHAUS_AUTH_KEY")
+
+          def fetch_text(url: str):
+              req = urllib.request.Request(
+                  url,
+                  headers={"User-Agent": "github-actions-urlhaus-clickfix-feed-updater/1.0"},
+              )
+              with urllib.request.urlopen(req, timeout=120) as resp:
+                  return resp.read().decode("utf-8-sig", errors="replace")
+
+          def parse_urlhaus_csv(raw_text: str):
+              lines = [line.rstrip("\r") for line in raw_text.splitlines() if line.strip()]
+              header = None
+              data_lines = []
+
+              for line in lines:
+                  if line.startswith("#"):
+                      candidate = line.lstrip("#").strip()
+                      if candidate.lower().startswith("id,dateadded,url,"):
+                          header = candidate
+                      continue
+
+                  data_lines.append(line)
+
+              if not header:
+                  raise SystemExit("Could not find URLhaus CSV header line")
+
+              csv_text = header + "\n" + "\n".join(data_lines)
+              return list(csv.DictReader(io.StringIO(csv_text)))
+
+          def load_existing_feed(path: Path):
+              comments = []
+              rows = []
+              existing_urls = set()
+
+              if not path.exists():
+                  return DEFAULT_HEADER, rows, existing_urls
+
+              with path.open("r", encoding="utf-8-sig", newline="") as f:
+                  lines = f.read().splitlines()
+
+              data_lines = []
+              for line in lines:
+                  if not line.strip():
+                      continue
+                  if line.startswith("#"):
+                      comments.append(line)
+                  else:
+                      data_lines.append(line)
+
+              if not comments:
+                  comments = DEFAULT_HEADER
+
+              if data_lines:
+                  reader = csv.DictReader(io.StringIO("\n".join(data_lines)))
+                  for row in reader:
+                      url = (row.get("url") or "").strip()
+                      notes = (row.get("notes") or "").strip()
+                      if not url:
+                          continue
+                      rows.append({"url": url, "notes": notes})
+                      existing_urls.add(url)
+
+              return comments, rows, existing_urls
+
+          def split_tags(value: str):
+              value = (value or "").strip()
+              if not value:
+                  return set()
+              return {x.strip().lower() for x in value.split(",") if x.strip()}
+
+          raw_text = fetch_text(REMOTE_URL)
+          remote_rows = parse_urlhaus_csv(raw_text)
+
+          comments, existing_rows, existing_urls = load_existing_feed(FEED_PATH)
+
+          added = 0
+          matched = 0
+
+          for row in remote_rows:
+              url = (row.get("url") or "").strip()
+              tags = split_tags(row.get("tags"))
+
+              if not url:
+                  continue
+
+              # exact ClickFix only
+              if "clickfix" not in tags:
+                  continue
+
+              matched += 1
+
+              if url in existing_urls:
+                  continue
+
+              existing_rows.append({
+                  "url": url,
+                  "notes": "URLhaus ClickFix",
+              })
+              existing_urls.add(url)
+              added += 1
+
+          FEED_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+          with FEED_PATH.open("w", encoding="utf-8", newline="") as f:
+              for line in comments:
+                  f.write(line.rstrip("\n") + "\n")
+
+              writer = csv.DictWriter(f, fieldnames=["url", "notes"])
+              writer.writeheader()
+              writer.writerows(existing_rows)
+
+          print(f"Updated {FEED_PATH}")
+          print(f"Scanned remote rows: {len(remote_rows)}")
+          print(f"Matched clickfix rows: {matched}")
+          print(f"Added new rows: {added}")
+          print(f"Total rows in feed: {len(existing_rows)}")
+          PY
+
+      - name: Show updated file
+        run: |
+          ls -la feeds
+          echo "---- feeds/urls.csv ----"
+          sed -n '1,40p' feeds/urls.csv
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          git add feeds/urls.csv
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update feeds/urls.csv from URLhaus ClickFix"
+            git push
+          fi

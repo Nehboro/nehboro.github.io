@@ -1,0 +1,134 @@
+name: Update feeds/ips.csv from Spamhaus ASN resolved list
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-ips-feed:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Fetch and merge Spamhaus ASN resolved feed into feeds/ips.csv
+        run: |
+          python - <<'PY'
+          import csv
+          import io
+          import urllib.request
+          from pathlib import Path
+
+          REMOTE_URL = "https://raw.githubusercontent.com/mthcht/awesome-lists/refs/heads/main/Lists/ASNs/spamhaus_asn_list_resolved.csv"
+          FEED_PATH = Path("feeds/ips.csv")
+
+          DEFAULT_HEADER = [
+              "# Nehboro malicious IPs feed",
+              "# Format: ip,notes",
+              "# Supports CIDR (10.0.0.0/24) and wildcards (192.168.*.*)",
+              "ip,notes",
+          ]
+
+          def fetch_remote_csv(url: str):
+              with urllib.request.urlopen(url) as resp:
+                  content = resp.read().decode("utf-8-sig")
+              return list(csv.DictReader(io.StringIO(content)))
+
+          def load_existing_feed(path: Path):
+              comments = []
+              rows = []
+              existing_ips = set()
+
+              if not path.exists():
+                  return DEFAULT_HEADER[:-1], rows, existing_ips
+
+              with path.open("r", encoding="utf-8-sig", newline="") as f:
+                  lines = f.read().splitlines()
+
+              data_lines = []
+              for line in lines:
+                  if not line.strip():
+                      continue
+                  if line.startswith("#"):
+                      comments.append(line)
+                  else:
+                      data_lines.append(line)
+
+              if not comments:
+                  comments = DEFAULT_HEADER[:-1]
+
+              if data_lines:
+                  reader = csv.DictReader(io.StringIO("\n".join(data_lines)))
+                  for row in reader:
+                      ip = (row.get("ip") or "").strip()
+                      notes = (row.get("notes") or "").strip()
+                      if not ip:
+                          continue
+                      rows.append({"ip": ip, "notes": notes})
+                      existing_ips.add(ip)
+
+              return comments, rows, existing_ips
+
+          remote_rows = fetch_remote_csv(REMOTE_URL)
+          comments, existing_rows, existing_ips = load_existing_feed(FEED_PATH)
+
+          added = 0
+          for row in remote_rows:
+              ip_range = (row.get("ip_range") or "").strip()
+              as_number = (row.get("as_number") or "").strip()
+
+              if not ip_range:
+                  continue
+
+              if ip_range in existing_ips:
+                  continue
+
+              note = f"Spamhaus ASN {as_number}" if as_number else "Spamhaus ASN"
+              existing_rows.append({"ip": ip_range, "notes": note})
+              existing_ips.add(ip_range)
+              added += 1
+
+          FEED_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+          with FEED_PATH.open("w", encoding="utf-8", newline="") as f:
+              for line in comments:
+                  f.write(line.rstrip("\n") + "\n")
+
+              writer = csv.DictWriter(f, fieldnames=["ip", "notes"])
+              writer.writeheader()
+              writer.writerows(existing_rows)
+
+          print(f"Updated {FEED_PATH}")
+          print(f"Added {added} new entries")
+          print(f"Total entries: {len(existing_rows)}")
+          PY
+
+      - name: Show updated file
+        run: |
+          ls -la feeds
+          echo "---- feeds/ips.csv ----"
+          sed -n '1,40p' feeds/ips.csv
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          git add feeds/ips.csv
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update feeds/ips.csv from Spamhaus ASN resolved list"
+            git push
+          fi

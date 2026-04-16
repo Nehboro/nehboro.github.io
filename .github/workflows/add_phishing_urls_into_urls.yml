@@ -1,0 +1,135 @@
+name: Update feeds/urls.csv from OpenPhish
+
+on:
+  schedule:
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-urls-feed:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Fetch and merge OpenPhish feed into feeds/urls.csv
+        run: |
+          python - <<'PY'
+          import csv
+          import io
+          import urllib.request
+          from pathlib import Path
+
+          REMOTE_URL = "https://raw.githubusercontent.com/mthcht/awesome-lists/refs/heads/main/Lists/Phishing/openphish/openphish_url_list.csv"
+          FEED_PATH = Path("feeds/urls.csv")
+
+          DEFAULT_HEADER = [
+              "# Nehboro malicious URLs feed",
+              "# Format: url,notes",
+              "# Supports wildcards: *://evil.*/gate.php",
+          ]
+
+          def fetch_remote_csv(url: str):
+              with urllib.request.urlopen(url) as resp:
+                  content = resp.read().decode("utf-8-sig")
+              return list(csv.DictReader(io.StringIO(content)))
+
+          def load_existing_feed(path: Path):
+              comments = []
+              rows = []
+              existing_urls = set()
+
+              if not path.exists():
+                  return DEFAULT_HEADER, rows, existing_urls
+
+              with path.open("r", encoding="utf-8-sig", newline="") as f:
+                  lines = f.read().splitlines()
+
+              data_lines = []
+              for line in lines:
+                  if not line.strip():
+                      continue
+                  if line.startswith("#"):
+                      comments.append(line)
+                  else:
+                      data_lines.append(line)
+
+              if not comments:
+                  comments = DEFAULT_HEADER
+
+              if data_lines:
+                  reader = csv.DictReader(io.StringIO("\n".join(data_lines)))
+                  for row in reader:
+                      url = (row.get("url") or "").strip()
+                      notes = (row.get("notes") or "").strip()
+                      if not url:
+                          continue
+                      rows.append({"url": url, "notes": notes})
+                      existing_urls.add(url)
+
+              return comments, rows, existing_urls
+
+          remote_rows = fetch_remote_csv(REMOTE_URL)
+          comments, existing_rows, existing_urls = load_existing_feed(FEED_PATH)
+
+          added = 0
+          for row in remote_rows:
+              url = (row.get("url") or "").strip()
+              if not url or url in existing_urls:
+                  continue
+
+              metadata_reference = (row.get("metadata_reference") or "").strip()
+              note = "OpenPhish"
+              if metadata_reference:
+                  note = f"OpenPhish | {metadata_reference}"
+
+              existing_rows.append({
+                  "url": url,
+                  "notes": note,
+              })
+              existing_urls.add(url)
+              added += 1
+
+          FEED_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+          with FEED_PATH.open("w", encoding="utf-8", newline="") as f:
+              for line in comments:
+                  f.write(line.rstrip("\n") + "\n")
+
+              writer = csv.DictWriter(f, fieldnames=["url", "notes"])
+              writer.writeheader()
+              writer.writerows(existing_rows)
+
+          print(f"Updated {FEED_PATH}")
+          print(f"Added {added} new entries")
+          print(f"Total entries: {len(existing_rows)}")
+          PY
+
+      - name: Show updated file
+        run: |
+          ls -la feeds
+          echo "---- feeds/urls.csv ----"
+          sed -n '1,40p' feeds/urls.csv
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          git add feeds/urls.csv
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update feeds/urls.csv from OpenPhish"
+            git push
+          fi
