@@ -367,9 +367,7 @@ function render(report) {
     <div class="panel">
       <h2>Extracted URLs</h2>
       <div class="urls-note urls-note-empty">
-        No URLs were extracted from this page scan.
-        ${body.match(/\*\*Extension:\*\*\s*v1\.0\.0/) ?
-          `<br><em>Note: this report was submitted by an older version of the extension (v1.0.0) that did not extract URLs. Newer reports will include them.</em>` : ''}
+        No external URLs were found on this page. This is normal for self-contained pages (no outbound links, no external scripts, no iframes, no form actions).
       </div>
     </div>
   `;
