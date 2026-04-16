@@ -1,57 +1,75 @@
-name: Fetch Nehboro Reports
+name: Fetch community reports
 
 on:
   schedule:
-    - cron: '*/20 * * * *'   # every 6 hours
-  workflow_dispatch:         # manual trigger
+    # Every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
 
 jobs:
-  fetch-reports:
+  fetch:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch reports from ntfy
+      - name: Fetch reports from ntfy.sh/nehboro-reports
         run: |
           mkdir -p reports
-          SINCE_FILE="reports/.last_fetch"
-
-          if [ -f "$SINCE_FILE" ]; then
-            SINCE=$(cat "$SINCE_FILE")
+          SINCE=$(cat reports/.last_fetch 2>/dev/null || echo 0)
+          NOW=$(date +%s)
+          # Pull messages posted since last fetch (NDJSON format)
+          curl -sSfL "https://ntfy.sh/nehboro-reports/json?poll=1&since=${SINCE}" \
+            > reports/_latest.jsonl || true
+          if [ -s reports/_latest.jsonl ]; then
+            mv reports/_latest.jsonl "reports/${NOW}.jsonl"
+            echo "Fetched $(wc -l < reports/${NOW}.jsonl) new reports"
           else
-            SINCE=0
+            rm -f reports/_latest.jsonl
+            echo "No new reports"
           fi
+          echo "$NOW" > reports/.last_fetch
 
-          echo "Fetching reports since timestamp $SINCE ..."
-          curl -s "https://ntfy.sh/nehboro-reports/json?poll=1&since=$SINCE" \
-            | jq -s '.' > reports/latest_batch.json
-
-          COUNT=$(jq 'length' reports/latest_batch.json)
-          echo "Fetched $COUNT report(s)"
-
-          if [ "$COUNT" -gt 0 ]; then
-            # Append to cumulative log
-            if [ -f reports/all_reports.json ]; then
-              jq -s '.[0] + .[1]' reports/all_reports.json reports/latest_batch.json > reports/tmp.json
-              mv reports/tmp.json reports/all_reports.json
-            else
-              cp reports/latest_batch.json reports/all_reports.json
-            fi
-
-            # Update timestamp to latest message time
-            jq -r 'map(.time) | max' reports/latest_batch.json > "$SINCE_FILE"
-          fi
-
-          rm -f reports/latest_batch.json
-
-      - name: Commit new reports
+      - name: Build aggregated reports.json index
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Combine all *.jsonl files into a single sorted JSON array for the site
+          python3 - <<'PY'
+          import json, os, glob, re
+          out = []
+          for f in sorted(glob.glob('reports/*.jsonl')):
+              with open(f) as fh:
+                  for line in fh:
+                      line = line.strip()
+                      if not line: continue
+                      try:
+                          msg = json.loads(line)
+                          body = msg.get('message', '')
+                          url_m = re.search(r'\*\*URL:\*\*\s*`([^`]+)`', body)
+                          host_m = re.search(r'\*\*Host:\*\*\s*`([^`]+)`', body)
+                          score_m = re.search(r'\*\*Score:\*\*\s*(\d+)', body)
+                          out.append({
+                              'id': msg.get('id'),
+                              'time': msg.get('time'),
+                              'title': msg.get('title', ''),
+                              'tags': msg.get('tags', []),
+                              'url': url_m.group(1) if url_m else None,
+                              'host': host_m.group(1) if host_m else None,
+                              'score': int(score_m.group(1)) if score_m else None,
+                              'body': body,
+                          })
+                      except Exception as e:
+                              print('skip:', e)
+          out.sort(key=lambda x: x.get('time', 0), reverse=True)
+          with open('reports/reports.json', 'w') as f:
+              json.dump(out, f, indent=2)
+          print('Aggregated', len(out), 'reports into reports.json')
+          PY
+
+      - name: Commit if changed
+        run: |
+          git config user.name "nehboro-bot"
+          git config user.email "bot@users.noreply.github.com"
           git add reports/
-          git diff --cached --quiet && echo "No new reports" && exit 0
-          git commit -m "chore: fetch nehboro reports $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          git push
+          git diff --cached --quiet || git commit -m "chore: fetch community reports"
+          git push || true

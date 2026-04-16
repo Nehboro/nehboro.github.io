@@ -1,0 +1,4 @@
+# Nehboro malicious URLs feed
+# Format: url,notes
+# Supports wildcards: *://evil.*/gate.php
+url,notes

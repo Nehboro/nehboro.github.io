@@ -1,0 +1,5 @@
+# Nehboro malicious domains feed
+# Format: domain,notes
+# Supports wildcards: *.evil.com, pay*.net
+# Last updated: populated by community reports
+domain,notes

@@ -1,0 +1,4 @@
+# Nehboro malicious IPs feed
+# Format: ip,notes
+# Supports CIDR (10.0.0.0/24) and wildcards (192.168.*.*)
+ip,notes

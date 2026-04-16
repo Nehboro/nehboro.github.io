@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Nehboro — Community Threat Intelligence</title>
+<title>Nehboro - Community Threat Intelligence</title>
+<meta name="description" content="Community-powered browser extension with 94+ dynamic detections, static IOC feeds, and optional Claude AI analysis. Protection against phishing, ClickFix, and malware." />
+<link rel="icon" type="image/png" href="./favicon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -21,6 +23,8 @@
   --leaf: #9ac2a5;
   --mist: #dfe9df;
   --gold: #b98a36;
+  --red: #c44d3a;
+  --amber: #d98e37;
   --line: rgba(28, 54, 39, 0.12);
   --line-strong: rgba(28, 54, 39, 0.2);
   --text: #1d2a21;
@@ -50,1065 +54,748 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-a { color: inherit; }
-button, input { font: inherit; }
-
-::selection {
-  background: rgba(73, 119, 88, 0.18);
-  color: var(--forest-900);
-}
-
 .page-shell {
   position: relative;
   overflow: hidden;
+  padding-top: 40px;
 }
 
-.page-shell::before,
-.page-shell::after {
-  content: '';
-  position: fixed;
-  inset: auto;
-  pointer-events: none;
-  z-index: -1;
-}
+.container { max-width: var(--max); margin: 0 auto; padding: 0 32px; }
 
-.page-shell::before {
-  width: 480px;
-  height: 480px;
-  left: -120px;
-  top: 120px;
-  background: radial-gradient(circle, rgba(154,194,165,0.22), transparent 65%);
-  filter: blur(10px);
-}
-
-.page-shell::after {
-  width: 540px;
-  height: 540px;
-  right: -180px;
-  top: 240px;
-  background: radial-gradient(circle, rgba(255,255,255,0.7), transparent 62%);
-  filter: blur(8px);
-}
-
-h1, h2, h3, h4, .brand-name, .section-title, .stat-val, .v-label {
-  font-family: 'Noto Serif JP', serif;
-  font-weight: 600;
-}
-
-.container {
-  width: min(var(--max), calc(100% - 40px));
-  margin: 0 auto;
-}
-
-.header-wrap {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  padding-top: 14px;
-}
-
+/* Header */
+.header-wrap { position: relative; z-index: 20; }
 .header {
-  width: min(var(--max), calc(100% - 24px));
-  margin: 0 auto;
-  min-height: 76px;
+  max-width: var(--max);
+  margin: 0 auto 30px auto;
+  padding: 18px 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 18px;
-  background: rgba(255, 251, 244, 0.68);
-  border: 1px solid rgba(255,255,255,0.6);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  gap: 20px;
+  background: rgba(255, 253, 247, 0.78);
+  backdrop-filter: blur(18px) saturate(120%);
+  border: 1px solid rgba(28, 54, 39, 0.12);
   border-radius: 22px;
-  box-shadow: 0 10px 40px rgba(24, 46, 32, 0.08);
+  box-shadow: 0 10px 35px rgba(30, 63, 44, 0.09);
 }
-
-.logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  text-decoration: none;
-}
-
-.logo-mark {
-  width: 58px;
-  height: 58px;
-  flex: 0 0 auto;
-  display: block;
-  object-fit: contain;
-  border-radius: 16px;
-  filter: drop-shadow(0 8px 20px rgba(33, 70, 51, 0.18));
-}
-
-.logo-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.08;
-}
-
-.brand-name {
-  font-size: 24px;
-  letter-spacing: 0.04em;
-  color: var(--forest-900);
-}
-
-.brand-sub {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.22em;
-  color: var(--text-faint);
-  margin-top: 4px;
-  font-weight: 700;
-}
-
-.nav {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
+.logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--forest-800); }
+.logo-mark { width: 42px; height: 42px; border-radius: 12px; object-fit: contain; display: block; }
+.logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+.brand-name { font-weight: 700; letter-spacing: 0.4px; font-size: 18px; color: var(--forest-900); }
+.brand-sub { font-size: 11px; color: var(--forest-700); letter-spacing: 1.2px; text-transform: uppercase; margin-top: 2px; }
+.nav { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
 .nav a {
-  text-decoration: none;
-  color: var(--text-soft);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  padding: 10px 14px;
-  border-radius: 999px;
-  transition: 0.22s ease;
-}
-
-.nav a:hover {
   color: var(--forest-800);
-  background: rgba(46, 92, 66, 0.07);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  transition: all .2s;
 }
-
-.nav .nav-cta {
-  padding-inline: 18px;
-  background: linear-gradient(180deg, var(--forest-700), var(--forest-800));
-  color: #fff;
-  box-shadow: 0 8px 20px rgba(33, 70, 51, 0.18);
+.nav a:hover { background: rgba(154, 194, 165, 0.2); color: var(--forest-900); }
+.nav-cta {
+  background: var(--forest-800);
+  color: #f6f2e8 !important;
+  padding: 7px 16px !important;
 }
-
-.nav .nav-cta:hover {
-  background: linear-gradient(180deg, var(--forest-600), var(--forest-700));
-  color: #fff;
+.nav-cta:hover { background: var(--forest-900) !important; color: #fff !important; }
+.gh-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; padding: 0 !important;
+  background: var(--forest-900); color: #f6f2e8 !important;
+  border-radius: 10px;
 }
+.gh-icon:hover { background: var(--forest-800) !important; color: #fff !important; }
 
-.hero {
-  padding: 54px 0 34px;
-}
-
+/* Hero */
+.hero { padding: 28px 0 48px 0; position: relative; z-index: 10; }
 .hero-card {
-  position: relative;
+  background: var(--paper-strong);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 54px 58px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 220px;
-  gap: 18px;
+  grid-template-columns: minmax(0, 1.45fr) minmax(280px, 1fr);
+  gap: 48px;
   align-items: center;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.54), rgba(255,255,255,0.28)),
-    linear-gradient(135deg, rgba(232,241,232,0.9), rgba(248,243,235,0.84));
-  border: 1px solid rgba(255,255,255,0.75);
-  border-radius: 34px;
-  padding: 42px;
   box-shadow: var(--shadow-lg);
-  overflow: hidden;
 }
-
-.hero-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 12% 18%, rgba(255,255,255,0.7), transparent 22%),
-    radial-gradient(circle at 85% 20%, rgba(154,194,165,0.22), transparent 24%),
-    radial-gradient(circle at 60% 80%, rgba(46,92,66,0.06), transparent 34%);
-  pointer-events: none;
-}
-
-.hero-copy,
-.hero-art {
-  position: relative;
-  z-index: 1;
-}
-
-.hero-art {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-head-wrap {
-  width: 190px;
-  height: 190px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 35% 30%, rgba(255,255,255,0.95), rgba(255,255,255,0.55) 38%, rgba(255,255,255,0.18) 68%, transparent 72%),
-    radial-gradient(circle, rgba(154,194,165,0.2), rgba(154,194,165,0.06) 58%, transparent 72%);
-}
-
-.hero-head {
-  width: 158px;
-  height: 158px;
-  display: block;
-  object-fit: contain;
-  filter: drop-shadow(0 18px 34px rgba(33, 70, 51, 0.2));
-}
-
 .hero-eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  min-height: 38px;
-  padding: 6px 14px 6px 10px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.56);
-  border: 1px solid rgba(46,92,66,0.12);
-  box-shadow: 0 8px 24px rgba(28,54,39,0.05);
-  color: var(--forest-700);
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 2.2px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  color: var(--forest-700);
+  font-weight: 700;
+  padding: 7px 14px;
+  background: rgba(154, 194, 165, 0.25);
+  border-radius: 999px;
   margin-bottom: 22px;
 }
-
 .hero-eyebrow-dot {
-  width: 8px;
-  height: 8px;
+  width: 8px; height: 8px;
   border-radius: 50%;
-  background: linear-gradient(180deg, #9bc9a6, #4d7b61);
-  box-shadow: 0 0 0 6px rgba(154,194,165,0.12);
-  animation: pulse 2.4s ease-in-out infinite;
+  background: var(--forest-600);
+  animation: pulse 2.2s infinite;
 }
-
 @keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(0.78); opacity: 0.55; }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
-
 .hero h1 {
-  font-size: clamp(42px, 6vw, 68px);
-  line-height: 1.08;
-  letter-spacing: -0.02em;
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(34px, 5vw, 54px);
+  font-weight: 500;
   color: var(--forest-900);
-  margin-bottom: 18px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin-bottom: 22px;
 }
-
-.hero h1 .accent {
-  color: var(--forest-600);
-}
-
+.hero h1 .accent { color: var(--forest-700); font-style: italic; }
 .hero-lead {
-  max-width: 620px;
   font-size: 17px;
-  line-height: 1.9;
   color: var(--text-soft);
-  margin-bottom: 28px;
+  max-width: 640px;
+  margin-bottom: 30px;
 }
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 28px;
-}
-
-.btn-primary,
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  min-height: 50px;
-  padding: 0 22px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: 0.24s ease;
-}
-
-.btn-primary {
-  color: #fff;
-  background: linear-gradient(180deg, var(--forest-700), var(--forest-800));
-  box-shadow: 0 14px 34px rgba(33, 70, 51, 0.22);
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 38px rgba(33, 70, 51, 0.28);
-}
-
-.btn-secondary {
-  color: var(--forest-800);
-  background: rgba(255,255,255,0.55);
-  border: 1px solid rgba(46,92,66,0.14);
-}
-
-.btn-secondary:hover {
-  transform: translateY(-2px);
-  background: rgba(255,255,255,0.75);
-  border-color: rgba(46,92,66,0.24);
-}
-
-.hero-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.meta-pill {
-  min-height: 36px;
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 28px; }
+.btn-primary, .btn-secondary {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 0 12px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.55);
-  border: 1px solid rgba(46,92,66,0.12);
-  color: var(--text-soft);
-  font-size: 12px;
+  padding: 13px 24px;
   font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  border-radius: 14px;
+  transition: all .2s ease;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+.btn-primary {
+  background: var(--forest-800);
+  color: #fbf8f1;
+  box-shadow: 0 10px 25px rgba(33, 70, 51, 0.22);
+}
+.btn-primary:hover {
+  background: var(--forest-900);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(33, 70, 51, 0.3);
+}
+.btn-secondary {
+  background: rgba(255, 252, 245, 0.9);
+  color: var(--forest-800);
+  border-color: var(--line-strong);
+}
+.btn-secondary:hover {
+  background: #fff;
+  border-color: var(--forest-600);
+}
+.hero-meta { display: flex; flex-wrap: wrap; gap: 10px; }
+.meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: var(--mist);
+  color: var(--forest-800);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.hero-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.hero-head-wrap {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(154, 194, 165, 0.35) 0%, rgba(154, 194, 165, 0) 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.hero-head-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 20px;
+  border: 1px dashed rgba(112, 151, 125, 0.3);
+  border-radius: 50%;
+  animation: rotate 32s linear infinite;
+}
+@keyframes rotate { to { transform: rotate(360deg); } }
+.hero-head {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 20px 30px rgba(33, 70, 51, 0.2));
 }
 
-
-
-.stats-wrap {
-  padding: 22px 0 20px;
-}
-
+/* Stats */
+.stats-wrap { padding: 14px 0 34px 0; position: relative; z-index: 8; }
 .stats-strip {
-  background: rgba(255,255,255,0.55);
-  border: 1px solid rgba(255,255,255,0.72);
-  border-radius: 26px;
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
+  background: var(--forest-900);
+  color: #f8f3ea;
+  border-radius: var(--r-md);
+  padding: 30px 34px;
+  box-shadow: var(--shadow-md);
 }
-
 .stats-inner {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+  gap: 0;
 }
-
-.stat {
-  padding: 24px 18px;
+.stats-inner .stat {
+  padding: 6px 20px;
   text-align: center;
-  border-right: 1px solid var(--line);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
-
-.stat:last-child { border-right: none; }
-
+.stats-inner .stat:last-child { border-right: none; }
 .stat-val {
-  font-size: clamp(30px, 4vw, 40px);
-  line-height: 1;
-  color: var(--forest-900);
-  letter-spacing: -0.03em;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 34px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--leaf);
 }
-
 .stat-lbl {
-  margin-top: 8px;
   font-size: 11px;
+  letter-spacing: 1.6px;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--text-faint);
-  font-weight: 700;
+  color: rgba(248, 243, 234, 0.65);
+  margin-top: 4px;
 }
 
-.section {
-  padding: 88px 0;
-}
-
-.section-head {
-  max-width: 760px;
-  margin-bottom: 42px;
-}
-
+/* Section baseline */
+.section { padding: 72px 0; position: relative; z-index: 6; }
+.section-head { text-align: center; margin-bottom: 54px; max-width: 720px; margin-left: auto; margin-right: auto; }
 .section-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 14px;
-  color: var(--forest-600);
+  display: inline-block;
   font-size: 11px;
-  font-weight: 700;
+  letter-spacing: 2.4px;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
-}
-
-.section-label::before {
-  content: '';
-  width: 24px;
-  height: 1px;
-  background: rgba(112,151,125,0.5);
-}
-
-.section-title {
-  font-size: clamp(30px, 4vw, 44px);
-  line-height: 1.18;
-  letter-spacing: -0.02em;
-  color: var(--forest-900);
+  color: var(--forest-700);
+  font-weight: 700;
   margin-bottom: 14px;
 }
-
+.section-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(26px, 3.5vw, 38px);
+  font-weight: 500;
+  color: var(--forest-900);
+  margin-bottom: 16px;
+  line-height: 1.25;
+}
 .section-lead {
-  font-size: 15px;
+  font-size: 16px;
   color: var(--text-soft);
-  line-height: 1.9;
-}
-
-.divider {
-  width: min(var(--max), calc(100% - 40px));
+  max-width: 640px;
   margin: 0 auto;
-  border: none;
-  border-top: 1px solid var(--line);
 }
 
+/* Feature grid (the three engines) */
 .feat-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
 }
-
 .feat-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 30px 26px;
+  transition: all .25s;
   position: relative;
-  padding: 28px;
-  border-radius: 24px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.82), rgba(255,255,255,0.66));
-  border: 1px solid rgba(255,255,255,0.74);
-  box-shadow: var(--shadow-sm);
   overflow: hidden;
-  transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
 }
-
 .feat-card::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 100% 0%, rgba(154,194,165,0.18), transparent 30%);
-  pointer-events: none;
+  background: linear-gradient(135deg, rgba(154, 194, 165, 0.08) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity .3s;
 }
-
-.feat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-  border-color: rgba(154,194,165,0.62);
-}
-
+.feat-card:hover { border-color: var(--forest-600); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.feat-card:hover::before { opacity: 1; }
 .feat-icon {
-  width: 52px;
-  height: 52px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 16px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(233,241,233,0.9));
-  border: 1px solid rgba(46,92,66,0.08);
-  font-size: 24px;
+  font-size: 32px;
   margin-bottom: 16px;
-  box-shadow: 0 8px 24px rgba(27,54,39,0.06);
+  position: relative;
 }
-
 .feat-title {
-  font-size: 20px;
-  line-height: 1.35;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 19px;
+  font-weight: 500;
   color: var(--forest-900);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  position: relative;
 }
-
 .feat-desc {
   font-size: 14px;
   color: var(--text-soft);
-  line-height: 1.84;
-}
-
-.feeds-band {
   position: relative;
-  margin-top: 12px;
-  padding: 88px 0 84px;
-  background:
-    radial-gradient(circle at 10% 10%, rgba(255,255,255,0.05), transparent 24%),
-    radial-gradient(circle at 90% 20%, rgba(154,194,165,0.08), transparent 18%),
-    linear-gradient(180deg, #183223 0%, #13281c 100%);
-  overflow: hidden;
 }
-
-.feeds-band::before {
-  content: '';
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 140px;
-  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.1));
-  pointer-events: none;
-}
-
-.feeds-band .section-title { color: #f6f2e7; }
-.feeds-band .section-label { color: var(--leaf); }
-.feeds-band .section-label::before { background: rgba(154,194,165,0.35); }
-.feeds-band .section-lead { color: rgba(246,242,231,0.68); }
-
-.inline-code {
-  display: inline-flex;
-  align-items: center;
-  min-height: 28px;
-  padding: 0 10px;
+.feat-tag {
+  display: inline-block;
+  padding: 3px 10px;
   border-radius: 999px;
-  background: rgba(154,194,165,0.12);
-  border: 1px solid rgba(154,194,165,0.14);
-  color: var(--leaf);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-top: 14px;
+}
+.feat-tag.primary { background: var(--forest-800); color: #f6f2e8; }
+.feat-tag.secondary { background: var(--mist); color: var(--forest-800); }
+.feat-tag.optional { background: rgba(185, 138, 54, 0.15); color: var(--gold); }
+
+/* Detections list */
+.det-intro {
+  background: rgba(154, 194, 165, 0.1);
+  border-left: 4px solid var(--forest-600);
+  padding: 16px 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  font-size: 14px;
+  color: var(--text-soft);
+}
+.det-cats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+.det-cat {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 20px;
+  transition: all .2s;
+}
+.det-cat:hover { border-color: var(--forest-600); box-shadow: var(--shadow-sm); }
+.det-cat-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.det-cat-icon { font-size: 22px; }
+.det-cat-count {
+  background: var(--forest-800);
+  color: #f6f2e8;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 10px;
+}
+.det-cat-name {
+  font-weight: 700;
+  color: var(--forest-900);
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.det-cat-examples {
   font-size: 12px;
+  color: var(--text-soft);
+  line-height: 1.6;
 }
 
+/* Feeds */
+.feeds-band { padding: 72px 0; position: relative; z-index: 6; }
+.feeds-note {
+  background: rgba(217, 142, 55, 0.1);
+  border-left: 4px solid var(--amber);
+  padding: 14px 18px;
+  border-radius: 10px;
+  margin-bottom: 26px;
+  font-size: 13px;
+  color: var(--text-soft);
+}
+.feeds-note strong { color: var(--forest-900); }
 .feeds-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 30px;
 }
-
 .fc {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 24px;
-  overflow: hidden;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
-}
-
-.fc:hover,
-.fc.active {
-  transform: translateY(-3px);
-  background: rgba(255,255,255,0.08);
-  border-color: rgba(154,194,165,0.38);
-  box-shadow: 0 18px 36px rgba(0,0,0,0.16);
-}
-
-.fc-head {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 22px;
+  transition: all .2s;
   display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 22px 22px 14px;
+  flex-direction: column;
 }
-
-.fc-icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.08);
-  font-size: 22px;
-  flex-shrink: 0;
-}
-
+.fc:hover { border-color: var(--forest-600); box-shadow: var(--shadow-sm); }
+.fc.active { border-color: var(--forest-700); background: var(--paper-strong); box-shadow: var(--shadow-md); }
+.fc-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.fc-icon { font-size: 24px; }
 .fc-meta { flex: 1; }
-
-.fc-name {
-  color: #f8f3ea;
-  font-size: 17px;
-  letter-spacing: 0.01em;
-}
-
-.fc-note {
-  margin-top: 4px;
-  color: rgba(248,243,234,0.48);
-  font-size: 12px;
-}
-
+.fc-name { font-weight: 700; color: var(--forest-900); font-size: 14px; font-family: 'Zen Kaku Gothic New', sans-serif; }
+.fc-note { font-size: 11px; color: var(--text-faint); }
 .fc-badge {
-  min-width: 54px;
-  height: 34px;
-  padding: 0 12px;
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(154,194,165,0.12);
-  border: 1px solid rgba(154,194,165,0.22);
-  color: var(--leaf);
-  font-size: 12px;
+  background: var(--forest-800);
+  color: #f6f2e8;
+  font-size: 11px;
   font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 10px;
+  min-width: 40px;
+  text-align: center;
 }
-
-.fc-badge.ld {
-  background: rgba(255,255,255,0.04);
-  border-color: rgba(255,255,255,0.08);
-  color: rgba(248,243,234,0.28);
-}
-
-.fc-btns {
-  display: flex;
-  gap: 10px;
-  padding: 0 22px 22px;
-}
-
-.btn-dl,
-.btn-br {
-  min-height: 42px;
-  border-radius: 999px;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: 0.22s ease;
-  cursor: pointer;
-}
-
-.btn-dl {
+.fc-badge.ld { background: var(--mist); color: var(--text-faint); }
+.fc-btns { display: flex; gap: 8px; margin-top: auto; }
+.btn-dl, .btn-br {
   flex: 1;
-  color: #ecf7ee;
-  background: linear-gradient(180deg, rgba(99,141,114,0.9), rgba(62,96,71,0.95));
-  border: 1px solid rgba(154,194,165,0.22);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all .15s;
+  text-decoration: none;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--forest-800);
+  font-family: inherit;
 }
-
-.btn-dl:hover {
-  transform: translateY(-1px);
-  background: linear-gradient(180deg, rgba(112,151,125,0.95), rgba(73,119,88,0.98));
-}
-
-.btn-br {
-  min-width: 110px;
-  color: rgba(248,243,234,0.76);
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-}
-
-.btn-br:hover {
-  background: rgba(255,255,255,0.11);
-  color: #fff;
-}
+.btn-dl:hover, .btn-br:hover { background: var(--forest-800); color: #fbf8f1; border-color: var(--forest-800); }
 
 .viewer {
-  display: none;
-  margin-top: 22px;
-  border-radius: 24px;
+  background: var(--forest-900);
+  border-radius: var(--r-md);
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.09);
-  background: rgba(255,255,255,0.03);
-  box-shadow: 0 18px 44px rgba(0,0,0,0.14);
+  max-height: 0;
+  opacity: 0;
+  transition: all .35s;
 }
-
-.viewer.open {
-  display: block;
-  animation: fadeUp 0.24s ease;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
+.viewer.open { max-height: 620px; opacity: 1; margin-bottom: 24px; }
 .v-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
-  padding: 16px 18px;
-  background: rgba(154,194,165,0.08);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
-
-.v-label {
-  color: #f8f3ea;
-  font-size: 15px;
-}
-
+.v-label { color: var(--leaf); font-weight: 700; font-size: 13px; font-family: monospace; }
 .v-x {
-  width: 34px;
-  height: 34px;
-  border: none;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.07);
-  color: rgba(248,243,234,0.65);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(248, 243, 234, 0.6);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
   cursor: pointer;
-  transition: 0.22s ease;
+  font-size: 14px;
+  line-height: 1;
 }
-
-.v-x:hover {
-  background: rgba(255,255,255,0.12);
-  color: #fff;
-}
-
+.v-x:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
 .v-search-wrap {
-  padding: 14px 18px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.15);
 }
-
 .v-q {
   width: 100%;
-  min-height: 44px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.05);
-  padding: 0 16px;
-  color: #fff;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #f8f3ea;
+  font-family: monospace;
+  font-size: 12px;
   outline: none;
 }
-
-.v-q::placeholder { color: rgba(248,243,234,0.3); }
-.v-q:focus {
-  border-color: rgba(154,194,165,0.34);
-  background: rgba(255,255,255,0.08);
-}
-
-.v-body {
-  max-height: 420px;
-  overflow: auto;
-}
-
-.v-body::-webkit-scrollbar { width: 8px; height: 8px; }
-.v-body::-webkit-scrollbar-thumb {
-  background: rgba(154,194,165,0.26);
-  border-radius: 999px;
-}
-.v-body::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
-
-.vtbl {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.vtbl th {
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  text-align: left;
-  padding: 10px 16px;
-  background: rgba(255,255,255,0.06);
-  color: rgba(154,194,165,0.72);
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-
-.vtbl td {
-  padding: 10px 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  color: rgba(248,243,234,0.78);
-  font-size: 12px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-}
-
-.vtbl tr:hover td {
-  background: rgba(255,255,255,0.04);
-}
-
-.v-status {
-  padding: 40px 20px;
-  text-align: center;
-  color: rgba(248,243,234,0.4);
-}
-
+.v-q:focus { border-color: var(--leaf); }
+.v-body { max-height: 480px; overflow-y: auto; padding: 0 20px 14px 20px; }
+.v-status { color: rgba(248, 243, 234, 0.5); text-align: center; padding: 40px 10px; font-size: 13px; }
 .v-spin {
   display: inline-block;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--leaf);
   border-radius: 50%;
-  border: 2px solid rgba(154,194,165,0.18);
-  border-top-color: rgba(154,194,165,0.66);
-  animation: spin 0.8s linear infinite;
+  animation: spin 0.7s linear infinite;
   margin-bottom: 10px;
 }
-
 @keyframes spin { to { transform: rotate(360deg); } }
-
-.fmt-wrap {
-  margin-top: 46px;
-}
-
-.fmt-title {
-  color: rgba(248,243,234,0.8);
-  font-size: 18px;
-  margin-bottom: 14px;
-}
-
-.fmt {
-  width: 100%;
-  border-collapse: collapse;
-  border-radius: 22px;
-  overflow: hidden;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
-}
-
-.fmt th {
+.vtbl { width: 100%; border-collapse: collapse; font-family: monospace; font-size: 12px; margin-top: 8px; }
+.vtbl th {
   text-align: left;
-  padding: 12px 18px;
-  background: rgba(255,255,255,0.06);
-  color: rgba(248,243,234,0.58);
-  font-size: 11px;
-  font-weight: 700;
+  color: rgba(248, 243, 234, 0.4);
+  font-size: 10px;
+  letter-spacing: 1.4px;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 700;
 }
+.vtbl td { padding: 6px 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.04); color: rgba(248, 243, 234, 0.8); vertical-align: top; }
+.vtbl tr:hover td { background: rgba(255, 255, 255, 0.03); }
 
-.fmt td {
-  padding: 12px 18px;
-  color: rgba(248,243,234,0.72);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  background: rgba(255,255,255,0.03);
-  font-size: 13px;
+.fmt-wrap { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-md); padding: 26px 30px; }
+.fmt-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 17px;
+  color: var(--forest-900);
+  margin-bottom: 16px;
 }
+.fmt { width: 100%; border-collapse: collapse; font-size: 13px; }
+.fmt th { text-align: left; font-weight: 700; color: var(--forest-800); padding: 10px 14px; border-bottom: 2px solid var(--line-strong); }
+.fmt td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.fmt code { background: var(--mist); padding: 2px 6px; border-radius: 4px; font-size: 11px; color: var(--forest-900); }
+.fmt-note { font-size: 12px; color: var(--text-faint); margin-top: 14px; }
 
-.fmt tr:nth-child(even) td {
-  background: rgba(255,255,255,0.04);
-}
-
-.fmt tr:last-child td { border-bottom: none; }
-
-code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  padding: 2px 8px;
-  border-radius: 8px;
-  background: rgba(154,194,165,0.12);
-  color: var(--leaf);
-  font-size: 12px;
-}
-
-.fmt-note {
-  margin-top: 12px;
-  color: rgba(248,243,234,0.34);
-  font-size: 12px;
-  line-height: 1.8;
-}
-
-.steps {
+/* Scan teaser */
+.scan-teaser {
+  background: linear-gradient(135deg, var(--forest-900) 0%, var(--forest-800) 100%);
+  color: #f6f2e8;
+  border-radius: var(--r-lg);
+  padding: 46px 50px;
   display: grid;
-  gap: 14px;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 36px;
+  align-items: center;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
 }
-
-.step {
+.scan-teaser::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 85% 20%, rgba(154, 194, 165, 0.18) 0%, transparent 45%);
+  pointer-events: none;
+}
+.scan-teaser h2 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 32px;
+  font-weight: 500;
+  margin-bottom: 14px;
+  position: relative;
+}
+.scan-teaser p { font-size: 15px; color: rgba(248, 243, 234, 0.8); margin-bottom: 20px; position: relative; }
+.scan-form {
   display: flex;
-  align-items: flex-start;
-  gap: 18px;
-  padding: 24px;
-  border-radius: 24px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.82), rgba(255,255,255,0.64));
-  border: 1px solid rgba(255,255,255,0.76);
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-}
-
-.step:hover {
-  transform: translateX(4px);
-  box-shadow: var(--shadow-md);
-  border-color: rgba(154,194,165,0.54);
-}
-
-.step-n {
-  width: 40px;
-  height: 40px;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(154, 194, 165, 0.25);
   border-radius: 14px;
+  padding: 6px;
+  position: relative;
+}
+.scan-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #f6f2e8;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-family: monospace;
+  outline: none;
+}
+.scan-input::placeholder { color: rgba(248, 243, 234, 0.4); }
+.btn-scan {
+  background: var(--leaf);
+  color: var(--forest-900);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .15s;
+}
+.btn-scan:hover { background: #fff; }
+.scan-badge {
+  display: inline-block;
+  background: rgba(185, 138, 54, 0.2);
+  color: #f0c877;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 14px;
+  position: relative;
+}
+.scan-art {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 auto;
-  background: linear-gradient(180deg, var(--forest-700), var(--forest-800));
-  color: #fff;
-  box-shadow: 0 10px 22px rgba(33, 70, 51, 0.18);
-  font-size: 16px;
+  position: relative;
 }
+.scan-art-inner {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(154, 194, 165, 0.28) 0%, transparent 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.scan-art-inner::before,
+.scan-art-inner::after {
+  content: '';
+  position: absolute;
+  border: 1px solid rgba(154, 194, 165, 0.3);
+  border-radius: 50%;
+}
+.scan-art-inner::before { inset: 10px; animation: pulseRing 2.6s infinite; }
+.scan-art-inner::after { inset: 30px; animation: pulseRing 2.6s 0.6s infinite; }
+@keyframes pulseRing {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  100% { transform: scale(1.2); opacity: 0; }
+}
+.scan-art-icon { font-size: 54px; position: relative; z-index: 2; }
 
-.step h4 {
-  font-size: 18px;
+/* Install steps */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+.step {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 24px 26px;
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  transition: all .2s;
+}
+.step:hover { border-color: var(--forest-600); }
+.step-n {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  background: var(--forest-800);
+  color: #f6f2e8;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 500;
+  font-size: 17px;
+}
+.step-body h4 {
+  color: var(--forest-900);
+  font-size: 16px;
   margin-bottom: 6px;
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 500;
+}
+.step-body p { font-size: 13px; color: var(--text-soft); }
+.step-body code {
+  background: var(--mist);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 11px;
   color: var(--forest-900);
 }
 
-.step p {
-  font-size: 14px;
-  color: var(--text-soft);
-  line-height: 1.84;
-}
-
-.step a {
-  color: var(--forest-700);
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.step a:hover { text-decoration: underline; }
-
 .install-block {
+  background: var(--forest-900);
+  color: #f8f3ea;
+  padding: 22px 24px;
+  border-radius: var(--r-md);
+  font-family: monospace;
+  font-size: 12.5px;
   position: relative;
-  margin-top: 24px;
-  padding: 28px 28px 26px;
-  border-radius: 28px;
-  background:
-    radial-gradient(circle at 100% 0%, rgba(154,194,165,0.08), transparent 24%),
-    linear-gradient(180deg, #173122 0%, #13281c 100%);
-  color: rgba(248,243,234,0.72);
-  border: 1px solid rgba(154,194,165,0.12);
-  box-shadow: 0 22px 56px rgba(17, 32, 23, 0.18);
+  line-height: 1.8;
 }
-
+.il { color: rgba(248, 243, 234, 0.88); }
+.il-cm { color: rgba(154, 194, 165, 0.8); }
+.il-val { color: var(--gold); font-weight: 600; }
 .icopy {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  min-height: 36px;
-  padding: 0 14px;
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 999px;
-  background: rgba(255,255,255,0.08);
-  color: rgba(248,243,234,0.72);
-  font-size: 12px;
-  font-weight: 700;
+  top: 14px;
+  right: 14px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(248, 243, 234, 0.7);
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 11px;
   cursor: pointer;
-  transition: 0.22s ease;
+  font-family: inherit;
+}
+.icopy:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+
+/* Dividers */
+.divider {
+  border: none;
+  height: 1px;
+  background: var(--line);
+  margin: 0;
 }
 
-.icopy:hover {
-  background: rgba(255,255,255,0.12);
-  color: #fff;
-}
-
-.il {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 13px;
-  line-height: 2;
-}
-
-.il-cm { color: #7db18c; }
-.il-val { color: #f1c76d; }
-
-footer {
-  padding: 28px 0 42px;
-}
-
+/* Footer */
+footer { padding: 40px 0 56px 0; position: relative; z-index: 5; }
 .footer-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 20px 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 22px;
-  padding: 18px 22px;
-  border-radius: 24px;
-  background: rgba(22, 39, 28, 0.9);
-  color: rgba(246,242,231,0.55);
-  box-shadow: 0 18px 50px rgba(15,28,20,0.18);
-}
-
-.footer-logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: rgba(246,242,231,0.78);
-}
-
-.footer-links {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  gap: 20px;
   font-size: 13px;
+  color: var(--text-soft);
+}
+.footer-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--forest-900); }
+.footer-links { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+.footer-links a { color: var(--forest-700); text-decoration: none; font-size: 12px; }
+.footer-links a:hover { color: var(--forest-900); text-decoration: underline; }
+
+.inline-code {
+  background: var(--mist);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 13px;
+  color: var(--forest-900);
 }
 
-.footer-links a {
-  text-decoration: none;
-  color: rgba(246,242,231,0.58);
-}
+/* Responsive */
+@media (max-width: 900px) {
+  .hero-card { grid-template-columns: 1fr; padding: 36px 28px; }
+  .hero-art { order: -1; margin-bottom: 10px; }
+  .hero-head-wrap { width: 180px; height: 180px; }
+  .hero-head { width: 140px; height: 140px; }
 
-.footer-links a:hover {
-  color: rgba(246,242,231,0.95);
-}
+  .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 14px 0; }
+  .stats-inner .stat { border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding: 12px; }
+  .stats-inner .stat:nth-child(even) { border-right: none; }
 
-@media (max-width: 980px) {
-  .hero-card {
-    grid-template-columns: 1fr;
-    justify-items: start;
-  }
+  .feat-grid, .feeds-grid, .steps { grid-template-columns: 1fr; }
+  .section { padding: 58px 0; }
+  .scan-teaser { grid-template-columns: 1fr; padding: 32px; }
+  .scan-art { display: none; }
 
-  .hero-art {
-    display: none;
-  }
-
-  .stats-inner,
-  .feat-grid,
-  .feeds-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .stat:nth-child(odd) {
-    border-right: 1px solid var(--line);
-  }
-}
-
-@media (max-width: 760px) {
-  .container {
-    width: min(var(--max), calc(100% - 24px));
-  }
-
-  .header-wrap {
-    padding-top: 10px;
-  }
-
-  .header {
-    border-radius: 18px;
-    padding: 14px;
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .nav {
-    width: 100%;
-  }
-
-  .hero {
-    padding-top: 22px;
-  }
-
-  .hero-card {
-    padding: 24px;
-    border-radius: 28px;
-  }
-
-  .art-panel {
-    min-height: 320px;
-  }
-
-  .stats-inner,
-  .feat-grid,
-  .feeds-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .stats-inner .stat {
-    border-right: none;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .stats-inner .stat:last-child {
-    border-bottom: none;
-  }
-
-  .section {
-    padding: 68px 0;
-  }
-
-  .step {
-    padding: 20px;
-  }
-
-  .footer-card {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .footer-links {
-    justify-content: center;
-  }
+  .footer-card { flex-direction: column; text-align: center; }
+  .footer-links { justify-content: center; }
 }
 </style>
 </head>
@@ -1125,10 +812,15 @@ footer {
       </a>
 
       <nav class="nav">
+        <a href="#engines">Engines</a>
+        <a href="#detections">Detections</a>
         <a href="#feeds">Feeds</a>
-        <a href="#about">About</a>
+        <a href="/scan/">Scan</a>
+        <a href="/reports/">Reports</a>
         <a href="#install">Install</a>
-        <a href="https://github.com/Nehboro/nehboro.github.io" target="_blank" rel="noreferrer" class="nav-cta">GitHub ↗</a>
+        <a href="https://github.com/Nehboro/nehboro" target="_blank" rel="noreferrer" class="gh-icon" aria-label="Nehboro extension on GitHub" title="Extension repo">
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
       </nav>
     </header>
   </div>
@@ -1144,25 +836,26 @@ footer {
             </div>
 
             <h1>
-              A softer, smarter shield<br>
-              against <span class="accent">phishing &amp; malware</span>
+              The browser shield<br>
+              <span class="accent">your grandma deserves</span>
             </h1>
 
             <p class="hero-lead">
-              Nehboro is a community-powered browser extension that blocks phishing pages,
-              ClickFix attacks, and malware delivery through live shared threat feeds and on-page heuristics.
-              No backend. No account. Just fast protection with transparent intelligence.
+              Nehboro is a community-powered browser extension with <strong>94+ dynamic heuristic detections</strong>,
+              static IOC feeds, and <strong>optional Claude AI analysis</strong>. It catches ClickFix, phishing, tech support scams,
+              and malware delivery patterns - so you don't have to explain what a "PowerShell window" is at family dinner.
             </p>
 
             <div class="hero-actions">
-              <a href="https://github.com/Nehboro/nehboro.github.io/releases" class="btn-primary">⬇ Download Extension</a>
-              <a href="#feeds" class="btn-secondary">Browse Feeds</a>
+              <a href="#install" class="btn-primary">⬇ Install Extension</a>
+              <a href="/scan/" class="btn-secondary">Try URL Scanner →</a>
             </div>
 
             <div class="hero-meta">
-              <span class="meta-pill">🛡️ Local-first blocking</span>
-              <span class="meta-pill">🌿 Community-maintained feeds</span>
-              <span class="meta-pill">🔎 45+ detection patterns</span>
+              <span class="meta-pill">🔬 94+ heuristic detections</span>
+              <span class="meta-pill">🤖 Optional Claude AI</span>
+              <span class="meta-pill">🔇 Silent mode for non-technical users</span>
+              <span class="meta-pill">🌍 6 languages</span>
             </div>
           </div>
 
@@ -1175,55 +868,129 @@ footer {
       </div>
     </section>
 
-    <section class="stats-wrap">
-      <div class="container">
-        <div class="stats-strip">
-          <div class="stats-inner">
-            <div class="stat"><div class="stat-val" id="s-total">—</div><div class="stat-lbl">Total IOCs</div></div>
-            <div class="stat"><div class="stat-val" id="s-dom">—</div><div class="stat-lbl">Domains</div></div>
-            <div class="stat"><div class="stat-val" id="s-url">—</div><div class="stat-lbl">URLs</div></div>
-            <div class="stat"><div class="stat-val" id="s-ip">—</div><div class="stat-lbl">IPs / CIDRs</div></div>
-            <div class="stat"><div class="stat-val" id="s-port">—</div><div class="stat-lbl">Ports</div></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="about">
+    <section class="section" id="engines">
       <div class="container">
         <div class="section-head">
-          <div class="section-label">What is Nehboro</div>
-          <h2 class="section-title">A cleaner, calmer interface for serious threat intelligence</h2>
+          <div class="section-label">Three engines working together</div>
+          <h2 class="section-title">Layered protection, transparently</h2>
           <p class="section-lead">
-            Nehboro blends feed-based blocking with deep heuristic page analysis across ClickFix,
-            phishing, and malware-delivery techniques. Everything stays transparent, local, and easy to inspect.
+            The dynamic heuristic engine is the heart of Nehboro. Static feeds add speed for known-bad
+            infrastructure, and Claude AI provides a final layer of judgement for ambiguous cases.
           </p>
         </div>
 
         <div class="feat-grid">
           <article class="feat-card">
-            <div class="feat-icon">🛡️</div>
-            <h3 class="feat-title">Feed-based blocking</h3>
-            <p class="feat-desc">Domains, URLs, IPs, CIDRs, wildcards, and suspicious ports are auto-refreshed every six hours directly from GitHub Pages.</p>
+            <div class="feat-icon">🔬</div>
+            <h3 class="feat-title">Dynamic Heuristic</h3>
+            <p class="feat-desc">
+              94+ detections scan every page after load: ClickFix sequences, fake CAPTCHAs, clipboard hijacks, PowerShell delivery, visual brand impersonation, multilingual scam patterns, credit card skimmers, and more. Catches brand-new threats not in any feed yet.
+            </p>
+            <span class="feat-tag primary">Main engine</span>
           </article>
 
           <article class="feat-card">
-            <div class="feat-icon">🔍</div>
-            <h3 class="feat-title">Heuristic detection</h3>
-            <p class="feat-desc">Catches ClickFix chains, fake Cloudflare flows, clipboard hijacks, PowerShell delivery, macOS shell abuse, and more — including brand new domains.</p>
+            <div class="feat-icon">⚡</div>
+            <h3 class="feat-title">Static IOC Feeds</h3>
+            <p class="feat-desc">
+              Focused on known scam and phishing domains, URLs, IPs, and ports - blocked <em>before</em> page load via declarativeNetRequest rules. Chrome caps the number of static rules per extension, so this engine is a supplementary layer.
+            </p>
+            <span class="feat-tag secondary">Supplementary</span>
           </article>
 
           <article class="feat-card">
-            <div class="feat-icon">🚩</div>
-            <h3 class="feat-title">Community reporting</h3>
-            <p class="feat-desc">One click sends structured evidence through ntfy.sh. Score, detections, and context are bundled so confirmed IOCs can quickly land in public feeds.</p>
+            <div class="feat-icon">🤖</div>
+            <h3 class="feat-title">Claude AI Analysis</h3>
+            <p class="feat-desc">
+              Bring your own Anthropic API key to enable a third engine. On manual scan, page metadata (URL, title, forms, scripts) is sent to Claude for deep threat assessment. Choose from Sonnet, Haiku, or Opus.
+            </p>
+            <span class="feat-tag optional">Optional</span>
           </article>
+        </div>
+      </div>
+    </section>
 
-          <article class="feat-card">
-            <div class="feat-icon">🌙</div>
-            <h3 class="feat-title">Transparent by design</h3>
-            <p class="feat-desc">Every IOC is visible, custom feeds are supported, trusted domains can be exempted, and every block can be bypassed deliberately.</p>
-          </article>
+    <hr class="divider" />
+
+    <section class="section" id="detections">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-label">What Nehboro catches</div>
+          <h2 class="section-title">94 detections across 7 categories</h2>
+          <p class="section-lead">
+            Every detection is open source, individually scored, and can be tuned or disabled from the extension popup.
+            Scores combine into a page verdict (warn at 45, block at 79).
+          </p>
+        </div>
+
+        <div class="det-intro">
+          <strong>How scoring works.</strong> Each detection contributes points when it fires. A page accumulates score across detections and combo bonuses. Above 45 shows a warning banner; above 79 blocks the page entirely. Above 110 triggers an automatic community report.
+        </div>
+
+        <div class="det-cats">
+          <div class="det-cat">
+            <div class="det-cat-head"><span class="det-cat-icon">🎯</span><span class="det-cat-count">17</span></div>
+            <div class="det-cat-name">ClickFix family</div>
+            <div class="det-cat-examples">
+              Full Win+R → Ctrl+V → Enter sequences, Win+X terminal variants, macOS Spotlight+Terminal, multilingual pretexts (driver updates, missing fonts, BSOD recovery, mic access, shared files), FileFix via File Explorer address bar, fake Cloudflare/CAPTCHA verification IDs.
+            </div>
+          </div>
+
+          <div class="det-cat">
+            <div class="det-cat-head"><span class="det-cat-icon">🎣</span><span class="det-cat-count">20</span></div>
+            <div class="det-cat-name">Phishing &amp; credential theft</div>
+            <div class="det-cat-examples">
+              Brand impersonation, lookalike domains, typosquats, punycode/IDN homograph attacks, browser-in-the-browser (BitB) fake URL bars, form exfiltration, formjacking, visual phishing, insecure HTTP login forms, DocuSign-style device code phishing.
+            </div>
+          </div>
+
+          <div class="det-cat">
+            <div class="det-cat-head"><span class="det-cat-icon">🆘</span><span class="det-cat-count">13</span></div>
+            <div class="det-cat-name">Tech support scams</div>
+            <div class="det-cat-examples">
+              Fake Windows Defender alerts, fake error codes with support phone numbers, fake OS UI overlays, browser lock attempts, print/fullscreen/notification loops, data theft scare tactics, IP geolocation intimidation, antivirus dismissal pretexts.
+            </div>
+          </div>
+
+          <div class="det-cat">
+            <div class="det-cat-head"><span class="det-cat-icon">🦠</span><span class="det-cat-count">25</span></div>
+            <div class="det-cat-name">Malware patterns</div>
+            <div class="det-cat-examples">
+              Verified base64 payloads (actual atob decode + signal analysis), obfuscation, dynamic eval, keylogger patterns, credit card skimmers (enhanced payment field detection), crypto wallet address swaps, formjacking, LOLBin commands, PowerShell delivery, suspicious TLDs.
+            </div>
+          </div>
+
+          <div class="det-cat">
+            <div class="det-cat-head"><span class="det-cat-icon">🧠</span><span class="det-cat-count">27</span></div>
+            <div class="det-cat-name">Social engineering</div>
+            <div class="det-cat-examples">
+              Urgency &amp; countdown timers, fake social proof, fake browser updates, fake software downloads, fake meeting prompts, notification permission spam, dialog spam, history API loops preventing back navigation, history/URL creation loops.
+            </div>
+          </div>
+
+          <div class="det-cat">
+            <div class="det-cat-head"><span class="det-cat-icon">👁️</span><span class="det-cat-count">4</span></div>
+            <div class="det-cat-name">Visual analysis</div>
+            <div class="det-cat-examples">
+              Brand color matching against known brands (Microsoft, Google, Apple, banks), favicon fingerprinting for typosquat detection, logo detection on non-official domains, login form layout analysis.
+            </div>
+          </div>
+
+          <div class="det-cat">
+            <div class="det-cat-head"><span class="det-cat-icon">🌍</span><span class="det-cat-count">5</span></div>
+            <div class="det-cat-name">Multilingual coverage</div>
+            <div class="det-cat-examples">
+              Scam text patterns in English, French, Spanish, Portuguese, German, and Italian. Catches regional ClickFix campaigns ("Copiar solución", "Para provar que não é um robô", "Fenêtre du terminal", etc.) that English-only tools miss.
+            </div>
+          </div>
+
+          <div class="det-cat">
+            <div class="det-cat-head"><span class="det-cat-icon">🔗</span><span class="det-cat-count">8</span></div>
+            <div class="det-cat-name">Combo bonuses</div>
+            <div class="det-cat-examples">
+              Extra score for threat combinations: clipboard hijack + instructions, fake CAPTCHA + execution steps, full scam kit signals, visual impersonation + login form, crypto phishing on lookalike domains, PowerShell + clipboard, LOLBin + instructions.
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1234,10 +1001,18 @@ footer {
       <div class="container">
         <div class="section-head">
           <div class="section-label">Live threat feeds</div>
-          <h2 class="section-title">Browse and download</h2>
+          <h2 class="section-title">Community IOCs, openly browsable</h2>
           <p class="section-lead">
-            Plain CSV files served from <span class="inline-code">nehboro.github.io/feeds/</span> with support for wildcards, CIDR ranges, and port ranges.
+            Plain CSV files served from <span class="inline-code">nehboro.github.io/feeds/</span>
+            with support for wildcards, CIDR ranges, and port ranges.
           </p>
+        </div>
+
+        <div class="feeds-note">
+          <strong>Supplementary engine.</strong> These feeds are focused on confirmed scam and phishing infrastructure.
+          Chrome limits the number of static blocking rules per extension, so the feeds are intentionally curated rather than exhaustive.
+          The <strong>dynamic heuristic engine</strong> inside Nehboro handles everything else - catching threats the moment they appear,
+          before they ever make it into any feed.
         </div>
 
         <div class="feeds-grid">
@@ -1246,9 +1021,9 @@ footer {
               <div class="fc-icon">🌐</div>
               <div class="fc-meta">
                 <div class="fc-name">domains.csv</div>
-                <div class="fc-note">Malicious domains and subdomain wildcards</div>
+                <div class="fc-note">Scam &amp; phishing domains</div>
               </div>
-              <div class="fc-badge ld" id="cnt-domains">…</div>
+              <div class="fc-badge ld" id="cnt-domains">...</div>
             </div>
             <div class="fc-btns">
               <a class="btn-dl" href="/feeds/domains.csv" download>⬇ Download</a>
@@ -1261,9 +1036,9 @@ footer {
               <div class="fc-icon">🔗</div>
               <div class="fc-meta">
                 <div class="fc-name">urls.csv</div>
-                <div class="fc-note">Phishing and malware URLs</div>
+                <div class="fc-note">Malicious URL patterns</div>
               </div>
-              <div class="fc-badge ld" id="cnt-urls">…</div>
+              <div class="fc-badge ld" id="cnt-urls">...</div>
             </div>
             <div class="fc-btns">
               <a class="btn-dl" href="/feeds/urls.csv" download>⬇ Download</a>
@@ -1276,9 +1051,9 @@ footer {
               <div class="fc-icon">🖥️</div>
               <div class="fc-meta">
                 <div class="fc-name">ips.csv</div>
-                <div class="fc-note">IPs, CIDR ranges, and wildcard IPs</div>
+                <div class="fc-note">IPs, CIDR, wildcards</div>
               </div>
-              <div class="fc-badge ld" id="cnt-ips">…</div>
+              <div class="fc-badge ld" id="cnt-ips">...</div>
             </div>
             <div class="fc-btns">
               <a class="btn-dl" href="/feeds/ips.csv" download>⬇ Download</a>
@@ -1291,9 +1066,9 @@ footer {
               <div class="fc-icon">🔌</div>
               <div class="fc-meta">
                 <div class="fc-name">ports.csv</div>
-                <div class="fc-note">Suspicious ports and port ranges</div>
+                <div class="fc-note">Suspicious ports &amp; ranges</div>
               </div>
-              <div class="fc-badge ld" id="cnt-ports">…</div>
+              <div class="fc-badge ld" id="cnt-ports">...</div>
             </div>
             <div class="fc-btns">
               <a class="btn-dl" href="/feeds/ports.csv" download>⬇ Download</a>
@@ -1304,14 +1079,14 @@ footer {
 
         <div class="viewer" id="viewer">
           <div class="v-head">
-            <div class="v-label" id="v-label">—</div>
+            <div class="v-label" id="v-label">-</div>
             <button class="v-x" onclick="closeV()">✕</button>
           </div>
           <div class="v-search-wrap">
-            <input class="v-q" id="v-q" type="text" placeholder="Filter entries…" oninput="filterV()" />
+            <input class="v-q" id="v-q" type="text" placeholder="Filter entries..." oninput="filterV()" />
           </div>
           <div class="v-body" id="v-body">
-            <div class="v-status"><div class="v-spin"></div><br>Loading…</div>
+            <div class="v-status"><div class="v-spin"></div><br>Loading...</div>
           </div>
         </div>
 
@@ -1329,11 +1104,44 @@ footer {
             </tbody>
           </table>
           <p class="fmt-note">
-            All files support plain text, CSV, JSON arrays, and hosts-file format. Lines starting with <code>#</code> are treated as comments.
+            All files support plain text, CSV, JSON arrays, and hosts-file format. Lines starting with <code>#</code> are comments.
+            Feeds refresh every six hours in the extension.
           </p>
         </div>
       </div>
     </section>
+
+    <hr class="divider" />
+
+    <section class="section" id="scan">
+      <div class="container">
+        <div class="scan-teaser">
+          <div>
+            <span class="scan-badge">🔬 Live now</span>
+            <h2>URL Scanner</h2>
+            <p>
+              Paste any suspicious URL and Nehboro will analyze it with the same 94+ detections the extension uses on your browsing.
+              Runs entirely in your browser, no signup needed - powered by the extension's detection engine loaded live from
+              <code style="color: #f0c877;">cdn.jsdelivr.net</code>.
+            </p>
+            <form class="scan-form" onsubmit="gotoScan(event)">
+              <input class="scan-input" type="url" id="scan-url" placeholder="https://example-suspicious-site.com" />
+              <button class="btn-scan" type="submit">Analyze →</button>
+            </form>
+            <p id="scan-preview" style="margin-top: 16px; margin-bottom: 0; font-size: 12px; color: rgba(248, 243, 234, 0.6); min-height: 18px;">
+              Opens the full scanner at <code style="color: #f0c877;">/scan/</code> with your URL pre-filled.
+            </p>
+          </div>
+          <div class="scan-art" aria-hidden="true">
+            <div class="scan-art-inner">
+              <span class="scan-art-icon">🔍</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
 
     <section class="section" id="install">
       <div class="container">
@@ -1350,45 +1158,64 @@ footer {
             <div class="step-n">1</div>
             <div class="step-body">
               <h4>Install the extension</h4>
-              <p>Download it from <a href="https://github.com/Nehboro/nehboro.github.io/releases">GitHub Releases</a>. Set your secret topic in <code>background.js</code>, then load it from <code>chrome://extensions</code> with <code>Load unpacked</code>.</p>
+              <p>Coming soon on the Chrome Web Store. For now, download from <a href="https://github.com/Nehboro/nehboro.github.io/releases">GitHub Releases</a> and load unpacked from <code>chrome://extensions</code>.</p>
             </div>
           </div>
 
           <div class="step">
             <div class="step-n">2</div>
             <div class="step-body">
-              <h4>Feeds load automatically</h4>
-              <p>All four feeds are fetched from <code>nehboro.github.io/feeds/</code> and converted into browser blocking rules on install, then refreshed every six hours.</p>
+              <h4>Feeds auto-refresh</h4>
+              <p>The four IOC feeds fetch from <code>nehboro.github.io/feeds/</code> on install and every six hours. Blocking rules update automatically.</p>
             </div>
           </div>
 
           <div class="step">
             <div class="step-n">3</div>
             <div class="step-body">
-              <h4>Every page is analyzed</h4>
-              <p>Content scripts score each page across ClickFix, phishing, and malware-delivery patterns. Scores over your thresholds trigger warnings or blocking with a deliberate bypass option.</p>
+              <h4>Every page gets scored</h4>
+              <p>Content scripts run 94+ detections on every page load. Scores above 45 warn, above 79 block, above 110 auto-report. All thresholds are configurable.</p>
             </div>
           </div>
 
           <div class="step">
             <div class="step-n">4</div>
             <div class="step-body">
-              <h4>Report threats back to the community</h4>
-              <p>Use the report action to send score, detections, and evidence to your private <code>ntfy.sh</code> topic. Confirmed IOCs can then be added to the shared feeds.</p>
+              <h4>(Optional) Add Claude AI</h4>
+              <p>Paste your Anthropic API key in the Config tab to enable deep AI analysis. Pick Sonnet, Haiku, or Opus. No data leaves your browser unless you trigger it.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-n">5</div>
+            <div class="step-body">
+              <h4>🔇 Enable Silent Mode (grandma-proof)</h4>
+              <p>For non-technical users: toggle silent mode and Nehboro protects invisibly. No banners, no popups, no blocked pages - just a silently-closed tab replaced with a blank one when a threat is caught.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-n">6</div>
+            <div class="step-body">
+              <h4>Report threats back</h4>
+              <p>Use the Report button on the warning banner or blocked page. Evidence is sent to the <a href="/reports/">Nehboro community reports page</a> where everyone can browse what's been seen in the wild.</p>
             </div>
           </div>
         </div>
 
         <div class="install-block">
           <button class="icopy" onclick="copyIB()">Copy</button>
-          <div class="il"><span class="il-cm"># 1. Set your secret ntfy topic in background.js</span></div>
-          <div class="il"><span class="il-val">const NTFY_TOPIC = 'nehboro-reports-YOUR_SECRET';</span></div>
+          <div class="il"><span class="il-cm"># 1. Load unpacked from chrome://extensions</span></div>
+          <div class="il">chrome://extensions → Developer mode → Load unpacked → <span class="il-val">nehboro/</span></div>
           <div class="il">&nbsp;</div>
-          <div class="il"><span class="il-cm"># 2. Load unpacked in Chrome</span></div>
-          <div class="il">chrome://extensions → Developer mode → Load unpacked → <span class="il-val">nehboro_v2/</span></div>
+          <div class="il"><span class="il-cm"># 2. (Optional) Add your Claude API key</span></div>
+          <div class="il">Nehboro popup → Config tab → Paste <span class="il-val">sk-ant-...</span></div>
           <div class="il">&nbsp;</div>
-          <div class="il"><span class="il-cm"># 3. Read your private threat reports</span></div>
-          <div class="il">https://ntfy.sh/<span class="il-val">nehboro-reports-YOUR_SECRET</span></div>
+          <div class="il"><span class="il-cm"># 3. Reports are sent to nehboro.github.io/reports/</span></div>
+          <div class="il">Default topic: <span class="il-val">ntfy.sh/nehboro-reports</span></div>
+          <div class="il">&nbsp;</div>
+          <div class="il"><span class="il-cm"># 4. (Optional) Enable Silent Mode for non-technical users</span></div>
+          <div class="il">Config tab → <span class="il-val">Enable Silent Mode ☑</span></div>
         </div>
       </div>
     </section>
@@ -1398,7 +1225,7 @@ footer {
     <div class="container">
       <div class="footer-card">
         <div class="footer-logo">
-          <img class="logo-mark" src="./nehboro_logo_256.png" alt="Nehboro logo" style="width:22px;height:22px;border-radius:8px;object-fit:contain;display:block" />
+          <img src="./nehboro_logo_256.png" alt="Nehboro" style="width:22px;height:22px;border-radius:8px;object-fit:contain;display:block" />
           <span>Nehboro</span>
         </div>
 
@@ -1407,7 +1234,9 @@ footer {
           <a href="https://github.com/Nehboro/nehboro.github.io/issues">Report an Issue</a>
           <a href="/feeds/domains.csv">domains.csv</a>
           <a href="/feeds/ips.csv">ips.csv</a>
-          <span id="footer-cnt"></span>
+          <a href="/feeds/urls.csv">urls.csv</a>
+          <a href="/feeds/ports.csv">ports.csv</a>
+          <span id="footer-cnt" style="color: var(--text-faint);"></span>
         </div>
       </div>
     </div>
@@ -1479,12 +1308,8 @@ async function loadCount(type) {
   const counts = await Promise.all(types.map(loadCount));
   const total = counts.reduce((a, b) => a + b, 0);
 
-  document.getElementById('s-total').textContent = total.toLocaleString();
-  document.getElementById('s-dom').textContent = counts[0].toLocaleString();
-  document.getElementById('s-url').textContent = counts[1].toLocaleString();
-  document.getElementById('s-ip').textContent = counts[2].toLocaleString();
-  document.getElementById('s-port').textContent = counts[3].toLocaleString();
-  document.getElementById('footer-cnt').textContent = total.toLocaleString() + ' IOCs';
+  const footerCnt = document.getElementById('footer-cnt');
+  if (footerCnt) footerCnt.textContent = total.toLocaleString() + ' IOCs loaded';
 })();
 
 function renderRows(rows, type) {
@@ -1532,7 +1357,7 @@ async function browse(type) {
   viewer.classList.add('open');
   document.getElementById('v-q').value = '';
   document.getElementById('v-label').textContent = feed.label;
-  document.getElementById('v-body').innerHTML = '<div class="v-status"><div class="v-spin"></div><br>Loading ' + feed.label + '…</div>';
+  document.getElementById('v-body').innerHTML = '<div class="v-status"><div class="v-spin"></div><br>Loading ' + feed.label + '...</div>';
 
   document.querySelectorAll('.fc').forEach(c => c.classList.remove('active'));
   document.getElementById('fc-' + type)?.classList.add('active');
@@ -1573,6 +1398,14 @@ function copyIB() {
     btn.textContent = '✓ Copied';
     setTimeout(() => btn.textContent = 'Copy', 1800);
   });
+}
+
+function gotoScan(e) {
+  e.preventDefault();
+  const url = document.getElementById('scan-url').value.trim();
+  if (!url) { window.location.href = '/scan/'; return; }
+  window.location.href = '/scan/?u=' + encodeURIComponent(url);
+  return false;
 }
 
 document.querySelectorAll('a[href^="#"]').forEach(a => {

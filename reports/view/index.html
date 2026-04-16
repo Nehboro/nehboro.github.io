@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Report Detail - Nehboro</title>
+<link rel="icon" type="image/png" href="/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --forest-900: #173122; --forest-800: #214633; --forest-700: #2f5c42;
+  --forest-600: #4e785f; --leaf: #9ac2a5; --mist: #dfe9df;
+  --paper: rgba(255, 252, 245, 0.78); --paper-strong: rgba(255, 252, 245, 0.92);
+  --gold: #b98a36; --red: #c44d3a; --amber: #d98e37;
+  --line: rgba(28, 54, 39, 0.12); --line-strong: rgba(28, 54, 39, 0.2);
+  --text: #1d2a21; --text-soft: #536257; --text-faint: #7a897f;
+  --shadow-md: 0 18px 60px rgba(23, 49, 34, 0.1);
+  --r-md: 20px; --r-lg: 28px;
+  --max: 1180px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Zen Kaku Gothic New', sans-serif; color: var(--text);
+  background: linear-gradient(180deg, #eef4ea 0%, #f6f2e8 30%, #f8f4ec 100%);
+  line-height: 1.7; min-height: 100vh;
+}
+.container { max-width: 920px; margin: 0 auto; padding: 0 32px; }
+.header-wrap { padding-top: 30px; margin-bottom: 20px; }
+.header {
+  max-width: var(--max); margin: 0 auto; padding: 14px 24px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  background: rgba(255, 253, 247, 0.78); backdrop-filter: blur(18px);
+  border: 1px solid var(--line); border-radius: 18px;
+}
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--forest-800); }
+.logo-mark { width: 32px; height: 32px; border-radius: 8px; object-fit: contain; }
+.logo-text { font-weight: 700; color: var(--forest-900); font-size: 16px; }
+.nav-back { color: var(--forest-700); text-decoration: none; font-size: 13px; padding: 6px 14px; border-radius: 10px; }
+.nav-back:hover { background: rgba(154,194,165,0.2); }
+
+.page { padding: 20px 0 80px 0; }
+
+.verdict-banner {
+  padding: 36px 40px; border-radius: var(--r-lg); margin-bottom: 22px;
+  color: #fff; box-shadow: var(--shadow-md);
+  display: flex; align-items: center; gap: 30px; justify-content: space-between;
+}
+.verdict-banner.block { background: linear-gradient(135deg, #a8412f, #c44d3a); }
+.verdict-banner.warn { background: linear-gradient(135deg, #b98a36, #d98e37); }
+.verdict-banner.safe { background: linear-gradient(135deg, #4e785f, #70977d); }
+.v-name { font-family: 'Noto Serif JP', serif; font-size: 32px; font-weight: 500; line-height: 1.1; }
+.v-host { font-family: monospace; opacity: 0.9; margin-top: 8px; word-break: break-all; }
+.v-score { font-family: 'Noto Serif JP', serif; text-align: center; padding: 0 10px; }
+.v-score .num { font-size: 54px; font-weight: 500; line-height: 1; }
+.v-score .lbl { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; margin-top: 6px; }
+
+.panel {
+  background: var(--paper); border: 1px solid var(--line);
+  border-radius: var(--r-md); padding: 24px 28px; margin-bottom: 20px;
+}
+.panel h2 {
+  font-family: 'Noto Serif JP', serif; font-size: 20px; color: var(--forest-900);
+  margin-bottom: 14px; font-weight: 500;
+}
+.kv-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; gap: 20px; }
+.kv-row:last-child { border-bottom: none; }
+.kv-key { color: var(--text-soft); flex-shrink: 0; }
+.kv-val { color: var(--forest-900); font-family: monospace; font-size: 12px; text-align: right; word-break: break-all; max-width: 70%; }
+
+.body-md {
+  background: #fbf8f1; border: 1px solid var(--line);
+  border-radius: 12px; padding: 18px 22px;
+  font-size: 13px; color: var(--text-soft);
+  white-space: pre-wrap; word-break: break-word;
+  font-family: monospace; line-height: 1.6;
+  max-height: 600px; overflow-y: auto;
+}
+
+.raw-toggle summary {
+  cursor: pointer; padding: 10px 0; font-weight: 600; color: var(--forest-700);
+  font-size: 13px; list-style: none;
+}
+.raw-toggle summary::before { content: '▸ '; color: var(--text-faint); }
+.raw-toggle[open] summary::before { content: '▾ '; }
+
+.detection-item {
+  background: #fbf8f1; border: 1px solid var(--line);
+  border-left: 3px solid var(--red);
+  border-radius: 8px; padding: 14px 16px; margin-bottom: 10px;
+}
+.det-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 4px; }
+.det-title { font-weight: 700; color: var(--forest-900); font-family: monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.det-score { background: var(--red); color: #fff; font-weight: 700; font-size: 11px; padding: 3px 10px; border-radius: 999px; font-family: monospace; }
+.det-desc { color: var(--text); font-size: 13px; margin-top: 4px; }
+.det-evidence {
+  background: var(--mist); border-radius: 6px; padding: 6px 10px;
+  font-family: monospace; font-size: 11px; color: var(--forest-800); margin-top: 8px;
+  word-break: break-all;
+}
+
+.match-panel {
+  margin-top: 10px; background: rgba(78, 120, 95, 0.06);
+  border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px;
+}
+.match-title {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 700; color: var(--forest-800);
+  margin-bottom: 8px;
+}
+.match-count {
+  background: var(--forest-700); color: #fff;
+  font-size: 10px; padding: 2px 8px; border-radius: 999px; font-weight: 700;
+}
+.match-items { display: flex; flex-direction: column; gap: 4px; max-height: 400px; overflow-y: auto; }
+.match-item {
+  background: #fff; border: 1px solid var(--line); border-radius: 5px;
+  padding: 6px 10px; font-family: monospace; font-size: 11px; color: var(--text);
+  word-break: break-all; line-height: 1.5;
+}
+
+.urls-toolbar { display: flex; gap: 8px; margin-bottom: 10px; }
+.urls-filter {
+  flex: 1; background: #fff; border: 1px solid var(--line-strong);
+  border-radius: 8px; padding: 8px 12px; font-family: monospace; font-size: 12px;
+  color: var(--text); outline: none;
+}
+.urls-filter:focus { border-color: var(--forest-600); }
+.urls-list { display: flex; flex-direction: column; gap: 3px; max-height: 500px; overflow-y: auto; }
+.url-item {
+  background: #fff; border: 1px solid var(--line); border-radius: 5px;
+  padding: 6px 10px; font-family: monospace; font-size: 11px; color: var(--text);
+  word-break: break-all;
+}
+
+.actions-row { display: flex; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+.btn {
+  padding: 10px 20px; background: var(--paper-strong); color: var(--forest-800);
+  border: 1px solid var(--line-strong); border-radius: 12px;
+  font-size: 13px; cursor: pointer; font-family: inherit; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.btn:hover { background: #fff; border-color: var(--forest-600); }
+.btn-primary { background: var(--forest-800); color: #f6f2e8; border-color: var(--forest-800); }
+.btn-primary:hover { background: var(--forest-900); border-color: var(--forest-900); }
+.btn-danger { background: var(--red); color: #fff; border-color: var(--red); }
+.btn-danger:hover { background: #a8412f; border-color: #a8412f; }
+
+.empty {
+  text-align: center; padding: 60px 20px;
+  background: var(--paper); border: 1px dashed var(--line-strong);
+  border-radius: var(--r-md); color: var(--text-faint);
+}
+.empty h2 { color: var(--forest-800); font-family: 'Noto Serif JP', serif; font-weight: 500; margin-bottom: 10px; }
+
+.spin { display: inline-block; width: 24px; height: 24px; border: 2px solid rgba(0,0,0,0.1); border-top-color: var(--forest-700); border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="header-wrap">
+  <div class="container">
+    <header class="header">
+      <a href="/" class="logo">
+        <img class="logo-mark" src="/nehboro_logo_256.png" alt="Nehboro" />
+        <span class="logo-text">Nehboro</span>
+      </a>
+      <a href="/reports/" class="nav-back">← All reports</a>
+    </header>
+  </div>
+</div>
+
+<main class="page">
+  <div class="container">
+    <div id="content">
+      <div class="empty"><div class="spin"></div><h2 style="margin-top:14px;">Loading report...</h2></div>
+    </div>
+  </div>
+</main>
+
+<script>
+const REPORTS_URL = '/reports/reports.json';
+
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+
+function verdict(score) {
+  if (score == null) return 'safe';
+  if (score >= 79) return 'block';
+  if (score >= 45) return 'warn';
+  return 'safe';
+}
+
+function fmtDate(ts) {
+  if (!ts) return '-';
+  return new Date(ts * 1000).toLocaleString();
+}
+
+function render(report) {
+  if (!report) {
+    document.getElementById('content').innerHTML = `
+      <div class="empty">
+        <h2>Report not found</h2>
+        <p>This report ID doesn't exist or hasn't been indexed yet.</p>
+        <p style="margin-top:14px;"><a class="btn" href="/reports/">← Back to all reports</a></p>
+      </div>`;
+    return;
+  }
+
+  const v = verdict(report.score);
+  const vname = { block: 'Block', warn: 'Warning', safe: 'Below threshold' }[v];
+
+  const tagsHtml = (report.tags || []).map(t =>
+    `<span style="background:var(--mist);color:var(--forest-800);padding:2px 8px;border-radius:999px;font-size:10px;font-weight:600;">${escapeHtml(t)}</span>`
+  ).join(' ');
+
+  // ── Parse the markdown body to extract detections, matched keywords, and URLs ──
+  const body = report.body || '';
+  const detections = parseDetections(body);
+  const extractedUrls = parseExtractedUrls(body);
+
+  const detectionsHtml = detections.length > 0 ? `
+    <div class="panel">
+      <h2>Detections (${detections.length})</h2>
+      ${detections.map(d => `
+        <div class="detection-item">
+          <div class="det-header">
+            <div class="det-title">${escapeHtml(d.name)}</div>
+            <div class="det-score">+${d.score}pts</div>
+          </div>
+          ${d.description ? `<div class="det-desc">${escapeHtml(d.description)}</div>` : ''}
+          ${d.evidence ? `<div class="det-evidence">${escapeHtml(d.evidence)}</div>` : ''}
+          ${d.matches.length > 0 ? `
+            <div class="match-panel">
+              <div class="match-title">🔍 Suspicious Keywords <span class="match-count">${d.matches.length}</span></div>
+              <div class="match-items">
+                ${d.matches.map(m => `<div class="match-item">${escapeHtml(m)}</div>`).join('')}
+              </div>
+            </div>` : ''}
+        </div>
+      `).join('')}
+    </div>
+  ` : '';
+
+  const urlsHtml = extractedUrls.length > 0 ? `
+    <div class="panel">
+      <h2>Extracted URLs (${extractedUrls.length})</h2>
+      <div class="urls-toolbar">
+        <input class="urls-filter" id="urls-filter" type="text" placeholder="Filter URLs..." />
+        <button class="btn" id="urls-copy">Copy all</button>
+      </div>
+      <div class="urls-list" id="urls-list">
+        ${extractedUrls.map(u => `<div class="url-item">${escapeHtml(u)}</div>`).join('')}
+      </div>
+    </div>
+  ` : '';
+
+  document.getElementById('content').innerHTML = `
+    <div class="actions-row">
+      <a class="btn" href="/reports/">← All reports</a>
+      ${report.url ? `<a class="btn" target="_blank" rel="noreferrer noopener" href="/scan/?u=${encodeURIComponent(report.url)}">↻ Re-scan with Nehboro</a>` : ''}
+      <button class="btn" id="btn-share">🔗 Copy permalink</button>
+      <button class="btn" id="btn-json">⬇ Download JSON</button>
+      <button class="btn btn-danger" id="btn-takedown">🚩 Request takedown / appeal</button>
+    </div>
+
+    <div class="verdict-banner ${v}">
+      <div>
+        <div style="font-size:11px;letter-spacing:2.4px;text-transform:uppercase;font-weight:700;opacity:0.85;">VERDICT</div>
+        <div class="v-name">${vname}</div>
+        ${report.host ? `<div class="v-host">${escapeHtml(report.host)}</div>` : ''}
+      </div>
+      <div class="v-score">
+        <div class="num">${report.score != null ? report.score : '—'}</div>
+        <div class="lbl">Total Score</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Report info</h2>
+      <div class="kv-row"><div class="kv-key">Report ID</div><div class="kv-val">${escapeHtml(report.id || '-')}</div></div>
+      <div class="kv-row"><div class="kv-key">Submitted</div><div class="kv-val">${fmtDate(report.time)}</div></div>
+      ${report.url ? `<div class="kv-row"><div class="kv-key">URL</div><div class="kv-val">${escapeHtml(report.url)}</div></div>` : ''}
+      ${report.host ? `<div class="kv-row"><div class="kv-key">Host</div><div class="kv-val">${escapeHtml(report.host)}</div></div>` : ''}
+      ${report.title ? `<div class="kv-row"><div class="kv-key">Title</div><div class="kv-val">${escapeHtml(report.title)}</div></div>` : ''}
+      ${tagsHtml ? `<div class="kv-row"><div class="kv-key">Tags</div><div class="kv-val">${tagsHtml}</div></div>` : ''}
+    </div>
+
+    ${detectionsHtml}
+    ${urlsHtml}
+
+    ${report.body ? `
+    <details class="panel raw-toggle">
+      <summary>View raw markdown body</summary>
+      <div class="body-md">${escapeHtml(report.body)}</div>
+    </details>` : ''}
+  `;
+
+  document.getElementById('btn-share')?.addEventListener('click', e => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      const btn = e.target;
+      btn.textContent = '✓ Copied';
+      setTimeout(() => { btn.textContent = '🔗 Copy permalink'; }, 1800);
+    });
+  });
+
+  document.getElementById('btn-json')?.addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `nehboro-report-${report.id || 'unknown'}.json`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  document.getElementById('btn-takedown')?.addEventListener('click', () => {
+    const subject = encodeURIComponent(`Takedown / appeal for report ${report.id}`);
+    const body = encodeURIComponent(`Report URL: ${window.location.href}\nReported URL: ${report.url || ''}\n\nReason for takedown / appeal:\n`);
+    window.open(`https://github.com/Nehboro/nehboro.github.io/issues/new?title=${subject}&body=${body}`, '_blank');
+  });
+
+  // URL filter and copy
+  const urlFilter = document.getElementById('urls-filter');
+  const urlsList = document.getElementById('urls-list');
+  if (urlFilter && urlsList) {
+    urlFilter.addEventListener('input', () => {
+      const q = urlFilter.value.trim().toLowerCase();
+      urlsList.querySelectorAll('.url-item').forEach(el => {
+        el.style.display = (!q || el.textContent.toLowerCase().includes(q)) ? 'block' : 'none';
+      });
+    });
+  }
+  const urlsCopy = document.getElementById('urls-copy');
+  if (urlsCopy) {
+    urlsCopy.addEventListener('click', () => {
+      navigator.clipboard.writeText(extractedUrls.join('\n')).then(() => {
+        urlsCopy.textContent = '✓ Copied';
+        setTimeout(() => { urlsCopy.textContent = 'Copy all'; }, 1500);
+      });
+    });
+  }
+
+  // Update page title
+  document.title = (report.host || 'Report') + ' - Nehboro';
+}
+
+// Parse detections from the markdown body
+function parseDetections(body) {
+  // Format: "- **NAME** *(+Npts)*: description\n  > `evidence`\n  - *Suspicious keywords matched (N):*\n    - `kw1`\n    - `kw2`"
+  const detections = [];
+  // Section between "### Detections" and next "###"
+  const detSection = body.match(/###\s*Detections\s*\n([\s\S]*?)(?=\n###|\n$|$)/);
+  if (!detSection) return detections;
+  const section = detSection[1];
+
+  // Each detection starts with "- **NAME**" at column 0
+  const lines = section.split('\n');
+  let current = null;
+  for (const line of lines) {
+    const headerMatch = line.match(/^-\s*\*\*([^*]+)\*\*\s*\*\(\+(\d+)pts\)\*:\s*(.*)/);
+    if (headerMatch) {
+      if (current) detections.push(current);
+      current = { name: headerMatch[1].trim(), score: parseInt(headerMatch[2], 10), description: headerMatch[3].trim(), evidence: '', matches: [] };
+      continue;
+    }
+    if (!current) continue;
+    // Evidence: "  > `text`"
+    const evMatch = line.match(/^\s*>\s*`([^`]+)`/);
+    if (evMatch) { current.evidence = evMatch[1]; continue; }
+    // Matched keyword: "    - `keyword`"
+    const kwMatch = line.match(/^\s{4,}-\s*`([^`]+)`/);
+    if (kwMatch) { current.matches.push(kwMatch[1]); continue; }
+  }
+  if (current) detections.push(current);
+  return detections;
+}
+
+function parseExtractedUrls(body) {
+  const urlSection = body.match(/###\s*Extracted URLs[^\n]*\n([\s\S]*?)(?=\n###|\n$|$)/);
+  if (!urlSection) return [];
+  const lines = urlSection[1].split('\n');
+  const urls = [];
+  for (const line of lines) {
+    const m = line.match(/^-\s*`([^`]+)`/);
+    if (m && /^https?:/i.test(m[1])) urls.push(m[1]);
+  }
+  return urls;
+}
+
+(async () => {
+  const id = new URLSearchParams(window.location.search).get('id');
+  if (!id) {
+    document.getElementById('content').innerHTML = `
+      <div class="empty">
+        <h2>No report ID specified</h2>
+        <p>This URL needs a <code>?id=...</code> query parameter.</p>
+        <p style="margin-top:14px;"><a class="btn" href="/reports/">← Back to all reports</a></p>
+      </div>`;
+    return;
+  }
+
+  try {
+    const resp = await fetch(REPORTS_URL, { cache: 'no-cache' });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const all = await resp.json();
+    const report = all.find(r => String(r.id) === String(id));
+    render(report);
+  } catch (e) {
+    console.error(e);
+    document.getElementById('content').innerHTML = `
+      <div class="empty">
+        <h2>Failed to load reports</h2>
+        <p>${escapeHtml(e.message)}</p>
+        <p style="margin-top:14px;"><a class="btn" href="/reports/">← Back to all reports</a></p>
+      </div>`;
+  }
+})();
+</script>
+</body>
+</html>

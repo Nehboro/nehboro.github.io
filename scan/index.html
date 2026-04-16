@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>URL Scanner - Nehboro</title>
+<meta name="description" content="Scan any URL with Nehboro's 94+ threat detections. Runs entirely in your browser - no signup, no backend." />
+<link rel="icon" type="image/png" href="/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f6f2e8; --bg-soft: #fbf8f1;
+  --paper: rgba(255, 252, 245, 0.78); --paper-strong: rgba(255, 252, 245, 0.92);
+  --forest-900: #173122; --forest-800: #214633; --forest-700: #2f5c42;
+  --forest-600: #4e785f; --forest-500: #70977d; --leaf: #9ac2a5;
+  --mist: #dfe9df; --gold: #b98a36;
+  --red: #c44d3a; --red-soft: rgba(196, 77, 58, 0.12);
+  --amber: #d98e37; --amber-soft: rgba(217, 142, 55, 0.12);
+  --line: rgba(28, 54, 39, 0.12); --line-strong: rgba(28, 54, 39, 0.2);
+  --text: #1d2a21; --text-soft: #536257; --text-faint: #7a897f;
+  --shadow-sm: 0 8px 30px rgba(25, 52, 37, 0.06);
+  --shadow-md: 0 18px 60px rgba(23, 49, 34, 0.1);
+  --shadow-lg: 0 28px 90px rgba(23, 49, 34, 0.15);
+  --r-sm: 14px; --r-md: 20px; --r-lg: 28px;
+  --max: 1180px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Zen Kaku Gothic New', sans-serif; color: var(--text);
+  background:
+    radial-gradient(circle at 12% 10%, rgba(154,194,165,0.28), transparent 24%),
+    radial-gradient(circle at 88% 12%, rgba(255,255,255,0.75), transparent 20%),
+    linear-gradient(180deg, #eef4ea 0%, #f6f2e8 30%, #f8f4ec 100%);
+  line-height: 1.7; min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: var(--max); margin: 0 auto; padding: 0 32px; }
+
+.header-wrap { padding-top: 40px; margin-bottom: 20px; }
+.header {
+  max-width: var(--max); margin: 0 auto; padding: 18px 32px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  background: rgba(255, 253, 247, 0.78); backdrop-filter: blur(18px) saturate(120%);
+  border: 1px solid var(--line); border-radius: 22px;
+  box-shadow: 0 10px 35px rgba(30, 63, 44, 0.09);
+}
+.logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--forest-800); }
+.logo-mark { width: 42px; height: 42px; border-radius: 12px; object-fit: contain; }
+.logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+.brand-name { font-weight: 700; font-size: 18px; color: var(--forest-900); }
+.brand-sub { font-size: 11px; color: var(--forest-700); letter-spacing: 1.2px; text-transform: uppercase; margin-top: 2px; }
+.nav { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.nav a { color: var(--forest-800); text-decoration: none; font-weight: 500; font-size: 14px; padding: 6px 12px; border-radius: 10px; transition: all .2s; }
+.nav a:hover { background: rgba(154, 194, 165, 0.2); color: var(--forest-900); }
+.nav a.active { background: var(--forest-800); color: #f6f2e8; }
+.gh-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; padding: 0 !important;
+  background: var(--forest-900); color: #f6f2e8 !important;
+  border-radius: 10px;
+}
+.gh-icon:hover { background: var(--forest-800) !important; color: #fff !important; }
+
+.page { padding: 40px 0 80px 0; }
+.intro { text-align: center; max-width: 720px; margin: 0 auto 36px auto; }
+.intro h1 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(28px, 4vw, 42px); font-weight: 500;
+  color: var(--forest-900); line-height: 1.2; margin-bottom: 12px;
+}
+.intro h1 .accent { color: var(--forest-700); font-style: italic; }
+.intro p { color: var(--text-soft); font-size: 16px; }
+.intro .badges { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; background: var(--mist); color: var(--forest-800); border-radius: 999px; font-size: 11px; font-weight: 600; }
+.badge.highlight { background: rgba(185, 138, 54, 0.15); color: var(--gold); }
+
+/* ── Limitations banner ─────────────────────────────────── */
+.limits-banner {
+  background: linear-gradient(135deg, rgba(217, 142, 55, 0.08), rgba(185, 138, 54, 0.04));
+  border: 2px solid var(--gold);
+  border-radius: var(--r-lg);
+  padding: 24px 28px;
+  margin-bottom: 28px;
+  box-shadow: 0 6px 24px rgba(185, 138, 54, 0.08);
+}
+.limits-header { display: flex; align-items: flex-start; gap: 16px; }
+.limits-icon {
+  font-size: 32px; line-height: 1;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(185, 138, 54, 0.3));
+}
+.limits-title {
+  font-family: 'Noto Serif JP', serif; font-size: 22px; font-weight: 500;
+  color: var(--forest-900); line-height: 1.3;
+}
+.limits-title em { font-style: italic; color: var(--gold); }
+.limits-sub { color: var(--text-soft); font-size: 14px; margin-top: 4px; }
+.limits-sub a { color: var(--forest-700); font-weight: 600; text-decoration: underline; }
+.limits-sub a:hover { color: var(--forest-900); }
+.limits-body { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(185, 138, 54, 0.25); }
+.limits-body p { color: var(--text); font-size: 14px; line-height: 1.6; }
+.limits-body p strong { color: var(--forest-900); }
+.limits-body p em { font-style: italic; color: var(--forest-700); font-weight: 500; }
+.limits-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 16px; margin: 20px 0 16px 0;
+}
+.limits-col {
+  background: #fff; border-radius: 12px; padding: 16px 18px;
+  border: 1px solid var(--line);
+}
+.limits-col.limits-yes { border-left: 4px solid var(--forest-600); }
+.limits-col.limits-no { border-left: 4px solid var(--red); }
+.limits-col-title {
+  font-weight: 700; font-size: 13px; margin-bottom: 10px;
+  font-family: monospace; letter-spacing: 0.3px;
+}
+.limits-yes .limits-col-title { color: var(--forest-700); }
+.limits-no .limits-col-title { color: var(--red); }
+.limits-col ul { list-style: none; padding: 0; margin: 0; }
+.limits-col li {
+  font-size: 12.5px; color: var(--text-soft); line-height: 1.55;
+  padding: 4px 0; border-bottom: 1px dashed rgba(28, 54, 39, 0.06);
+}
+.limits-col li:last-child { border-bottom: none; }
+.limits-col li strong { color: var(--text); font-weight: 600; }
+.limits-col li code {
+  background: var(--mist); padding: 1px 5px; border-radius: 3px;
+  font-size: 11px; font-family: monospace; color: var(--forest-800);
+}
+.limits-cta {
+  display: flex; justify-content: center; margin-top: 18px;
+}
+.btn-install-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--forest-800); color: #f6f2e8; text-decoration: none;
+  padding: 12px 24px; border-radius: 12px;
+  font-weight: 600; font-size: 14px;
+  box-shadow: 0 4px 14px rgba(33, 70, 51, 0.2);
+  transition: all .2s;
+}
+.btn-install-cta:hover {
+  background: var(--forest-900); transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(23, 49, 34, 0.3);
+}
+
+@media (max-width: 700px) {
+  .limits-grid { grid-template-columns: 1fr; }
+  .limits-banner { padding: 20px; }
+  .limits-title { font-size: 18px; }
+  .limits-icon { font-size: 26px; }
+  .limits-header { flex-direction: column; gap: 10px; }
+}
+
+.scan-card {
+  background: var(--paper-strong); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: 32px;
+  box-shadow: var(--shadow-md); margin-bottom: 30px;
+}
+.scan-form {
+  display: flex; gap: 10px; background: #fff;
+  border: 2px solid var(--line-strong); border-radius: 16px;
+  padding: 8px; transition: border-color .2s;
+}
+.scan-form:focus-within { border-color: var(--forest-600); }
+.scan-input {
+  flex: 1; background: transparent; border: none; color: var(--text);
+  padding: 12px 14px; font-size: 15px; font-family: monospace; outline: none;
+}
+.scan-input::placeholder { color: var(--text-faint); }
+.btn-scan {
+  background: var(--forest-800); color: #f6f2e8; border: none;
+  padding: 12px 28px; border-radius: 10px; font-weight: 700; font-size: 14px;
+  cursor: pointer; font-family: inherit; transition: all .15s;
+  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+}
+.btn-scan:hover:not(:disabled) { background: var(--forest-900); transform: translateY(-1px); }
+.btn-scan:disabled { opacity: 0.6; cursor: not-allowed; }
+.scan-hint { font-size: 12px; color: var(--text-faint); margin-top: 12px; }
+.scan-hint code { background: var(--mist); padding: 2px 6px; border-radius: 4px; font-size: 11px; color: var(--forest-900); }
+
+.status-area { display: none; }
+.status-area.active { display: block; }
+.status-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-md); padding: 24px; margin-bottom: 20px; }
+.status-row { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; font-size: 14px; }
+.status-row:last-child { margin-bottom: 0; }
+.status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; background: var(--mist); border: 2px solid var(--line-strong); }
+.status-dot.pending { animation: pulse 1.4s infinite; background: var(--gold); border-color: var(--gold); }
+.status-dot.done { background: var(--forest-600); border-color: var(--forest-700); }
+.status-dot.error { background: var(--red); border-color: var(--red); }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+.status-label { color: var(--text); font-weight: 500; }
+.status-detail { color: var(--text-faint); font-size: 12px; font-family: monospace; margin-left: auto; }
+
+.result-area { display: none; }
+.result-area.active { display: block; }
+
+.verdict {
+  padding: 36px 40px; border-radius: var(--r-lg); margin-bottom: 24px;
+  box-shadow: var(--shadow-md); color: #fff;
+  display: flex; align-items: center; gap: 30px; justify-content: space-between;
+}
+.verdict.safe { background: linear-gradient(135deg, #4e785f, #70977d); }
+.verdict.warn { background: linear-gradient(135deg, #b98a36, #d98e37); }
+.verdict.block { background: linear-gradient(135deg, #a8412f, #c44d3a); }
+.verdict-label { font-size: 11px; letter-spacing: 2.4px; text-transform: uppercase; font-weight: 700; opacity: 0.85; }
+.verdict-name { font-family: 'Noto Serif JP', serif; font-size: 38px; font-weight: 500; margin: 4px 0 10px 0; line-height: 1; }
+.verdict-sub { font-size: 14px; opacity: 0.9; }
+.verdict-score { font-family: 'Noto Serif JP', serif; text-align: center; padding: 0 10px; }
+.verdict-score .num { font-size: 54px; font-weight: 500; line-height: 1; }
+.verdict-score .lbl { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; margin-top: 8px; }
+
+.result-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 22px; margin-bottom: 22px; }
+@media (max-width: 900px) { .result-grid { grid-template-columns: 1fr; } }
+
+.panel { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-md); padding: 22px 26px; }
+.panel h3 { font-family: 'Noto Serif JP', serif; font-size: 18px; color: var(--forest-900); margin-bottom: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+.panel h3 .count { background: var(--forest-800); color: #f6f2e8; font-family: inherit; font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 700; margin-left: auto; }
+
+.det-item { padding: 12px 14px; border-left: 3px solid var(--forest-600); background: rgba(154, 194, 165, 0.06); border-radius: 0 8px 8px 0; margin-bottom: 10px; }
+.det-item.critical { border-color: var(--red); background: var(--red-soft); }
+.det-item.warn { border-color: var(--amber); background: var(--amber-soft); }
+.det-item-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
+.det-item-name { font-weight: 700; color: var(--forest-900); font-size: 13px; }
+.det-item-score { font-family: monospace; font-size: 11px; background: var(--forest-800); color: #f6f2e8; padding: 2px 8px; border-radius: 10px; font-weight: 700; }
+.det-item-desc { font-size: 12px; color: var(--text-soft); margin-bottom: 4px; }
+.det-item-evidence { font-family: monospace; font-size: 11px; color: var(--text-faint); background: rgba(28, 54, 39, 0.04); padding: 6px 10px; border-radius: 6px; margin-top: 4px; word-break: break-all; max-height: 60px; overflow-y: auto; }
+.det-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
+.det-tag { font-size: 9px; letter-spacing: 0.8px; text-transform: uppercase; background: var(--mist); color: var(--forest-800); padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+
+.info-row { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+.info-row:last-child { border-bottom: none; }
+.info-label { color: var(--text-soft); }
+.info-value { color: var(--forest-900); font-family: monospace; font-size: 12px; text-align: right; word-break: break-all; max-width: 65%; }
+
+.empty-state { text-align: center; padding: 30px 20px; color: var(--text-faint); font-size: 13px; }
+
+.error-card { background: var(--red-soft); border: 1px solid var(--red); border-radius: var(--r-md); padding: 20px 24px; margin-bottom: 20px; }
+.error-card h3 { color: var(--red); font-size: 15px; margin-bottom: 6px; }
+.error-card p { color: var(--text); font-size: 13px; }
+.error-card code { background: #fff; padding: 2px 6px; border-radius: 4px; font-size: 11px; }
+
+.spin { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(0, 0, 0, 0.12); border-top-color: var(--forest-700); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: -2px; margin-right: 6px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.footer-note { text-align: center; padding: 24px 20px; color: var(--text-faint); font-size: 12px; border-top: 1px solid var(--line); margin-top: 40px; }
+.footer-note a { color: var(--forest-700); }
+.footer-note code { background: var(--mist); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 11px; }
+
+.result-actions { display: flex; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+.btn-sm { padding: 8px 16px; background: var(--paper-strong); color: var(--forest-800); border: 1px solid var(--line-strong); border-radius: 10px; font-size: 13px; cursor: pointer; font-family: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+.btn-sm:hover { background: #fff; border-color: var(--forest-600); }
+</style>
+</head>
+<body>
+<div class="header-wrap">
+  <div class="container">
+    <header class="header">
+      <a href="/" class="logo" aria-label="Nehboro home">
+        <img class="logo-mark" src="/nehboro_logo_256.png" alt="Nehboro" />
+        <span class="logo-text">
+          <span class="brand-name">Nehboro</span>
+          <span class="brand-sub">Community Threat Intelligence</span>
+        </span>
+      </a>
+      <nav class="nav">
+        <a href="/#engines">Engines</a>
+        <a href="/#detections">Detections</a>
+        <a href="/#feeds">Feeds</a>
+        <a href="/scan/" class="active">Scan</a>
+        <a href="/reports/">Reports</a>
+        <a href="/#install">Install</a>
+        <a href="https://github.com/Nehboro/nehboro" target="_blank" rel="noreferrer" class="gh-icon" aria-label="Nehboro extension on GitHub" title="Extension repo">
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
+      </nav>
+    </header>
+  </div>
+</div>
+
+<main class="page">
+  <div class="container">
+
+    <div class="intro">
+      <h1>Scan any URL with <span class="accent">the same engine</span></h1>
+      <p>
+        Paste a suspicious URL. Nehboro's detection engine runs entirely in your browser — no server to upload to, no account required.
+      </p>
+      <div class="badges">
+        <span class="badge highlight">🔬 100% client-side</span>
+        <span class="badge">⚡ No signup</span>
+        <span class="badge">🌍 Engine via jsDelivr CDN</span>
+        <span class="badge">🔒 Nothing saved server-side</span>
+      </div>
+    </div>
+
+    <div class="limits-banner">
+      <div class="limits-header">
+        <span class="limits-icon">⚠️</span>
+        <div>
+          <div class="limits-title">The web scanner only catches <em>static</em> threats</div>
+          <div class="limits-sub">For full protection, install the <a href="/#install">browser extension</a> — it catches everything this page can't.</div>
+        </div>
+      </div>
+      <div class="limits-body">
+        <p>
+          <strong>Why?</strong> This page has no backend. We don't run a sandbox, we don't render the page,
+          we don't execute its scripts. Everything happens inside <em>your</em> browser: we pull the raw HTML
+          through a public CORS proxy and run Nehboro's pattern-matching detections on what we get back.
+          No server means no live analysis.
+        </p>
+        <div class="limits-grid">
+          <div class="limits-col limits-yes">
+            <div class="limits-col-title">✓ Web scanner DOES catch</div>
+            <ul>
+              <li>ClickFix instruction sequences in HTML</li>
+              <li>Fake Cloudflare / CAPTCHA verification pages</li>
+              <li>PowerShell / LOLBin commands in page source</li>
+              <li>Obfuscation, base64, skimmer patterns in scripts</li>
+              <li>Phishing text, crypto-drainer lures, fake updates</li>
+              <li>Brand impersonation (title, logos, favicon hints)</li>
+              <li>Multilingual scam text (FR, ES, DE, IT, PT)</li>
+              <li>Raw IP hosting, punycode, typosquat domains</li>
+            </ul>
+          </div>
+          <div class="limits-col limits-no">
+            <div class="limits-col-title">✗ Only the extension catches</div>
+            <ul>
+              <li><strong>Clipboard hijacks</strong> — page silently copies a payload to your clipboard when clicked</li>
+              <li><strong>Print loops</strong> — attempts to spam <code>window.print()</code> in the background</li>
+              <li><strong>History loops</strong> — traps preventing the back button from working</li>
+              <li><strong>Notification spam</strong> — fake system alerts via Notification API</li>
+              <li><strong>Fullscreen abuse</strong> — forced fullscreen at load</li>
+              <li><strong>Fingerprinting abuse</strong> — canvas/WebGL probing on load</li>
+              <li><strong>Runtime obfuscated loaders</strong> — scripts that decode payload after execution</li>
+              <li><strong>Feed matches</strong> — extension auto-blocks IOC hits from community feeds</li>
+            </ul>
+          </div>
+        </div>
+        <div class="limits-cta">
+          <a href="/#install" class="btn-install-cta">⬇ Install the extension for full protection</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="scan-card">
+      <form class="scan-form" id="form">
+        <input class="scan-input" type="url" id="url"
+          placeholder="https://suspicious-example.com/login"
+          autocomplete="off" spellcheck="false" required />
+        <button type="submit" class="btn-scan" id="btn-scan">Analyze →</button>
+      </form>
+      <p class="scan-hint">
+        Fetched through <code>api.allorigins.win</code> (public CORS proxy).
+        Pattern-matching only — this page cannot observe runtime behavior on the target site.
+      </p>
+    </div>
+
+    <div class="status-area" id="status">
+      <div class="status-card">
+        <div class="status-row" id="step-engine">
+          <div class="status-dot pending"></div>
+          <div class="status-label">Loading detection engine from jsDelivr</div>
+          <div class="status-detail" id="step-engine-detail">-</div>
+        </div>
+        <div class="status-row" id="step-fetch">
+          <div class="status-dot"></div>
+          <div class="status-label">Fetching target URL</div>
+          <div class="status-detail" id="step-fetch-detail">-</div>
+        </div>
+        <div class="status-row" id="step-analyze">
+          <div class="status-dot"></div>
+          <div class="status-label">Running detections</div>
+          <div class="status-detail" id="step-analyze-detail">-</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="error-slot"></div>
+
+    <div class="result-area" id="result">
+      <div class="result-actions">
+        <a class="btn-sm" id="btn-share" href="#">🔗 Copy shareable link</a>
+        <button class="btn-sm" id="btn-json">⬇ Download JSON</button>
+        <button class="btn-sm" id="btn-report" style="background:linear-gradient(135deg,#e53e5f,#ff5577);color:#fff;border:none;">🚩 Report this URL</button>
+        <button class="btn-sm" id="btn-rescan">↻ Scan another URL</button>
+      </div>
+
+      <div class="verdict" id="verdict">
+        <div>
+          <div class="verdict-label" id="v-label">VERDICT</div>
+          <div class="verdict-name" id="v-name">-</div>
+          <div class="verdict-sub" id="v-sub">-</div>
+        </div>
+        <div class="verdict-score">
+          <div class="num" id="v-score">-</div>
+          <div class="lbl">Total Score</div>
+        </div>
+      </div>
+
+      <div class="result-grid">
+        <div class="panel">
+          <h3>🔍 Detections fired <span class="count" id="d-count">0</span></h3>
+          <div id="detections"></div>
+        </div>
+        <div class="panel">
+          <h3>📄 Page info</h3>
+          <div id="page-info"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-note container">
+    Powered by the open-source <a href="https://github.com/Nehboro/nehboro" target="_blank">Nehboro extension</a>.
+    Detection modules loaded at runtime from <code>cdn.jsdelivr.net/gh/Nehboro/nehboro@main/</code>.
+    Page content fetched via <code>api.allorigins.win</code> (no data saved).
+    For full protection with runtime checks, install the browser extension.
+  </div>
+</main>
+
+<script>
+const CDN_BASE = 'https://cdn.jsdelivr.net/gh/Nehboro/nehboro@main';
+const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+const NTFY_URL = 'https://ntfy.sh/nehboro-reports';
+const AUTO_REPORT_THRESHOLD = 110;
+
+const DETECTION_MODULES = [
+  'av-dismissal','base64-payload','bonus-combos','browser-lock','card-skimmer',
+  'clickfix-multilang','clickfix-pretext','clickfix-sequence','clipboard-hijack',
+  'clipboard-source','consentfix','crypto-address','crypto-wallet','data-theft-scare',
+  'data-uri','device-code-phish','dialog-spam','dns-clickfix','eval-dynamic',
+  'external-scripts','fake-antivirus','fake-browser-error','fake-cloudflare',
+  'fake-countdown','fake-download','fake-error-code','fake-error','fake-meeting',
+  'fake-os-ui','fake-social-proof','fake-software','fake-update','fake-url-bar',
+  'fake-verification-id','filefix','finger-abuse','form-exfil','formjacking',
+  'fullscreen-spam','hex-ip','hidden-content','history-loop','iframe-injection',
+  'insecure-login','ip-geolocation-scare','keylogger','llm-artifact','lolbin',
+  'lookalike','macos-shell','msedge-kiosk','notification-spam','obfuscation',
+  'password-autocomplete','phishing-impersonation','powershell','print-loop',
+  'punycode-domain','raw-ip-hosting','scam-audio','scam-multilang','scam-phone',
+  'search-hijacking','seo-poisoning','steganography','suspicious-host',
+  'suspicious-popup','suspicious-redirect','suspicious-terms','suspicious-tld',
+  'tech-support-scam','urgency','url-create-loop','visual-phishing','webdav',
+  'window-opener','winhttp',
+];
+
+const DETECTIONS = [];
+window.NW_register = (det) => {
+  if (!DETECTIONS.find(d => d.id === det.id)) DETECTIONS.push(det);
+};
+
+let engineLoaded = false;
+
+function loadScript(url) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = CDN_BASE + url;
+    s.async = false;
+    s.crossOrigin = 'anonymous';
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error('Failed to load ' + url));
+    document.head.appendChild(s);
+  });
+}
+
+async function loadEngine(statusSetter) {
+  if (engineLoaded) return;
+  const total = 2 + DETECTION_MODULES.length;
+  let loaded = 0;
+  const tick = () => { loaded++; statusSetter(loaded + '/' + total + ' modules'); };
+
+  await loadScript('/utils/patterns.js'); tick();
+  await loadScript('/utils/helpers.js'); tick();
+
+  // Re-expose helpers if they were set as globals without a namespace wrapper
+  if (!window.NW_HELPERS && window.testAny) {
+    window.NW_HELPERS = {
+      testAny: window.testAny, firstMatch: window.firstMatch,
+      countMatches: window.countMatches, hasAll: window.hasAll,
+      isOnSafeDomain: window.isOnSafeDomain,
+    };
+  }
+
+  await Promise.all(DETECTION_MODULES.map(async (name) => {
+    try { await loadScript('/detections/' + name + '.js'); }
+    catch (e) { console.warn('[scanner] detection ' + name + ' failed:', e.message); }
+    finally { tick(); }
+  }));
+
+  engineLoaded = true;
+}
+
+function buildContextFromHtml(html, url) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  let hostname = '';
+  try { hostname = new URL(url).hostname; } catch {}
+
+  const body = doc.body || doc.documentElement;
+  const rawText = (body?.textContent || '').replace(/\s+/g, ' ').trim().substring(0, 200000);
+  const pageHTML = html.substring(0, 500000);
+
+  const forms = [...doc.querySelectorAll('form')].map(f => ({
+    action: f.getAttribute('action') || '',
+    method: (f.getAttribute('method') || 'get').toLowerCase(),
+    inputs: [...f.querySelectorAll('input')].map(i => ({
+      name: i.getAttribute('name') || '',
+      type: i.getAttribute('type') || 'text',
+      autocomplete: i.getAttribute('autocomplete') || '',
+      required: i.hasAttribute('required'),
+    })),
+  }));
+
+  const scripts = [...doc.querySelectorAll('script')].map(s => ({
+    src: s.getAttribute('src') || '',
+    inline: s.textContent || '',
+  }));
+
+  const iframes = [...doc.querySelectorAll('iframe')].map(f => f.getAttribute('src') || '');
+
+  const title = doc.querySelector('title')?.textContent || '';
+  const description = doc.querySelector('meta[name="description"]')?.getAttribute('content') || '';
+  const images = [...doc.querySelectorAll('img')].slice(0, 50).map(i => i.getAttribute('src') || '');
+  const favicon = doc.querySelector('link[rel~="icon"]')?.getAttribute('href') || '';
+
+  return {
+    url, hostname, rawText, pageHTML, title, description,
+    forms, scripts, iframes, images, favicon,
+    document: doc,
+    location: { href: url, hostname, protocol: url.startsWith('https:') ? 'https:' : 'http:' },
+  };
+}
+
+// Map detection IDs to pattern groups in PATTERNS to extract ALL matched keywords
+const PATTERN_GROUPS_BY_DETECTION = {
+  'CLICKFIX_FULL_SEQUENCE': ['CF_OPEN', 'CF_PASTE', 'CF_EXECUTE'],
+  'CLICKFIX_PARTIAL': ['CF_OPEN', 'CF_PASTE', 'CF_EXECUTE'],
+  'CLICKFIX_PRETEXT': ['CF_PRETEXT', 'CF_OPEN'],
+  'CLICKFIX_MULTILANG': ['CF_MULTILANG_FR', 'CF_MULTILANG_ES', 'CF_MULTILANG_DE', 'CF_MULTILANG_IT', 'CF_MULTILANG_PT'],
+  'POWERSHELL_ENCODED': ['PS_ENCODED'],
+  'POWERSHELL_PARTIAL': ['PS_ENCODED', 'PS_PARTIAL'],
+  'LOLBIN_IN_CONTEXT': ['LOLBIN_ALL'],
+  'LOLBIN_COMMAND': ['LOLBIN_ALL'],
+  'CAPTCHA_TEXT': ['CAPTCHA_TEXT'],
+  'FAKE_VERIFICATION_ID': ['VERIFICATION_ID'],
+  'FAKE_CLOUDFLARE_TEXT': ['CLOUDFLARE_TEXT', 'CAPTCHA_TEXT'],
+  'FAKE_CLOUDFLARE_DOMAIN': ['CF_DOMAINS'],
+  'URGENCY': ['URGENCY'],
+  'FAKE_SOFTWARE_DL': ['FAKE_SOFTWARE'],
+  'OBFUSCATION': ['OBFUSCATION'],
+  'OBFUSCATION_HEAVY': ['OBFUSCATION'],
+  'SUSPICIOUS_TLD': ['SUSPICIOUS_TLDS'],
+  'SUSPICIOUS_TERMS': ['SUSPICIOUS_TERMS'],
+};
+
+function enrichSubFinding(finding, ctx) {
+  const groupNames = PATTERN_GROUPS_BY_DETECTION[finding.category];
+  if (!groupNames) return finding;
+  const text = (ctx.rawText || '') + '\n' + (ctx.pageHTML || '');
+  const matched = [];
+  const seen = new Set();
+  const PATTERNS = window.NW_PATTERNS || {};
+  const HELPERS = window.NW_HELPERS || {};
+  for (const groupName of groupNames) {
+    const group = PATTERNS[groupName];
+    if (!group) continue;
+    if (group instanceof Set) {
+      const lowerText = text.toLowerCase();
+      for (const term of group) {
+        if (lowerText.includes(term.toLowerCase())) {
+          const k = term.toLowerCase();
+          if (!seen.has(k)) { seen.add(k); matched.push(term); }
+        }
+      }
+    } else if (Array.isArray(group)) {
+      const items = HELPERS.allMatches ? HELPERS.allMatches(group, text, 30) : [];
+      for (const m of items) {
+        const k = m.toLowerCase().substring(0, 80);
+        if (!seen.has(k)) { seen.add(k); matched.push(m); }
+      }
+    }
+  }
+  if (matched.length > 0) finding.matches = matched.slice(0, 30);
+  return finding;
+}
+
+function addFinding(list, det, result, ctx) {
+  let score = det.defaultScore;
+  if (typeof result.scoreOverride === 'number') score = result.scoreOverride;
+  if (typeof result.scoreMultiplier === 'number') score = Math.round(score * result.scoreMultiplier);
+  if (typeof result.scoreBonus === 'number') score += result.scoreBonus;
+
+  const finding = {
+    id: det.id, name: det.name, category: det.id,
+    description: result.description || det.description,
+    evidence: result.evidence || '',
+    matches: result.matches || undefined,
+    score, tags: det.tags || [],
+  };
+  list.push(enrichSubFinding(finding, ctx));
+}
+
+function runDetections(ctx) {
+  const findings = [];
+  const normal = DETECTIONS.filter(d => !d._postProcess);
+  const combos = DETECTIONS.filter(d => d._postProcess);
+
+  for (const det of normal) {
+    try {
+      const result = det.detect(ctx);
+      if (result) addFinding(findings, det, result, ctx);
+    } catch (e) { console.warn('[' + det.id + '] detect error:', e.message); }
+  }
+  for (const det of combos) {
+    try {
+      const result = det.detect(ctx, findings);
+      if (result) addFinding(findings, det, result, ctx);
+    } catch (e) { console.warn('[' + det.id + '] combo error:', e.message); }
+  }
+  return findings;
+}
+
+function setStep(id, state, detail) {
+  const row = document.getElementById('step-' + id);
+  if (!row) return;
+  row.querySelector('.status-dot').className = 'status-dot ' + (state || '');
+  if (detail !== undefined) {
+    document.getElementById('step-' + id + '-detail').textContent = detail;
+  }
+}
+
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"]/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'
+  }[c]));
+}
+
+function showError(message, details) {
+  document.getElementById('error-slot').innerHTML =
+    '<div class="error-card"><h3>⚠️ ' + escapeHtml(message) + '</h3>' +
+    '<p>' + escapeHtml(details || '') + '</p></div>';
+}
+
+function renderResult(url, findings, meta) {
+  const totalScore = findings.reduce((s, f) => s + f.score, 0);
+  const verdict = totalScore >= 79 ? 'block' : totalScore >= 45 ? 'warn' : 'safe';
+
+  document.getElementById('verdict').className = 'verdict ' + verdict;
+  document.getElementById('v-label').textContent = 'VERDICT';
+  document.getElementById('v-name').textContent = {
+    safe: 'Looks safe',
+    warn: 'Warning - potentially suspicious',
+    block: 'Block - high threat score',
+  }[verdict];
+  document.getElementById('v-sub').textContent = {
+    safe: 'No strong threat signals found. ' + findings.length + ' minor detections.',
+    warn: 'Some threat patterns detected. Review the detections below.',
+    block: 'Multiple strong threat signals. Do not interact with this URL.',
+  }[verdict];
+  document.getElementById('v-score').textContent = totalScore;
+
+  const detContainer = document.getElementById('detections');
+  document.getElementById('d-count').textContent = findings.length;
+  if (findings.length === 0) {
+    detContainer.innerHTML = '<div class="empty-state">No detections fired. The page looks clean to Nehboro heuristics.</div>';
+  } else {
+    findings.sort((a, b) => b.score - a.score);
+    detContainer.innerHTML = findings.map(f => {
+      const sev = f.tags.includes('critical') ? 'critical' : f.score >= 25 ? 'warn' : '';
+      return '<div class="det-item ' + sev + '">' +
+        '<div class="det-item-head">' +
+          '<div class="det-item-name">' + escapeHtml(f.name) + '</div>' +
+          '<div class="det-item-score">+' + f.score + '</div>' +
+        '</div>' +
+        '<div class="det-item-desc">' + escapeHtml(f.description) + '</div>' +
+        (f.evidence ? '<div class="det-item-evidence">' + escapeHtml(f.evidence.substring(0, 200)) + '</div>' : '') +
+        '<div class="det-tags">' + f.tags.map(t => '<span class="det-tag">' + escapeHtml(t) + '</span>').join('') + '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  const info = document.getElementById('page-info');
+  const rows = [
+    ['URL', url],
+    ['Hostname', meta.hostname],
+    ['Protocol', meta.protocol || '-'],
+    ['Title', meta.title || '(no title)'],
+    ['Description', meta.description ? meta.description.substring(0, 120) : '(none)'],
+    ['Forms', meta.formCount + ' (' + (meta.hasPassword ? 'has password' : 'no password') + ')'],
+    ['Scripts', meta.scriptCount + ' total, ' + meta.externalScripts + ' external'],
+    ['Iframes', meta.iframeCount],
+    ['HTML size', (meta.htmlSize / 1024).toFixed(1) + ' KB'],
+  ];
+  info.innerHTML = rows.map(r =>
+    '<div class="info-row"><div class="info-label">' + escapeHtml(r[0]) + '</div>' +
+    '<div class="info-value">' + escapeHtml(String(r[1]).substring(0, 120)) + '</div></div>'
+  ).join('');
+
+  document.getElementById('result').classList.add('active');
+  window._lastResult = { url, findings, meta, totalScore, verdict };
+
+  // Auto-report at score >= 110 (same as extension)
+  if (totalScore >= AUTO_REPORT_THRESHOLD) {
+    autoReportIfNew(window._lastResult).catch(() => {});
+  }
+}
+
+// In-browser dedup: don't auto-report the same URL twice in 24h
+function alreadyReported(url) {
+  try {
+    const map = JSON.parse(localStorage.getItem('nehboro_reported_urls') || '{}');
+    const ts = map[url];
+    return ts && (Date.now() - ts < 24 * 60 * 60 * 1000);
+  } catch { return false; }
+}
+function markReported(url) {
+  try {
+    const map = JSON.parse(localStorage.getItem('nehboro_reported_urls') || '{}');
+    // Cleanup old entries
+    const now = Date.now();
+    for (const [u, ts] of Object.entries(map)) {
+      if (now - ts > 24 * 60 * 60 * 1000) delete map[u];
+    }
+    map[url] = now;
+    localStorage.setItem('nehboro_reported_urls', JSON.stringify(map));
+  } catch {}
+}
+
+async function autoReportIfNew(result) {
+  if (alreadyReported(result.url)) return false;
+  return await sendReport(result, true);
+}
+
+async function sendReport(result, isAuto) {
+  const r = result || window._lastResult;
+  if (!r) return false;
+
+  let hostname = '';
+  try { hostname = new URL(r.url).hostname; } catch {}
+
+  const dateStr = new Date().toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+  const detectionLines = (r.findings || []).slice(0, 8).map(f => {
+    const cat = (f.category || f.id || '').replace(/_/g, ' ');
+    const ev = f.evidence ? '\n  > `' + String(f.evidence).substring(0, 100) + '`' : '';
+    let matchesBlock = '';
+    if (Array.isArray(f.matches) && f.matches.length > 0) {
+      const items = f.matches.slice(0, 20).map(m =>
+        '    - `' + String(m).replace(/`/g, "'").substring(0, 180) + '`'
+      );
+      matchesBlock = '\n  - *Suspicious keywords matched (' + f.matches.length + '):*\n' + items.join('\n');
+    }
+    return '- **' + cat + '** *(+' + f.score + 'pts)*: ' + (f.description || '') + ev + matchesBlock;
+  });
+  if (detectionLines.length === 0) detectionLines.push('- *(no automated detections)*');
+
+  const urls = Array.isArray(r.meta?.extractedUrls) ? r.meta.extractedUrls : [];
+  const urlLines = urls.length > 0
+    ? urls.slice(0, 50).map(u => '- `' + String(u).substring(0, 200) + '`')
+    : ['- *(no URLs extracted from page)*'];
+
+  const body = [
+    '**URL:** `' + r.url + '`',
+    '**Host:** `' + hostname + '`',
+    '**Score:** ' + r.totalScore + ' / 100',
+    '**Reported:** ' + dateStr,
+    '**Source:** Nehboro URL Scanner (web)',
+    '**Auto:** ' + (isAuto ? 'yes (score ≥ ' + AUTO_REPORT_THRESHOLD + ')' : 'no (manual)'),
+    '',
+    '### Page Info',
+    '**Title:** ' + (r.meta?.title || 'N/A'),
+    '**Hostname:** ' + (r.meta?.hostname || 'N/A'),
+    '**Forms:** ' + (r.meta?.formCount || 0) + (r.meta?.hasPassword ? ' (with password)' : ''),
+    '**Scripts:** ' + (r.meta?.scriptCount || 0) + ' (' + (r.meta?.externalScripts || 0) + ' external)',
+    '',
+    '### Detections (' + (r.findings?.length || 0) + ')',
+    detectionLines.join('\n'),
+    '',
+    '### Extracted URLs (' + urls.length + ')',
+    urlLines.join('\n'),
+  ].join('\n');
+
+  const tags = ['scanner', r.verdict];
+  if (isAuto) tags.push('auto');
+
+  try {
+    const resp = await fetch(NTFY_URL, {
+      method: 'POST',
+      headers: {
+        'Title': 'Nehboro scan: ' + (hostname || 'unknown'),
+        'Tags': tags.join(','),
+        'Priority': r.verdict === 'block' ? 'high' : 'default',
+        'Markdown': 'yes',
+      },
+      body,
+    });
+    if (resp.ok) {
+      markReported(r.url);
+      return true;
+    }
+    return false;
+  } catch (e) {
+    console.warn('[scanner] report failed:', e.message);
+    return false;
+  }
+}
+
+async function scan(url) {
+  document.getElementById('result').classList.remove('active');
+  document.getElementById('error-slot').innerHTML = '';
+  document.getElementById('status').classList.add('active');
+  ['engine', 'fetch', 'analyze'].forEach(s => setStep(s, '', '-'));
+  setStep('engine', 'pending', 'loading...');
+
+  const btn = document.getElementById('btn-scan');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span> Scanning...';
+
+  try {
+    await loadEngine(d => setStep('engine', 'pending', d));
+    setStep('engine', 'done', DETECTIONS.length + ' detections ready');
+
+    setStep('fetch', 'pending', 'via allorigins...');
+    const t0 = performance.now();
+    const proxyUrl = CORS_PROXY + encodeURIComponent(url);
+    const resp = await fetch(proxyUrl);
+    if (!resp.ok) throw new Error('Proxy returned HTTP ' + resp.status);
+    const html = await resp.text();
+    if (!html || html.length < 100) throw new Error('Empty response from target URL');
+    const fetchMs = Math.round(performance.now() - t0);
+    setStep('fetch', 'done', (html.length / 1024).toFixed(1) + ' KB in ' + fetchMs + 'ms');
+
+    setStep('analyze', 'pending', 'running...');
+    const t1 = performance.now();
+    const ctx = buildContextFromHtml(html, url);
+    const findings = runDetections(ctx);
+    const analyzeMs = Math.round(performance.now() - t1);
+    setStep('analyze', 'done', findings.length + ' detections fired in ' + analyzeMs + 'ms');
+
+    const hasPassword = ctx.forms.some(f => f.inputs.some(i => i.type === 'password'));
+    const externalScripts = ctx.scripts.filter(s => s.src && /^https?:/.test(s.src)).length;
+    const meta = {
+      hostname: ctx.hostname, protocol: ctx.location.protocol,
+      title: ctx.title, description: ctx.description,
+      formCount: ctx.forms.length, hasPassword,
+      scriptCount: ctx.scripts.length, externalScripts,
+      iframeCount: ctx.iframes.length, htmlSize: html.length,
+    };
+
+    renderResult(url, findings, meta);
+  } catch (e) {
+    const pendingStep = ['engine', 'fetch', 'analyze'].find(s => {
+      const row = document.getElementById('step-' + s);
+      return row?.querySelector('.status-dot.pending');
+    });
+    if (pendingStep) setStep(pendingStep, 'error', 'failed');
+    console.error(e);
+    showError('Scan failed', e.message + ' - the target may block proxies, or the CORS proxy may be rate-limited. Try again, or install the extension for direct scans.');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Analyze →';
+  }
+}
+
+document.getElementById('form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const url = document.getElementById('url').value.trim();
+  if (!url) return;
+  const params = new URLSearchParams(window.location.search);
+  params.set('u', url);
+  history.replaceState(null, '', '?' + params.toString());
+  scan(url);
+});
+
+document.getElementById('btn-share').addEventListener('click', (e) => {
+  e.preventDefault();
+  const url = window.location.href;
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = e.target;
+    btn.textContent = '✓ Link copied';
+    setTimeout(() => { btn.textContent = '🔗 Copy shareable link'; }, 2000);
+  });
+});
+
+document.getElementById('btn-json').addEventListener('click', () => {
+  if (!window._lastResult) return;
+  const blob = new Blob([JSON.stringify(window._lastResult, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'nehboro-scan-' + Date.now() + '.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+document.getElementById('btn-rescan').addEventListener('click', () => {
+  document.getElementById('url').value = '';
+  document.getElementById('url').focus();
+  document.getElementById('result').classList.remove('active');
+  document.getElementById('status').classList.remove('active');
+  history.replaceState(null, '', window.location.pathname);
+});
+
+document.getElementById('btn-report').addEventListener('click', async (e) => {
+  if (!window._lastResult) return;
+  const btn = e.target;
+  const original = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Sending...';
+  const ok = await sendReport(window._lastResult, false);
+  if (ok) {
+    btn.innerHTML = '✓ Reported';
+    btn.style.background = 'linear-gradient(135deg, #4e785f, #70977d)';
+    setTimeout(() => { btn.innerHTML = '✓ Sent to community'; }, 1500);
+  } else {
+    btn.innerHTML = '⚠ Failed - retry?';
+    btn.disabled = false;
+    setTimeout(() => { btn.innerHTML = original; }, 3000);
+  }
+});
+
+// Preload the engine on page load so the first scan is instant
+(async () => {
+  try {
+    await loadEngine(() => {});
+    console.log('[scanner] Engine ready - ' + DETECTIONS.length + ' detections loaded');
+  } catch (e) {
+    console.warn('[scanner] Engine preload failed:', e.message);
+  }
+})();
+
+// Auto-scan if ?u=... is in URL (shareable links)
+const sharedUrl = new URLSearchParams(window.location.search).get('u');
+if (sharedUrl) {
+  document.getElementById('url').value = sharedUrl;
+  setTimeout(() => scan(sharedUrl), 200);
+}
+</script>
+</body>
+</html>

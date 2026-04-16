@@ -1,0 +1,4 @@
+# Nehboro suspicious ports feed
+# Format: port,protocol
+# Supports ranges: 8080-8085
+port,protocol
