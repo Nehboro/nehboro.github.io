@@ -1,0 +1,57 @@
+name: Fetch Nehboro Reports
+
+on:
+  schedule:
+    - cron: '*/20 * * * *'   # every 6 hours
+  workflow_dispatch:         # manual trigger
+
+jobs:
+  fetch-reports:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch reports from ntfy
+        run: |
+          mkdir -p reports
+          SINCE_FILE="reports/.last_fetch"
+
+          if [ -f "$SINCE_FILE" ]; then
+            SINCE=$(cat "$SINCE_FILE")
+          else
+            SINCE=0
+          fi
+
+          echo "Fetching reports since timestamp $SINCE ..."
+          curl -s "https://ntfy.sh/nehboro-reports/json?poll=1&since=$SINCE" \
+            | jq -s '.' > reports/latest_batch.json
+
+          COUNT=$(jq 'length' reports/latest_batch.json)
+          echo "Fetched $COUNT report(s)"
+
+          if [ "$COUNT" -gt 0 ]; then
+            # Append to cumulative log
+            if [ -f reports/all_reports.json ]; then
+              jq -s '.[0] + .[1]' reports/all_reports.json reports/latest_batch.json > reports/tmp.json
+              mv reports/tmp.json reports/all_reports.json
+            else
+              cp reports/latest_batch.json reports/all_reports.json
+            fi
+
+            # Update timestamp to latest message time
+            jq -r 'map(.time) | max' reports/latest_batch.json > "$SINCE_FILE"
+          fi
+
+          rm -f reports/latest_batch.json
+
+      - name: Commit new reports
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add reports/
+          git diff --cached --quiet && echo "No new reports" && exit 0
+          git commit -m "chore: fetch nehboro reports $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push
