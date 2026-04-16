@@ -2,3 +2,45 @@
 # Format: port,protocol
 # Supports ranges: 8080-8085
 port,protocol
+1337,empire + crackmapexec + icebreaker + KittyStager + Cyberghost VPN + gophish + gtunnel default port. the port is also associated with various other types of exploits or shellcode
+3030,nuages C2 default port and other malwares
+3333,gophish + Xmrig coinminer
+3790,often used for metasploit but also legit service like quickbooksrds
+4051,AlanFramework C2 default port but also used by cisco P2P
+4433,AlanFramework C2 default port and Acidoor backdoor
+4444,Default listener port for Metasploit exploits and RemotePC transfert port and gophish
+4782,Quasar Server default port
+5096,hardhatC2 default port
+5321,Firehotcker trojan
+5556,AlanFramework C2 default port and H0rtiga trojan
+5650,'pizza trojan' lite manager remote desktop and AeroAdmin and 'remote utilities - viewer (rutview.exe)'
+5655,AeroAdmin and some legit usages and 'remote utilities agent rutserv.exe'
+6666,kali default port - IRC botnets and RAT - CVE-2024-38112/Void Banshee
+6722,default port for socks reverse proxy of XiebroC2 https://github.com/INotGreen/XiebroC2/wiki/ReverseProxy
+7096,hardhatC2 default port and other legit usages
+7681,Supershell C2 default port
+7682,Supershell C2 default port
+8022,MaccaroniC2 default port
+9001,default port used by the Tor network
+9050,default port used by the Tor network for its SOCKS proxy also used by MaccaroniC2 proxy
+9051,default port used by the Tor network for the controller
+9200,default port used by the Tor network
+9631,hardhatC2 default port and other legit usages
+12345,netbus trojan and other malwares
+12346,netbus trojan and other malwares
+13333,Xmrig coinminer https://github.com/C3Pool/xmrig_setup/blob/82c4e9bf7ee3c0c9cd925ede6e46e9ed4cc5f195/setup_c3pool_miner.bat#L147
+15000,LogmeIn default port usage
+15555,Xmrig coinminer https://github.com/C3Pool/xmrig_setup/blob/82c4e9bf7ee3c0c9cd925ede6e46e9ed4cc5f195/setup_c3pool_miner.bat#L147
+19999,Xmrig coinminer https://github.com/C3Pool/xmrig_setup/blob/82c4e9bf7ee3c0c9cd925ede6e46e9ed4cc5f195/setup_c3pool_miner.bat#L147
+21115,RustDesk RMM
+21116,RustDesk RMM
+21802,hardhatC2 default port
+31337,SliverC2 + ThunderShell default port + Back Orifice backdoor. also associated with various other types of exploits or shellcode
+31338,Back Orifice backdoor and other malwares
+31785,Hack’a’Tack RAT
+31789,Hack’a’Tack RAT
+50050,sharpc2 and cobaltstrike default port
+50501,TEMP.Veles used port-protocol mismatches on ports such as 443 - 4444 - 8531 and 50501 during C2
+53531,dnscat2 default port
+55553,Metasploit RPC daemon default port also used by Armitage team server
+57230,covenant C2 default port
