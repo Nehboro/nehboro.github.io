@@ -294,12 +294,56 @@ function updateStats() {
   document.getElementById('s-hosts').textContent = hosts.size;
 }
 
+/**
+ * Fallback decoder for reports sent by the extension (base64 reversed).
+ * Scanner reports are plaintext and pass through unchanged.
+ */
+function maybeDecodeAddonBody(raw) {
+  if (!raw || typeof raw !== 'string') return raw;
+  const stripped = raw.trim();
+  if (/\s/.test(stripped)) return raw;
+  if (!/^[A-Za-z0-9+/=]+$/.test(stripped)) return raw;
+  try {
+    const unreversed = stripped.split('').reverse().join('');
+    const padLen = (4 - (unreversed.length % 4)) % 4;
+    const padded = unreversed + '='.repeat(padLen);
+    const binary = atob(padded);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    const decoded = new TextDecoder('utf-8').decode(bytes);
+    if (decoded.includes('**') || decoded.includes('URL:') || decoded.includes('Score:')) {
+      return decoded;
+    }
+    return raw;
+  } catch (e) {
+    return raw;
+  }
+}
+
 (async () => {
   try {
     const resp = await fetch(REPORTS_URL, { cache: 'no-cache' });
     if (!resp.ok) throw new Error('HTTP ' + resp.status);
     allReports = await resp.json();
     if (!Array.isArray(allReports)) allReports = [];
+
+    // Fallback: if a report was stored with a raw (undecoded) body, decode it
+    // client-side and re-extract url/host/score.
+    for (const r of allReports) {
+      if (r.body && (!r.url || !r.host || r.score == null)) {
+        const decoded = maybeDecodeAddonBody(r.body);
+        if (decoded !== r.body) {
+          r.body = decoded;
+          const urlM = decoded.match(/\*\*URL:\*\*\s*`([^`]+)`/);
+          const hostM = decoded.match(/\*\*Host:\*\*\s*`([^`]+)`/);
+          const scoreM = decoded.match(/\*\*Score:\*\*\s*(\d+)/);
+          if (urlM && !r.url) r.url = urlM[1];
+          if (hostM && !r.host) r.host = hostM[1];
+          if (scoreM && r.score == null) r.score = parseInt(scoreM[1], 10);
+        }
+      }
+    }
+
     updateStats();
     render();
   } catch (e) {

@@ -217,7 +217,18 @@ function render(report) {
   ).join(' ');
 
   // ── Parse the markdown body to extract detections, matched keywords, and URLs ──
-  const body = report.body || '';
+  // Fallback: older reports.json may have raw (reversed-base64) bodies from before
+  // the workflow was updated. Try to decode those client-side.
+  const body = maybeDecodeAddonBody(report.body || '');
+  // If URL/host/score weren't parsed server-side, try again now that body is decoded
+  if (!report.url || !report.host || report.score == null) {
+    const urlM = body.match(/\*\*URL:\*\*\s*`([^`]+)`/);
+    const hostM = body.match(/\*\*Host:\*\*\s*`([^`]+)`/);
+    const scoreM = body.match(/\*\*Score:\*\*\s*(\d+)/);
+    if (urlM && !report.url) report.url = urlM[1];
+    if (hostM && !report.host) report.host = hostM[1];
+    if (scoreM && report.score == null) report.score = parseInt(scoreM[1], 10);
+  }
   const detections = parseDetections(body);
   const extractedUrls = parseExtractedUrls(body);
 
@@ -387,6 +398,41 @@ function parseExtractedUrls(body) {
     if (m && /^https?:/i.test(m[1])) urls.push(m[1]);
   }
   return urls;
+}
+
+/**
+ * The Nehboro browser extension encodes its ntfy report body as:
+ *   UTF-8 plaintext -> base64 -> reversed string
+ * The URL scanner sends plaintext markdown.
+ *
+ * This tries to decode. If decoding fails or the input looks like plaintext
+ * already, returns the input unchanged.
+ */
+function maybeDecodeAddonBody(raw) {
+  if (!raw || typeof raw !== 'string') return raw;
+  const stripped = raw.trim();
+  // If it contains whitespace/newlines, it's plaintext (scanner report or manual post)
+  if (/\s/.test(stripped)) return raw;
+  // Must look like a base64 string (possibly reversed; padding may be at start)
+  if (!/^[A-Za-z0-9+/=]+$/.test(stripped)) return raw;
+  try {
+    const unreversed = stripped.split('').reverse().join('');
+    // Fix padding
+    const padLen = (4 - (unreversed.length % 4)) % 4;
+    const padded = unreversed + '='.repeat(padLen);
+    // Decode base64 to UTF-8
+    const binary = atob(padded);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    const decoded = new TextDecoder('utf-8').decode(bytes);
+    // Sanity check: decoded should look like our report markdown
+    if (decoded.includes('**') || decoded.includes('URL:') || decoded.includes('Score:')) {
+      return decoded;
+    }
+    return raw;
+  } catch (e) {
+    return raw;
+  }
 }
 
 (async () => {

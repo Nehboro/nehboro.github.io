@@ -2,8 +2,8 @@ name: Fetch community reports
 
 on:
   schedule:
-    # Every 6 hours
-    - cron: '0 */6 * * *'
+    # Every hour - pulls new reports from ntfy.sh/nehboro-reports
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -33,36 +33,74 @@ jobs:
 
       - name: Build aggregated reports.json index
         run: |
-          # Combine all *.jsonl files into a single sorted JSON array for the site
+          # Parse raw ntfy dumps, DECODE the reversed-base64 body the addon sends,
+          # and build a single aggregated reports/reports.json for the site.
           python3 - <<'PY'
-          import json, os, glob, re
+          import json, os, glob, re, base64
+
+          def decode_addon_body(raw):
+              """
+              The Nehboro browser extension encodes its report body as:
+                  UTF-8 plaintext -> base64 -> reversed string
+              The URL scanner sends plaintext markdown (no encoding).
+
+              This function tries to decode; if decoding fails it returns the raw string,
+              so plaintext scanner reports still pass through.
+              """
+              if not raw or not isinstance(raw, str):
+                  return raw
+              # Quick sanity: addon bodies are one long token of base64 chars + '='
+              # (after reversing, padding '=' moves to start). No whitespace in them.
+              stripped = raw.strip()
+              if re.search(r'[\s\n]', stripped):
+                  # Contains whitespace -> already plaintext (scanner report, manual ntfy post, etc.)
+                  return raw
+              # Unreverse
+              try:
+                  unreversed = stripped[::-1]
+                  # Fix padding
+                  missing = (-len(unreversed)) % 4
+                  unreversed += '=' * missing
+                  decoded_bytes = base64.b64decode(unreversed, validate=True)
+                  decoded = decoded_bytes.decode('utf-8')
+                  # Sanity: decoded should contain markdown-ish markers
+                  if '**' in decoded or 'URL:' in decoded or 'Score:' in decoded:
+                      return decoded
+                  # Couldn't confirm - return raw to avoid corrupting unknown formats
+                  return raw
+              except Exception:
+                  return raw
+
           out = []
           for f in sorted(glob.glob('reports/*.jsonl')):
-              with open(f) as fh:
+              with open(f, encoding='utf-8') as fh:
                   for line in fh:
                       line = line.strip()
-                      if not line: continue
+                      if not line:
+                          continue
                       try:
                           msg = json.loads(line)
-                          body = msg.get('message', '')
-                          url_m = re.search(r'\*\*URL:\*\*\s*`([^`]+)`', body)
-                          host_m = re.search(r'\*\*Host:\*\*\s*`([^`]+)`', body)
-                          score_m = re.search(r'\*\*Score:\*\*\s*(\d+)', body)
-                          out.append({
-                              'id': msg.get('id'),
-                              'time': msg.get('time'),
-                              'title': msg.get('title', ''),
-                              'tags': msg.get('tags', []),
-                              'url': url_m.group(1) if url_m else None,
-                              'host': host_m.group(1) if host_m else None,
-                              'score': int(score_m.group(1)) if score_m else None,
-                              'body': body,
-                          })
                       except Exception as e:
-                              print('skip:', e)
+                          print('skip malformed line:', e)
+                          continue
+                      raw_body = msg.get('message', '')
+                      body = decode_addon_body(raw_body)
+                      url_m   = re.search(r'\*\*URL:\*\*\s*`([^`]+)`', body)
+                      host_m  = re.search(r'\*\*Host:\*\*\s*`([^`]+)`', body)
+                      score_m = re.search(r'\*\*Score:\*\*\s*(\d+)', body)
+                      out.append({
+                          'id':    msg.get('id'),
+                          'time':  msg.get('time'),
+                          'title': msg.get('title', ''),
+                          'tags':  msg.get('tags', []),
+                          'url':   url_m.group(1)   if url_m   else None,
+                          'host':  host_m.group(1)  if host_m  else None,
+                          'score': int(score_m.group(1)) if score_m else None,
+                          'body':  body,
+                      })
           out.sort(key=lambda x: x.get('time', 0), reverse=True)
-          with open('reports/reports.json', 'w') as f:
-              json.dump(out, f, indent=2)
+          with open('reports/reports.json', 'w', encoding='utf-8') as f:
+              json.dump(out, f, ensure_ascii=False, indent=2)
           print('Aggregated', len(out), 'reports into reports.json')
           PY
 
