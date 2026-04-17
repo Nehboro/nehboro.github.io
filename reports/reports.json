@@ -1,5 +1,20 @@
 [
   {
+    "id": "xgT6NZXa1qL8",
+    "time": 1776460180,
+    "title": "[THREAT] jfrog.com - Score 151",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_151"
+    ],
+    "source": "extension",
+    "url": null,
+    "host": null,
+    "score": null,
+    "body": "You received a file: attachment.txt"
+  },
+  {
     "id": "u8GHIqQcHY2E",
     "time": 1776458055,
     "title": "[THREAT] www.ox.security - Score 126",
