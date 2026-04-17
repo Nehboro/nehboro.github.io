@@ -1,5 +1,80 @@
 [
   {
+    "id": "4ylIdgET2OHv",
+    "time": 1776410672,
+    "title": "[THREAT] 127.0.0.1 - Score 392",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_392"
+    ],
+    "source": "extension",
+    "url": "http://127.0.0.1:8000/",
+    "host": "127.0.0.1",
+    "score": 392,
+    "body": "**URL:** `http://127.0.0.1:8000/`\n**Host:** `127.0.0.1`\n**Score:** 392 / 100\n**Reported:** 2026-04-17 07:24:32 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Nehboro - Community Threat Intelligence\n**Description:** Community-powered browser extension with 94+ dynamic detections, static IOC feeds, and optional Claude AI analysis. Protection against phishing, ClickFix, and malware.\n**Language:** en\n**Protocol:** http: | **Port:** 8000\n**Referrer:** direct\n\n### Page Structure\n**Forms:** 1 | **Password/text/email inputs:** 1\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 22\n\n### Detections\n- **CLICKFIX PARTIAL** *(+25pts)*: Partial ClickFix sequence (2/3): open dialog + paste\n  > `Win+R`\n  - *Suspicious keywords matched (3):*\n    - `Win+R`\n    - `Win+X`\n    - `Ctrl+V`\n- **CLICKFIX MULTILANG** *(+48pts)*: 3 multilingual ClickFix instruction signals\n  > `Copiar solución | Para provar que não é um robô | Fenêtre du terminal`\n- **CLICKFIX PRETEXT** *(+40pts)*: ClickFix pretext with execution instructions: missing font\n  > `missing font | Para provar que não é um robô`\n  - *Suspicious keywords matched (2):*\n    - `Win+R`\n    - `Win+X`\n- **CLIPBOARD SOURCE** *(+25pts)*: 1 clipboard write API calls in page source\n  > `clipboard API + suspicious payload`\n- **DEVICE CODE PHISH** *(+50pts)*: Device code phishing: device code phishing, DocuSign, non-official domain\n  > `device code phishing | DocuSign | non-official domain`\n- **FAKE ERROR PAGE** *(+30pts)*: 2 fake error/crash page signals\n  > `Windows Defender alert | BSOD`\n- **FAKE OS UI** *(+10pts)*: Fake system UI: 1 fake dialog/UI keyword(s)\n  > `1 fake dialog/UI keyword(s)`\n- **FILEFIX** *(+38pts)*: FileFix: paste into Explorer address bar\n  > `File Explorer address bar`\n\n### Extracted URLs (10)\n- `https://fonts.googleapis.com`\n- `https://fonts.gstatic.com`\n- `https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;700&display=swap`\n- `https://github.com/Nehboro/nehboro`\n- `https://github.com/Nehboro/nehboro.github.io/releases`\n- `https://github.com/Nehboro/nehboro.github.io`\n- `https://github.com/Nehboro/nehboro.github.io/issues`\n- `https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&amp;family=Noto+Serif+JP:wght@400;500;700&amp;display=swap`\n- `https://evil.com/x.ps1`\n- `https://example-suspicious-site.com`"
+  },
+  {
+    "id": "WAci7iye4bdN",
+    "time": 1776410504,
+    "title": "[THREAT] nehboro.github.io - Score 179",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_179"
+    ],
+    "source": "extension",
+    "url": "https://nehboro.github.io/nehboro-testing-pages/clickfix-basic.html",
+    "host": "nehboro.github.io",
+    "score": 179,
+    "body": "**URL:** `https://nehboro.github.io/nehboro-testing-pages/clickfix-basic.html`\n**Host:** `nehboro.github.io`\n**Score:** 179 / 100\n**Reported:** 2026-04-17 07:21:43 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Basic ClickFix\n**Description:** N/A\n**Language:** en\n**Protocol:** https:\n**Referrer:** https://nehboro.github.io/nehboro-testing-pages/index.html\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 1\n\n### Detections\n- **CLICKFIX FULL SEQUENCE** *(+45pts)*: Complete ClickFix execution sequence detected\n  > `open the Run dialog`\n  - *Suspicious keywords matched (4):*\n    - `open the Run dialog`\n    - `Ctrl + V`\n    - `paste the command`\n    - `Press Enter`\n- **CLICKFIX PRETEXT** *(+40pts)*: ClickFix pretext with execution instructions: Press & hold Windows Key ⊞ + R to open the Run dialog\n  > `Press & hold Windows Key ⊞ + R to open the Run dialog | press Ctrl + V to paste the command`\n  - *Suspicious keywords matched (1):*\n    - `open the Run dialog`\n- **FAKE CLOUDFLARE TEXT** *(+32pts)*: 7 fake Cloudflare/CAPTCHA text signals\n  > `Complete these Verification Steps`\n  - *Suspicious keywords matched (7):*\n    - `Complete these Verification Steps`\n    - `To better prove you are not a robot`\n    - `prove you are not a robot`\n    - `Press & hold Windows Key`\n    - `In the verification window`\n    - `Perform the steps above to finish verification`\n    - `You will observe and agree`\n- **LOLBIN IN CONTEXT** *(+35pts)*: 1 LOLBin(s) alongside execution instructions\n  > `powershell`\n  - *Suspicious keywords matched (1):*\n    - `powershell`\n- **BONUS LOLBIN INSTRUCTION** *(+12pts)*: LOLBin + execution instructions\n- **BONUS CAPTCHA INSTRUCTION** *(+15pts)*: Fake CAPTCHA lure + execution instructions\n\n### Extracted URLs (0)\n- *(no URLs extracted from page)*"
+  },
+  {
+    "id": "LyOFG8d9rZzz",
+    "time": 1776409901,
+    "title": "[THREAT] nehboro.github.io - Score 177",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_177"
+    ],
+    "source": "extension",
+    "url": "https://nehboro.github.io/nehboro-testing-pages/clickfix-cloudflare.html",
+    "host": "nehboro.github.io",
+    "score": 177,
+    "body": "**URL:** `https://nehboro.github.io/nehboro-testing-pages/clickfix-cloudflare.html`\n**Host:** `nehboro.github.io`\n**Score:** 177 / 100\n**Reported:** 2026-04-17 07:11:41 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Fake Cloudflare ClickFix\n**Description:** N/A\n**Language:** en\n**Protocol:** https:\n**Referrer:** https://nehboro.github.io/nehboro-testing-pages/index.html\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 1\n\n### Detections\n- **CLICKFIX FULL SEQUENCE** *(+45pts)*: Complete ClickFix execution sequence detected\n  > `Win + R`\n  - *Suspicious keywords matched (5):*\n    - `Win + R`\n    - `open the Run dialog`\n    - `Ctrl + V`\n    - `paste the command`\n    - `Click OK`\n- **CLICKFIX PRETEXT** *(+40pts)*: ClickFix pretext with execution instructions: Additional Verification Required\n  > `Additional Verification Required | Press ⊞ Win + R to open the Run dialog | Press Ctrl + V to paste `\n  - *Suspicious keywords matched (2):*\n    - `Win + R`\n    - `open the Run dialog`\n- **FAKE CLOUDFLARE TEXT** *(+32pts)*: 6 fake Cloudflare/CAPTCHA text signals\n  > `Verify you are human`\n  - *Suspicious keywords matched (7):*\n    - `Verify you are human`\n    - `Checking your browser`\n    - `DDoS protection by Cloudflare`\n    - `Performance & security by Cloudflare`\n    - `Performance &amp; security by Cloudflare`\n    - `Ray ID: 1eaf74e57613e7f9`\n    - `Additional Verification Required`\n- **FAKE VERIFICATION ID** *(+45pts)*: Fake verification ID: Cloudflare Verification ID: 2628, Verification ID: 2628\n  > `Cloudflare Verification ID: 2628 | Verification ID: 2628`\n- **BONUS CAPTCHA INSTRUCTION** *(+15pts)*: Fake CAPTCHA lure + execution instructions\n\n### Extracted URLs (0)\n- *(no URLs extracted from page)*"
+  },
+  {
+    "id": "RxAjFV17Gixh",
+    "time": 1776409811,
+    "title": "[THREAT] nehboro.github.io - Score 419",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_419"
+    ],
+    "source": "extension",
+    "url": "https://nehboro.github.io/nehboro-testing-pages/index.html",
+    "host": "nehboro.github.io",
+    "score": 419,
+    "body": "**URL:** `https://nehboro.github.io/nehboro-testing-pages/index.html`\n**Host:** `nehboro.github.io`\n**Score:** 419 / 100\n**Reported:** 2026-04-17 07:10:11 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Nehboro Detection Test Suite\n**Description:** N/A\n**Language:** en\n**Protocol:** https:\n**Referrer:** https://nehboro.github.io/nehboro-testing-pages/phishing-browser-in-browser.html\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 40\n\n### Detections\n- **CLICKFIX PARTIAL** *(+25pts)*: Partial ClickFix sequence (2/3): open dialog + paste\n  > `Win+R`\n  - *Suspicious keywords matched (3):*\n    - `Win+R`\n    - `Win+X`\n    - `Ctrl+V`\n- **CLICKFIX PRETEXT** *(+40pts)*: ClickFix pretext with execution instructions: audio drivers are outdated\n  > `audio drivers are outdated | Missing Font`\n  - *Suspicious keywords matched (2):*\n    - `Win+R`\n    - `Win+X`\n- **CONSENTFIX** *(+42pts)*: OAuth ConsentFix token theft pattern\n  > `device code flow`\n- **DEVICE CODE PHISH** *(+50pts)*: Device code phishing: verification code\n\nDEVICE, DocuSign, non-official domain\n  > `verification code\n\nDEVICE | DocuSign | non-official domain`\n- **FAKE ANTIVIRUS** *(+35pts)*: 2 fake antivirus scan signals\n  > `threats found | Windows Defender threats`\n- **FAKE COUNTDOWN** *(+10pts)*: Countdown timer with 2 signals: time format displayed, scarcity context\n  > `time format displayed | scarcity context`\n- **FAKE ERROR PAGE** *(+30pts)*: 2 fake error/crash page signals\n  > `Windows Defender warning | BSOD`\n- **FAKE SOCIAL PROOF** *(+17pts)*: Fake social proof (2 signals)\n  > `user-count: 2,847 people | user-count: 2,847 people downloaded this`\n\n### Extracted URLs (0)\n- *(no URLs extracted from page)*"
+  },
+  {
+    "id": "O9kZ6knPQoyR",
+    "time": 1776409749,
+    "title": "[THREAT] nehboro.github.io - Score 419",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_419"
+    ],
+    "source": "extension",
+    "url": "https://nehboro.github.io/nehboro-testing-pages/",
+    "host": "nehboro.github.io",
+    "score": 419,
+    "body": "**URL:** `https://nehboro.github.io/nehboro-testing-pages/`\n**Host:** `nehboro.github.io`\n**Score:** 419 / 100\n**Reported:** 2026-04-17 07:09:08 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Nehboro Detection Test Suite\n**Description:** N/A\n**Language:** en\n**Protocol:** https:\n**Referrer:** direct\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 40\n\n### Detections\n- **CLICKFIX PARTIAL** *(+25pts)*: Partial ClickFix sequence (2/3): open dialog + paste\n  > `Win+R`\n  - *Suspicious keywords matched (3):*\n    - `Win+R`\n    - `Win+X`\n    - `Ctrl+V`\n- **CLICKFIX PRETEXT** *(+40pts)*: ClickFix pretext with execution instructions: audio drivers are outdated\n  > `audio drivers are outdated | Missing Font`\n  - *Suspicious keywords matched (2):*\n    - `Win+R`\n    - `Win+X`\n- **CONSENTFIX** *(+42pts)*: OAuth ConsentFix token theft pattern\n  > `device code flow`\n- **DEVICE CODE PHISH** *(+50pts)*: Device code phishing: verification code\n\nDEVICE, DocuSign, non-official domain\n  > `verification code\n\nDEVICE | DocuSign | non-official domain`\n- **FAKE ANTIVIRUS** *(+35pts)*: 2 fake antivirus scan signals\n  > `threats found | Windows Defender threats`\n- **FAKE COUNTDOWN** *(+10pts)*: Countdown timer with 2 signals: time format displayed, scarcity context\n  > `time format displayed | scarcity context`\n- **FAKE ERROR PAGE** *(+30pts)*: 2 fake error/crash page signals\n  > `Windows Defender warning | BSOD`\n- **FAKE SOCIAL PROOF** *(+17pts)*: Fake social proof (2 signals)\n  > `user-count: 2,847 people | user-count: 2,847 people downloaded this`\n\n### Extracted URLs (0)\n- *(no URLs extracted from page)*"
+  },
+  {
     "id": "J2AjSF2htYzN",
     "time": 1776349085,
     "title": "[THREAT] unknown - Score 100",
