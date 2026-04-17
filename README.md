@@ -49,7 +49,7 @@ Plain CSV files in `/feeds/`, supporting:
 
 Lines starting with `#` are comments. Headers are auto-detected and skipped.
 
-These feeds focus on **confirmed scam and phishing infrastructure**. Chrome caps the number of static blocking rules per extension, so the feeds are intentionally curated rather than exhaustive. The extension's **dynamic heuristic engine** (94+ detections) handles everything else.
+These feeds focus on **confirmed scam and phishing infrastructure**. Chrome caps the number of static blocking rules per extension, so the feeds are intentionally curated rather than exhaustive. The extension's **dynamic heuristic engine** (97 detections) handles everything else.
 
 ## Reports system
 
