@@ -1,3 +1,9 @@
 feeds/urls.csv
 reports/.last_fetch
 reports/reports.json
+feeds/domains.csv
+feeds/ips.csv
+feeds/ports.csv
+feeds/urls.csv
+reports/.last_fetch
+reports/reports.json
