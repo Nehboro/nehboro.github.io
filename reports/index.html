@@ -148,6 +148,13 @@ body {
 .footer-note code { background: var(--mist); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 11px; }
 
 @media (max-width: 700px) {
+  .header { flex-direction: column; padding: 14px 18px; gap: 12px; }
+  .nav {
+    width: 100%; justify-content: center; gap: 6px;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+  }
+  .nav a { text-align: center; font-size: 12px; padding: 6px 4px; }
+  .nav .gh-icon { grid-column: span 3; justify-self: center; }
   .report-card { grid-template-columns: auto 1fr; }
   .r-time, .r-arrow { display: none; }
   .stats-bar { flex-direction: column; }
