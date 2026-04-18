@@ -1,5 +1,80 @@
 [
   {
+    "id": "2YIr4i4WnjXr",
+    "time": 1776502921,
+    "title": "[THREAT] 103.74.5.124 - Score 57",
+    "tags": [
+      "warning",
+      "shield",
+      "score_57"
+    ],
+    "source": "extension",
+    "url": "https://103.74.5.124/",
+    "host": "103.74.5.124",
+    "score": 57,
+    "body": "**URL:** `https://103.74.5.124/`\n**Host:** `103.74.5.124`\n**Score:** 57 / 100\n**Reported:** 2026-04-18 09:02:00 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Kaspersky Plus\n**Description:** N/A\n**Language:** fr\n**Protocol:** https:\n**Referrer:** https://103.74.5.124/\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 1\n\n### Detections\n- **CLIPBOARD SOURCE** *(+10pts)*: 2 clipboard write API calls in page source\n  > `clipboard API + unknown payload`\n- **CRYPTO ADDRESS SWAP** *(+2pts)*: Crypto address near clipboard API - possible address swap\n  > `1oXSVpskP92mzxZiR4rnzxmDvC98TwwebR`\n- **CRYPTO ADDRESSES LISTED** *(+30pts)*: 4 crypto addresses (BTC) on page\n  > `1oXSVpskP92mzxZiR4rnzxmDvC98Tw, 3RNFnMs1HRdRFGsYaXtc8xKjBZFFWv`\n- **RAW IP HOSTING** *(+15pts)*: Page served from raw IP address 103.74.5.124\n  > `raw IP: 103.74.5.124`\n\n### Extracted URLs (3)\n- `https://click.kaspersky.com/?hl=fr-FR&customization=&link=securelist&vn=HEUR:Trojan.Script.Generic&serial=63900507-0250-4B57-BE99-AF7DF0B0C93D&hwid=FFFF86F5-C945-0976-BBFA-D6ABF60BA952&acaid=2269&syst`\n- `https://103.74.5.124/`\n- `https://click.kaspersky.com/?hl=fr-FR&amp;customization=&amp;link=securelist&amp;vn=HEUR:Trojan.Script.Generic&amp;serial=63900507-0250-4B57-BE99-AF7DF0B0C93D&amp;hwid=FFFF86F5-C945-0976-BBFA-D6ABF60B`"
+  },
+  {
+    "id": "QuF1klWXEfwx",
+    "time": 1776502846,
+    "title": "[THREAT] dfopetroleum.com - Score 100",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_100"
+    ],
+    "source": "extension",
+    "url": null,
+    "host": null,
+    "score": null,
+    "body": "You received a file: attachment.txt"
+  },
+  {
+    "id": "98MjAJqfbccc",
+    "time": 1776502644,
+    "title": "[THREAT] www.huntress.com - Score 231",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_231"
+    ],
+    "source": "extension",
+    "url": null,
+    "host": null,
+    "score": null,
+    "body": "You received a file: attachment.txt"
+  },
+  {
+    "id": "3nsTd8qovSr3",
+    "time": 1776502640,
+    "title": "[THREAT] www.varonis.com - Score 149",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_149"
+    ],
+    "source": "extension",
+    "url": null,
+    "host": null,
+    "score": null,
+    "body": "You received a file: attachment.txt"
+  },
+  {
+    "id": "JzWwc4xt9cQV",
+    "time": 1776502370,
+    "title": "[THREAT] unit42.paloaltonetworks.com - Score 161",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_161"
+    ],
+    "source": "extension",
+    "url": null,
+    "host": null,
+    "score": null,
+    "body": "You received a file: attachment.txt"
+  },
+  {
     "id": "xgT6NZXa1qL8",
     "time": 1776460180,
     "title": "[THREAT] jfrog.com - Score 151",
