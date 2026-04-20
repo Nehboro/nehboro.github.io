@@ -10,9 +10,9 @@
     ],
     "source": "extension",
     "url": null,
-    "host": null,
-    "score": null,
-    "body": "You received a file: attachment.txt"
+    "host": "www.joesandbox.com",
+    "score": 388,
+    "body": "*(Attachment expired — original report unavailable)*\n\n**Title:** [THREAT] www.joesandbox.com - Score 388"
   },
   {
     "id": "2YIr4i4WnjXr",
@@ -40,9 +40,9 @@
     ],
     "source": "extension",
     "url": null,
-    "host": null,
-    "score": null,
-    "body": "You received a file: attachment.txt"
+    "host": "dfopetroleum.com",
+    "score": 100,
+    "body": "*(Attachment expired — original report unavailable)*\n\n**Title:** [THREAT] dfopetroleum.com - Score 100"
   },
   {
     "id": "98MjAJqfbccc",
@@ -55,9 +55,9 @@
     ],
     "source": "extension",
     "url": null,
-    "host": null,
-    "score": null,
-    "body": "You received a file: attachment.txt"
+    "host": "www.huntress.com",
+    "score": 231,
+    "body": "*(Attachment expired — original report unavailable)*\n\n**Title:** [THREAT] www.huntress.com - Score 231"
   },
   {
     "id": "3nsTd8qovSr3",
@@ -70,9 +70,9 @@
     ],
     "source": "extension",
     "url": null,
-    "host": null,
-    "score": null,
-    "body": "You received a file: attachment.txt"
+    "host": "www.varonis.com",
+    "score": 149,
+    "body": "*(Attachment expired — original report unavailable)*\n\n**Title:** [THREAT] www.varonis.com - Score 149"
   },
   {
     "id": "JzWwc4xt9cQV",
@@ -85,9 +85,9 @@
     ],
     "source": "extension",
     "url": null,
-    "host": null,
-    "score": null,
-    "body": "You received a file: attachment.txt"
+    "host": "unit42.paloaltonetworks.com",
+    "score": 161,
+    "body": "*(Attachment expired — original report unavailable)*\n\n**Title:** [THREAT] unit42.paloaltonetworks.com - Score 161"
   },
   {
     "id": "xgT6NZXa1qL8",
@@ -100,9 +100,9 @@
     ],
     "source": "extension",
     "url": null,
-    "host": null,
-    "score": null,
-    "body": "You received a file: attachment.txt"
+    "host": "jfrog.com",
+    "score": 151,
+    "body": "*(Attachment expired — original report unavailable)*\n\n**Title:** [THREAT] jfrog.com - Score 151"
   },
   {
     "id": "u8GHIqQcHY2E",
@@ -115,9 +115,9 @@
     ],
     "source": "extension",
     "url": null,
-    "host": null,
-    "score": null,
-    "body": "You received a file: attachment.txt"
+    "host": "www.ox.security",
+    "score": 126,
+    "body": "*(Attachment expired — original report unavailable)*\n\n**Title:** [THREAT] www.ox.security - Score 126"
   },
   {
     "id": "4ylIdgET2OHv",
@@ -205,7 +205,7 @@
     ],
     "source": "extension",
     "url": "64.144.29.0/24",
-    "host": null,
+    "host": "unknown",
     "score": 100,
     "body": "**URL:** `64.144.29.0/24`\n**Host:** ``\n**Score:** 100 / 100\n**Reported:** 2026-04-16 14:18:04 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** N/A\n**Description:** N/A\n**Language:** N/A\n**Protocol:** N/A\n**Referrer:** direct\n\n### Page Structure\n**Forms:** ? | **Password/text/email inputs:** ?\n**Iframes:** ? | **External scripts:** ? | **Links:** ?\n\n### Detections\n- *(manual report - no automated detections)*\n\n### Extracted URLs (0)\n- *(no URLs extracted from page)*"
   },

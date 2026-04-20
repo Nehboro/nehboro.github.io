@@ -32,7 +32,7 @@ jobs:
       - name: Build aggregated reports.json index
         run: |
           python3 - <<'PY'
-          import json, glob, re, base64
+          import json, glob, re, base64, urllib.request, sys, os
 
           def decode_addon_body(raw):
               """
@@ -46,8 +46,10 @@ jobs:
               stripped = raw.strip()
               if not stripped:
                   return raw
+              # If it contains whitespace/newlines, it's already plaintext
               if re.search(r'\s', stripped):
-                  return raw  # plaintext (scanner or manual post)
+                  return raw
+              # Must look like base64
               if not re.fullmatch(r'[A-Za-z0-9+/=]+', stripped):
                   return raw
               try:
@@ -61,6 +63,71 @@ jobs:
               except Exception:
                   return raw
 
+          def fetch_attachment(url, msg_id):
+              """
+              When a report body is too large, ntfy stores it as a file attachment.
+              The JSON message will have:
+                  "message": "You received a file: attachment.txt"
+                  "attachment": {"name": "...", "url": "https://ntfy.sh/file/XXX.txt", ...}
+              This fetches the file content. Attachments expire after 3 hours on ntfy.sh.
+              """
+              # Check the cache first (we store fetched attachments to survive expiry)
+              cache_dir = 'reports/_attachments'
+              os.makedirs(cache_dir, exist_ok=True)
+              safe_id = re.sub(r'[^a-zA-Z0-9_-]', '_', msg_id or 'unknown')
+              cache_file = os.path.join(cache_dir, safe_id + '.txt')
+              if os.path.exists(cache_file):
+                  with open(cache_file, encoding='utf-8') as f:
+                      content = f.read()
+                  if content.strip():
+                      print(f'  [cache hit] {safe_id}')
+                      return content
+              # Fetch from ntfy
+              try:
+                  print(f'  [fetching attachment] {url}')
+                  req = urllib.request.Request(url, headers={'User-Agent': 'nehboro-bot/1.0'})
+                  with urllib.request.urlopen(req, timeout=15) as resp:
+                      content = resp.read().decode('utf-8', errors='replace')
+                  if content.strip():
+                      # Cache it so we survive attachment expiry on subsequent runs
+                      with open(cache_file, 'w', encoding='utf-8') as f:
+                          f.write(content)
+                      print(f'  [fetched] {len(content)} bytes, cached as {safe_id}.txt')
+                      return content
+                  return None
+              except Exception as e:
+                  print(f'  [attachment fetch failed] {url}: {e}')
+                  return None
+
+          def get_body(msg):
+              """
+              Extract the report body from a ntfy message.
+              Handles three cases:
+                1. Body as attachment (large reports) - fetch from URL, then decode
+                2. Body inline but encoded (reversed base64) - decode
+                3. Body inline plaintext (scanner reports) - use as-is
+              """
+              attachment = msg.get('attachment')
+              raw_message = msg.get('message', '')
+
+              # Case 1: body stored as attachment
+              if attachment and isinstance(attachment, dict) and attachment.get('url'):
+                  # Message will be like "You received a file: attachment.txt" or similar
+                  att_content = fetch_attachment(attachment['url'], msg.get('id'))
+                  if att_content:
+                      # The attachment content is still reversed-base64 encoded
+                      decoded = decode_addon_body(att_content)
+                      if decoded and ('**' in decoded or 'URL:' in decoded):
+                          return decoded
+                      # Maybe it was plaintext in the attachment
+                      return att_content
+                  # Fetch failed (expired?) - try to extract what we can from the title
+                  title = msg.get('title', '')
+                  return f'*(Attachment expired — original report unavailable)*\n\n**Title:** {title}'
+
+              # Case 2 & 3: body is inline
+              return decode_addon_body(raw_message)
+
           out = []
           for f in sorted(glob.glob('reports/*.jsonl')):
               with open(f, encoding='utf-8') as fh:
@@ -73,27 +140,39 @@ jobs:
                       except Exception as e:
                           print('skip malformed line:', e)
                           continue
-                      raw_body = msg.get('message', '')
-                      body = decode_addon_body(raw_body)
+                      # Skip non-message events (open, keepalive, poll_request)
+                      if msg.get('event') and msg['event'] != 'message':
+                          continue
+                      body = get_body(msg)
                       url_m   = re.search(r'\*\*URL:\*\*\s*`([^`]+)`', body)
                       host_m  = re.search(r'\*\*Host:\*\*\s*`([^`]+)`', body)
                       score_m = re.search(r'\*\*Score:\*\*\s*(\d+)', body)
                       is_scanner = bool(re.search(r'\*\*Source:\*\*\s*Nehboro URL Scanner', body))
+                      # Fallback: extract host/score from title if body parsing failed
+                      title = msg.get('title', '')
+                      if not host_m:
+                          title_host = re.search(r'\[THREAT\]\s+(\S+)', title)
+                          if title_host:
+                              host_m = title_host
+                      if not score_m:
+                          title_score = re.search(r'Score\s+(\d+)', title)
+                          if title_score:
+                              score_m = title_score
                       out.append({
                           'id':       msg.get('id'),
                           'time':     msg.get('time'),
-                          'title':    msg.get('title', ''),
+                          'title':    title,
                           'tags':     msg.get('tags', []),
                           'source':   'scanner' if is_scanner else 'extension',
-                          'url':      url_m.group(1)   if url_m   else None,
-                          'host':     host_m.group(1)  if host_m  else None,
+                          'url':      url_m.group(1) if url_m else None,
+                          'host':     (host_m.group(1) if host_m else None),
                           'score':    int(score_m.group(1)) if score_m else None,
                           'body':     body,
                       })
           out.sort(key=lambda x: x.get('time', 0), reverse=True)
           with open('reports/reports.json', 'w', encoding='utf-8') as f:
               json.dump(out, f, ensure_ascii=False, indent=2)
-          print('Aggregated', len(out), 'reports into reports.json')
+          print(f'Aggregated {len(out)} reports into reports.json')
           PY
 
       - name: Commit if changed
