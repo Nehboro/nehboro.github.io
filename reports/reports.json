@@ -1,5 +1,20 @@
 [
   {
+    "id": "MTNZjQzRjrl3",
+    "time": 1776679926,
+    "title": "[THREAT] www.joesandbox.com - Score 388",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_388"
+    ],
+    "source": "extension",
+    "url": null,
+    "host": null,
+    "score": null,
+    "body": "You received a file: attachment.txt"
+  },
+  {
     "id": "2YIr4i4WnjXr",
     "time": 1776502921,
     "title": "[THREAT] 103.74.5.124 - Score 57",
