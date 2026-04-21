@@ -1,5 +1,20 @@
 [
   {
+    "id": "2V5Nke97za10",
+    "time": 1776767000,
+    "title": "[THREAT] raw.githubusercontent.com - Score 113",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_113"
+    ],
+    "source": "extension",
+    "url": "https://raw.githubusercontent.com/Nehboro/nehboro.github.io/refs/heads/main/feeds/domains.csv",
+    "host": "raw.githubusercontent.com",
+    "score": 113,
+    "body": "**URL:** `https://raw.githubusercontent.com/Nehboro/nehboro.github.io/refs/heads/main/feeds/domains.csv`\n**Host:** `raw.githubusercontent.com`\n**Score:** 113 / 100\n**Reported:** 2026-04-21 10:23:20 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** N/A\n**Description:** N/A\n**Language:** N/A\n**Protocol:** https:\n**Referrer:** https://github.com/Nehboro/nehboro.github.io/blob/main/feeds/domains.csv\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 0\n\n### Detections\n- **CRYPTO ADDRESSES LISTED** *(+30pts)*: 3 crypto addresses (BTC) on page\n  > `bc1qwjjsy2w3tzc2yh0njjudcma5qx, bc1qs6rpqdh7g55vk4ddplvpeuakk2`\n- **DEVICE CODE PHISH** *(+38pts)*: Device code phishing: docusign, non-official domain\n  > `docusign | non-official domain`\n- **FAKE SOFTWARE DL** *(+25pts)*: Fake software download lure detected\n  > `cleanmymacos.`\n  - *Suspicious keywords matched (1):*\n    - `cleanmymacos.`\n- **SCAM PHONE PROMINENT** *(+20pts)*: Scam phone pattern: toll-free/helpline label\n  > `Numbers found: 10424346129, 2022202220, 2022022220 | toll-free/helpline label`\n\n### Extracted URLs (0)\n- *(no URLs extracted from page)*"
+  },
+  {
     "id": "BnCvOqePP5mC",
     "time": 1776718956,
     "title": "[THREAT] newassets.hcaptcha.com - Score 222",
