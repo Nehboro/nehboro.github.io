@@ -13,6 +13,8 @@ This is the **public GitHub Pages site** for the Nehboro browser extension. It s
 
 The browser extension source code lives in [github.com/Nehboro/nehboro](https://github.com/Nehboro/nehboro)
 
+extension is available on the chrome webstore: https://chromewebstore.google.com/detail/nehboro/ljgklnaofelbcnegjniagpmjknkmaiom
+
 ## Contents
 
 ```
