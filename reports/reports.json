@@ -1,5 +1,20 @@
 [
   {
+    "id": "dNVioawM4gDp",
+    "time": 1776984407,
+    "title": "[THREAT] www.myconnectnyc.org - Score 110",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_110"
+    ],
+    "source": "extension",
+    "url": "https://www.myconnectnyc.org/mychart/Visits/VisitDetails?csn=WP-24elGYgmGRGZKeYGciBUnN1A-3D-3D-24Y2WX0HzFeyu5qVKDRBPW9lSHvVYI3ircEp7BCn4E688-3D",
+    "host": "www.myconnectnyc.org",
+    "score": 110,
+    "body": "**URL:** `https://www.myconnectnyc.org/mychart/Visits/VisitDetails?csn=WP-24elGYgmGRGZKeYGciBUnN1A-3D-3D-24Y2WX0HzFeyu5qVKDRBPW9lSHvVYI3ircEp7BCn4E688-3D`\n**Host:** `www.myconnectnyc.org`\n**Score:** 110 / 100\n**Reported:** 2026-04-23 22:46:46 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Connect - Appointment Details\n**Description:** N/A\n**Language:** en\n**Protocol:** https:\n**Referrer:** https://www.myconnectnyc.org/mychart/Home/\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 3 | **Links:** 24\n\n### Detections\n- **CRYPTO ADDRESSES LISTED** *(+30pts)*: 4 crypto addresses (BTC) on page\n  > `1371975413564a69889f92113a1c8a, 3wKUNMzE2ppBJVzpHNX4oWjwjwsajj`\n- **DEVICE CODE PHISH** *(+38pts)*: Device code phishing: large/styled code display, non-official domain\n  > `large/styled code display | non-official domain`\n- **FAKE OS UI** *(+10pts)*: Fake system UI: 10 fake window UI elements\n  > `10 fake window UI elements`\n- **SCAM PHONE PROMINENT** *(+20pts)*: Scam phone pattern: same number repeated 2x\n  > `Numbers found: 212-746-6000,  (212) 746-6000 | same number repeated 2x`\n- **VISUAL BRAND IMPERSONATION** *(+12pts)*: Page visually impersonates Apple (4 visual signals) on non-official domain www.myconnectnyc.org\n  > `logo:/mychart/en-us/images/badge_apple.png | colors:2 brand colors matched`\n\n### Extracted URLs (8)\n- `https://itunes.apple.com/us/app/mychart/id382952264?mt=8`\n- `https://play.google.com/store/apps/details?id=epic.mychart.android&hl=en`\n- `https://youtu.be/6Fb_KXmr2aw`\n- `https://open.epic.com/Tutorial/PatientAuthentication?whereFrom=MyChart`\n- `https://play.google.com/store/apps/details?id=epic.mychart.android&amp;hl=en`\n- `https://central.mychart.org/MyChart/`\n- `https://www.myconnectnyc.org`\n- `https://google.com/maps/dir/{0},{1}/{2`"
+  },
+  {
     "id": "irWC4jfxyhHl",
     "time": 1776956298,
     "title": "[THREAT] www.trmlabs.com - Score 152",
