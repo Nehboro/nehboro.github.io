@@ -1,5 +1,20 @@
 [
   {
+    "id": "LABl8qZkhhyg",
+    "time": 1777882660,
+    "title": "[THREAT] my.nextdns.io - Score 112",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_112"
+    ],
+    "source": "extension",
+    "url": "https://my.nextdns.io/da88b5/setup",
+    "host": "my.nextdns.io",
+    "score": 112,
+    "body": "**URL:** `https://my.nextdns.io/da88b5/setup`\n**Host:** `my.nextdns.io`\n**Score:** 112 / 100\n**Reported:** 2026-05-04 08:17:40 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Setup - Gazprom - NextDNS\n**Description:** N/A\n**Language:** en\n**Protocol:** https:\n**Referrer:** direct\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 22\n\n### Detections\n- **DEVICE CODE PHISH** *(+38pts)*: Device code phishing: large/styled code display, non-official domain\n  > `large/styled code display | non-official domain`\n- **FAKE URL BAR** *(+40pts)*: Fake URL bar / BitB: base64 image near security text\n  > `base64 image near security text`\n- **IP GEOLOCATION SCARE** *(+22pts)*: IP/geolocation scare: IP address displayed\n  > `IP address displayed`\n- **VISUAL BRAND IMPERSONATION** *(+12pts)*: Page visually impersonates Apple (4 visual signals) on non-official domain my.nextdns.io\n  > `logo:svg-inline--fa fa-apple  | colors:2 brand colors matched`\n\n### Extracted URLs (8)\n- `https://github.com/nextdns/nextdns/wiki`\n- `https://github.com/NLnetLabs/unbound/issues/132`\n- `https://help.nextdns.io/t/q6hmv0s/translations`\n- `http://www.w3.org/2000/svg`\n- `https://dns.nextdns.io/da88b5`\n- `https://nextdns.io/install`\n- `https://dns.nextdns.io/`\n- `https://dns.nextdns.io/da88b5/John`"
+  },
+  {
     "id": "so5wEJvqyrvG",
     "time": 1777817496,
     "title": "[THREAT] newassets.hcaptcha.com - Score 222",
