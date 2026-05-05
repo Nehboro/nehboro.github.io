@@ -1,5 +1,20 @@
 [
   {
+    "id": "UE360lgos4SY",
+    "time": 1777990560,
+    "title": "[THREAT] 00168301.pphosted.com - Score 140",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_140"
+    ],
+    "source": "extension",
+    "url": "https://00168301.pphosted.com:10001/admin?module=AccessDisposition&method=edit_term&add=1&term=-1&addonly=1",
+    "host": "00168301.pphosted.com",
+    "score": 140,
+    "body": "**URL:** `https://00168301.pphosted.com:10001/admin?module=AccessDisposition&method=edit_term&add=1&term=-1&addonly=1`\n**Host:** `00168301.pphosted.com`\n**Score:** 140 / 100\n**Reported:** 2026-05-05 14:16:00 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Proofpoint - Add condition\n**Description:** N/A\n**Language:** N/A\n**Protocol:** https: | **Port:** 10001\n**Referrer:** https://00168301.pphosted.com:10001/admin?module=AccessDisposition&method=disposition&from=new\n\n### Page Structure\n**Forms:** 1 | **Password/text/email inputs:** 69\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 0\n\n### Detections\n- **DIALOG SPAM** *(+25pts)*: Dialog spam: 100x alert() calls\n  > `100x alert() calls`\n- **FAKE OS UI** *(+10pts)*: Fake system UI: 437 fake window UI elements\n  > `437 fake window UI elements`\n- **FAKE URL BAR** *(+40pts)*: Fake URL bar / BitB: fake certificate indicator\n  > `fake certificate indicator`\n- **FORMJACKING** *(+40pts)*: Payment card skimmer pattern detected\n  > `Card input fields + data exfiltration pattern`\n- **BONUS SCAM FULLKIT** *(+25pts)*: Full scam kit: 3 social engineering signals combined\n  > `DIALOG_SPAM, FAKE_OS_UI, FAKE_URL_BAR`\n\n### Extracted URLs (0)\n- *(no URLs extracted from page)*"
+  },
+  {
     "id": "9LbYxrMyQHvn",
     "time": 1777896331,
     "title": "[THREAT] members.htcia.org - Score 114",
