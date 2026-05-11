@@ -1,5 +1,20 @@
 [
   {
+    "id": "hVaRM88L866M",
+    "time": 1778518561,
+    "title": "[THREAT] speech2text.ru - Score 150",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_150"
+    ],
+    "source": "extension",
+    "url": "https://speech2text.ru/a-list?conver_new_file=2026-05-11-19-48-47-6026",
+    "host": "speech2text.ru",
+    "score": 150,
+    "body": "**URL:** `https://speech2text.ru/a-list?conver_new_file=2026-05-11-19-48-47-6026`\n**Host:** `speech2text.ru`\n**Score:** 150 / 100\n**Reported:** 2026-05-11 16:55:59 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Расшифровка аудио и видео в текст. Качественно и быстро распознается даже плохая запись. Бесплатный пробный период.\n**Description:** Сервис Speech2Text расшифрует аудио или видео в текст. Быстрое и качественное распознавание записей даже плохого качества: с диктофона, с шумами. Бесплатный тестовый период для тех кто сначала хочет п\n**Language:** ru\n**Protocol:** https:\n**Referrer:** https://speech2text.ru/a-list\n\n### Page Structure\n**Forms:** 4 | **Password/text/email inputs:** 7\n**Iframes:** 3 | **External scripts:** 6 | **Links:** 30\n\n### Detections\n- **DIALOG SPAM** *(+25pts)*: Dialog spam: 4x alert() calls\n  > `4x alert() calls`\n- **FAKE OS UI** *(+10pts)*: Fake system UI: 84 fake window UI elements\n  > `84 fake window UI elements`\n- **FORMJACKING** *(+40pts)*: Payment card skimmer pattern detected\n  > `Card input fields + data exfiltration pattern`\n- **IFRAME INJECTION** *(+18pts)*: Dynamically created hidden iframe detected\n  > `createElement(\"iframe\") + hidden styling`\n- **OBFUSCATION** *(+12pts)*: 1 JS obfuscation pattern(s) found\n  > `eval(\"if(typeof wav_file_conversion_speed_factor.`\n  - *Suspicious keywords matched (3):*\n    - `eval(\"if(typeof wav_file_conversion_speed_factor.`\n    - `eval(\"setTimeout(function(){document.getElementById(\\`\n    - `eval(\"delete iteration_paused_array.`\n- **SCAM AUDIO** *(+20pts)*: Scam audio: audio.play() in scam context\n  > `audio.play() in scam context`\n- **BONUS SCAM FULLKIT** *(+25pts)*: Full scam kit: 3 social engineering signals combined\n  > `DIALOG_SPAM, FAKE_OS_UI, SCAM_AUDIO`\n\n### Extracted URLs (15)\n- `https://top-fwz1.mail.ru/js/code.js`\n- `https://mc.yandex.ru/metrika/tag.js`\n- `https://speech2text.ru/a-list?to_wav=2026-05-11-19-48-47-6026.mp4&conver_new_file=2026-05-11-19-48-47-6026&first=1&fromiframe=1`\n- `https://t.me/speech2text_support`\n- `https://www.googletagmanager.com/gtag/js?id=G-PXMERBQW5S`\n- `https://cdn.botfaqtor.ru/one.js`\n- `https://checks.botfaqtor.ru/`\n- `http://www.w3.org/2000/svg`\n- `http://schema.org/SiteNavigationElement`\n- `https://speech2text.ru/a-list?to_wav=2026-05-11-19-48-47-6026.mp4&amp;conver_new_file=2026-05-11-19-48-47-6026&amp;first=1&amp;fromiframe=1`\n- `https://ipinfo.io`\n- `https://mc.yandex.ru/watch/95234407`\n- `https://top-fwz1.mail.ru/counter?id=3465664;js=na`\n- `https://scripts.botfaqtor.ru/one/129890`\n- `https://fpjscdn.net/v3/yxr51iwD0YnJzgDLkWs7`"
+  },
+  {
     "id": "ENvgvyQjuFMC",
     "time": 1778514824,
     "title": "[THREAT] newassets.hcaptcha.com - Score 222",
