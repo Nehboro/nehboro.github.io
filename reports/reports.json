@@ -1,5 +1,35 @@
 [
   {
+    "id": "n4jieMsT2sZp",
+    "time": 1778551561,
+    "title": "[THREAT] www.windowscentral.com - Score 324",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_324"
+    ],
+    "source": "extension",
+    "url": "https://www.windowscentral.com/microsoft/windows-11/fluent-cleaner-may-be-the-best-ccleaner-alternative-for-windows-11-users",
+    "host": "www.windowscentral.com",
+    "score": 324,
+    "body": "**URL:** `https://www.windowscentral.com/microsoft/windows-11/fluent-cleaner-may-be-the-best-ccleaner-alternative-for-windows-11-users`\n**Host:** `www.windowscentral.com`\n**Score:** 324 / 100\n**Reported:** 2026-05-12 02:06:01 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Why Windows 11 users are switching to Fluent Cleaner, the sleek CCleaner alternative that actually feels native | Windows Central\n**Description:** Fluent Cleaner feels like the PC maintenance utility Windows users have been missing for years.\n**Language:** en\n**Protocol:** https:\n**Referrer:** https://t.co/\n\n### Page Structure\n**Forms:** 17 | **Password/text/email inputs:** 15\n**Iframes:** 3 | **External scripts:** 22 | **Links:** 410\n\n### Detections\n- **BASE64 PAYLOAD** *(+20pts)*: Verified base64 payload: URL in decoded\n  > `6780 chars | URL in decoded`\n- **CLIPBOARD SOURCE** *(+25pts)*: 1 clipboard write API calls in page source\n  > `clipboard API + suspicious payload`\n- **DEVICE CODE PHISH** *(+38pts)*: Device code phishing: large/styled code display, non-official domain\n  > `large/styled code display | non-official domain`\n- **EXTERNAL SCRIPT OVERLOAD** *(+12pts)*: 15 external script domains on credential page\n  > `vanilla.futurecdn.net, sdk.mrf.io, www.googletagmanager.com, sr.studiostack.com, slice.vanilla.futur`\n- **FAKE COUNTDOWN** *(+10pts)*: Countdown timer with 2 signals: time format displayed, scarcity context\n  > `time format displayed | scarcity context`\n- **FAKE SOFTWARE DL** *(+25pts)*: Fake software download lure detected\n  > `Loader.exe`\n  - *Suspicious keywords matched (1):*\n    - `Loader.exe`\n- **FAKE OS UI** *(+25pts)*: Fake system UI: 1 fake dialog/UI keyword(s), 37 fake window UI elements, stacked overlay dialogs\n  > `1 fake dialog/UI keyword(s) | 37 fake window UI elements | stacked overlay dialogs`\n- **FORM EXTERNAL ACTION** *(+25pts)*: Credential form posts to external domain: newsletter-subscribe.futureplc.com\n  > `Form action: https://newsletter-subscribe.futureplc.com/v2/submission/submit`\n\n### Extracted URLs (100)\n- `https://www.windowscentral.com/microsoft/windows-11/fluent-cleaner-may-be-the-best-ccleaner-alternative-for-windows-11-users`\n- `https://vanilla.futurecdn.net/windowscentral`\n- `https://bordeaux.futurecdn.net`\n- `https://cdn.mos.cms.futurecdn.net`\n- `https://vanilla.futurecdn.net`\n- `https://slice.vanilla.futurecdn.net`\n- `https://sommelier.futurehybrid.tech`\n- `https://securepubads.g.doubleclick.net`\n- `https://targetemsecure.blob.core.windows.net`\n- `https://cdn.privacy-mgmt.com`\n- `https://widgets.hawk-assets.co.uk`\n- `https://hawk.techradar.com`\n- `https://cdn.jwplayer.com`\n- `https://cdn.mos.cms.futurecdn.net/flexiimages/gvnkdor1vl1647264367.png`\n- `https://cdn.mos.cms.futurecdn.net/flexiimages/e3utnesr6b1647264394.png`\n- `https://vanilla.futurecdn.net/windowscentral/1629100/media/shared/fonts/OpenSans-400-Regular.woff2`\n- `https://vanilla.futurecdn.net/windowscentral/1629100/media/shared/fonts/OpenSans-600-SemiBold.woff2`\n- `https://cdn.mos.cms.futurecdn.net/flexiimages/e54avhbo051647517765.svg`\n- `https://cdn.mos.cms.futurecdn.net/BXihXHzU6A5NwcrSNs9eNQ.jpg.webp`\n- `//vanilla.futurecdn.net/windowscentral/1629100/media/css/windowscentral.min.css`\n- `https://vanilla.futurecdn.net/windowscentral/1629100/media/shared/js/main.BkMkI7bf.bundle.js`\n- `//vanilla.futurecdn.net/windowscentral/1629100/media/shared/js/flexi.js`\n- `https://sdk.mrf.io/statics/marfeel-sdk.es5.js?id=7842`\n- `https://sdk.mrf.io/statics/marfeel-sdk.js?id=7842`\n- `//www.googletagmanager.com/gtm.js?id=GTM-WWBWRXL`\n- `https://sr.studiostack.com/v3/services`\n- `https://slice.vanilla.futurecdn.net/13-4-23/js/externals.js`\n- `https://www.windowscentral.com/feeds.xml`\n- `https://www.windowscentral.com/feeds/tag/windows-11`\n- `https://www.windowscentral.com/feeds/articletype/features`\n- `//vanilla.futurecdn.net/windowscentral/1629100/media/css/flexisites.min.css`\n- `https://www.windowscentral.com/vite/assets/reduxStore-CCa8iFOI.js`\n- `https://www.windowscentral.com/vite/assets/main-B8QZltKM.js`\n- `https://www.windowscentral.com/vite/assets/JwPlayer/Carousel/Carousel.ts-ALH_eN_N.js`\n- `https://www.windowscentral.com/vite/assets/Recirculation/ClickToNext/ClickToNext.ts-D2cuncpb.js`\n- `https://www.windowscentral.com/vite/assets/UtilityBar/ShareArticle/Button.ts-BPdyVGbt.js`\n- `https://www.windowscentral.com/vite/assets/Util/GoogleButton/Button.ts-CidALwoA.js`\n- `https://www.windowscentral.com/vite/assets/Newsletter/NewsletterForm/NewsletterForm.ts-Bw2aoZfP.js`\n- `https://www.windowscentral.com/vite/assets/Newsletter/MultiSubscribe/MultiSubscribe.ts-DJ45bRHq.js`\n- `https://www.windowscentral.com/vite/assets/Newsletter/Modal/Modal.ts-BfYXbZQQ.js`\n- `https://www.windowscentral.com/vite/assets/Util/NewsletterModal/Button.ts-m1UDFHme.js`\n- `https://www.windowscentral.com/vite/assets/UtilityBar/UtilityBar.ts-CjB7aUR8.js`\n- `https://www.windowscentral.com/vite/assets/Util/Truncate/Truncate.ts-CQ1SA-K5.js`\n- `https://www.windowscentral.com/vite/assets/Viafoura/Comments/CommentsSizeLogger.ts-BMUlJYgr.js`\n- `https://www.windowscentral.com/vite/assets/SponsoredScroll/SponsoredScroll.ts-D4K1bLJN.js`\n- `https://www.windowscentral.com/vite/assets/Ads/Ads.ts-BXJqYWBm.js`\n- `https://www.windowscentral.com/vite/assets/Viafoura/EntryScript/EntryScript.ts-DdKvEAcj.js`\n- `https://www.windowscentral.com/vite/assets/Recirculation/Overlay/Overlay.ts-CxT2Sv_I.js`\n- `https://www.windowscentral.com/vite/assets/Recirculation/ArticleRiver/ArticleRiver.ts-mzB5CJd3.js`\n- `https://www.windowscentral.com/vite/assets/Recirculation/ArticleRiver/UpNextRibbon.ts-t7V_PTAp.js`"
+  },
+  {
+    "id": "BApE3kS5Otqa",
+    "time": 1778545964,
+    "title": "[THREAT] www.genians.co.kr - Score 126",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_126"
+    ],
+    "source": "extension",
+    "url": null,
+    "host": "www.genians.co.kr",
+    "score": 126,
+    "body": "*(Attachment expired — original report unavailable)*\n\n**Title:** [THREAT] www.genians.co.kr - Score 126"
+  },
+  {
     "id": "wIW1DnPMrnL5",
     "time": 1778532337,
     "title": "[THREAT] knowyourmeme.com - Score 112",
