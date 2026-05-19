@@ -1,5 +1,20 @@
 [
   {
+    "id": "6DlrNL8xGP5W",
+    "time": 1779168394,
+    "title": "[THREAT] aurora.stloadi.live - Score 113",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_113"
+    ],
+    "source": "extension",
+    "url": "https://aurora.stloadi.live/t?token_movie=d57a5bcd99dc0bbf83e75f2b2c53d7&token=6676507441e9f32da52a3d3bfecdc0",
+    "host": "aurora.stloadi.live",
+    "score": 113,
+    "body": "**URL:** `https://aurora.stloadi.live/t?token_movie=d57a5bcd99dc0bbf83e75f2b2c53d7&token=6676507441e9f32da52a3d3bfecdc0`\n**Host:** `aurora.stloadi.live`\n**Score:** 113 / 100\n**Reported:** 2026-05-19 05:26:33 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Player\n**Description:** N/A\n**Language:** N/A\n**Protocol:** https:\n**Referrer:** https://lordserials.ai/\n\n### Page Structure\n**Forms:** 1 | **Password/text/email inputs:** 1\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 1\n\n### Detections\n- **FAKE COUNTDOWN** *(+18pts)*: Countdown timer with 3 signals: time format displayed, countdown element, scarcity context\n  > `time format displayed | countdown element | scarcity context`\n- **FAKE OS UI** *(+10pts)*: Fake system UI: 9 fake window UI elements\n  > `9 fake window UI elements`\n- **FAKE URL BAR** *(+40pts)*: Fake URL bar / BitB: base64 image near security text\n  > `base64 image near security text`\n- **SCAM PHONE PROMINENT** *(+20pts)*: Scam phone pattern: same number repeated 2x\n  > `Numbers found: 6676507441, 1779222392, 6676507441 | same number repeated 2x`\n- **BONUS SCAM FULLKIT** *(+25pts)*: Full scam kit: 4 social engineering signals combined\n  > `FAKE_COUNTDOWN, FAKE_OS_UI, FAKE_URL_BAR, SCAM_PHONE_PROMINENT`\n\n### Extracted URLs (3)\n- `https://www.google.com/chrome/`\n- `https://ppc.ipchanger.live:11443/index.php?md5=Ag-n0aDaXXS1T6TktripRw&expires=1779222392`\n- `http://www.w3.org/2000/svg`"
+  },
+  {
     "id": "iJBgwcVcDoQW",
     "time": 1779091293,
     "title": "[THREAT] aihumanize.io - Score 125",
