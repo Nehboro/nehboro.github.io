@@ -1,5 +1,20 @@
 [
   {
+    "id": "G70qXflIiM8K",
+    "time": 1779966286,
+    "title": "[THREAT] studio-obsidian.com - Score 116",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_116"
+    ],
+    "source": "extension",
+    "url": "https://studio-obsidian.com/",
+    "host": "studio-obsidian.com",
+    "score": 116,
+    "body": "**URL:** `https://studio-obsidian.com/`\n**Host:** `studio-obsidian.com`\n**Score:** 116 / 100\n**Reported:** 2026-05-28 11:04:46 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Download Obsidian App – Free Note-Taking Software 2025\n**Description:** Download Obsidian for Windows, macOS, Linux, iOS & Android. The free and flexible app for your private thoughts. Version 1.12.7.\n**Language:** en\n**Protocol:** https:\n**Referrer:** direct\n\n### Page Structure\n**Forms:** 1 | **Password/text/email inputs:** 1\n**Iframes:** 1 | **External scripts:** 3 | **Links:** 132\n\n### Detections\n- **BASE64 PAYLOAD** *(+20pts)*: Verified base64 payload: URL in decoded\n  > `292 chars | URL in decoded`\n- **DEVICE CODE PHISH** *(+38pts)*: Device code phishing: large/styled code display, non-official domain\n  > `large/styled code display | non-official domain`\n- **FAKE DOWNLOAD BUTTON** *(+18pts)*: Download button linking to suspicious file type\n  > `\"⬇ download for windows\n          \n      \" → https://github.com/obsidianmd/obsidian-releases/release`\n- **FAKE OS UI** *(+18pts)*: Fake system UI: 1 fake dialog/UI keyword(s), 5 fake window UI elements\n  > `1 fake dialog/UI keyword(s) | 5 fake window UI elements`\n- **SEARCH HIJACKING** *(+22pts)*: Search hijacking: search form submission interception\n  > `search form submission interception`\n\n### Extracted URLs (37)\n- `https://studio-obsidian.com/`\n- `https://studio-obsidian.com/us/`\n- `https://studio-obsidian.com/ca/`\n- `https://studio-obsidian.com/es/`\n- `https://www.gstatic.com/recaptcha/releases/hsFBb1u5wWWWkWP4in1ua2cQ/recaptcha__en.js`\n- `https://obsidian.md/help/`\n- `https://discord.gg/obsidianmd`\n- `https://github.com/obsidianmd/obsidian-releases/releases/download/v1.12.7/Obsidian-1.12.7.exe`\n- `https://github.com/obsidianmd/obsidian-releases/releases/download/v1.12.7/Obsidian-1.12.7.dmg`\n- `https://github.com/obsidianmd/obsidian-releases/releases/download/v1.12.7/Obsidian-1.12.7.AppImage`\n- `https://apps.apple.com/us/app/obsidian-connected-notes/id1557175442`\n- `https://play.google.com/store/apps/details?id=md.obsidian`\n- `https://forum.obsidian.md/`\n- `https://docs.obsidian.md`\n- `https://github.com/obsidianmd/obsidian-releases/releases/download/v1.12.7/obsidian-1.12.7-amd64.snap`\n- `https://flathub.org/apps/details/md.obsidian.Obsidian`\n- `https://docs.obsidian.md/`\n- `https://status.obsidian.md`\n- `https://forum.obsidian.md`\n- `https://forum-zh.obsidian.md`\n- `https://discord.com/invite/obsidianmd`\n- `https://x.com/obsdmd`\n- `https://bsky.app/profile/obsidian.md`\n- `https://www.threads.net/@obsdmd`\n- `https://mas.to/@obsidian`\n- `https://www.youtube.com/@obsdmd`\n- `https://github.com/obsidianmd`\n- `https://www.google.com/recaptcha/api2/anchor?ar=1&k=6LcULOAsAAAAAGRNvQ_gt8dVHivYFsXZ8EUaRtWM&co=aHR0cHM6Ly9zdHVkaW8tb2JzaWRpYW4uY29tOjQ0Mw..&hl=en&v=hsFBb1u5wWWWkWP4in1ua2cQ&size=normal&anchor-ms=2000`\n- `https://www.google.com/recaptcha/api.js`\n- `https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447`\n- `https://studio-obsidian.com/images/banner.png`\n- `https://schema.org`\n- `https://studio-obsidian.com`\n- `https://studio-obsidian.com/download/`\n- `https://obsidian.md`\n- `http://www.w3.org/2000/svg`\n- `https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LcULOAsAAAAAGRNvQ_gt8dVHivYFsXZ8EUaRtWM&amp;co=aHR0cHM6Ly9zdHVkaW8tb2JzaWRpYW4uY29tOjQ0Mw..&amp;hl=en&amp;v=hsFBb1u5wWWWkWP4in1ua2cQ&amp;size=n`"
+  },
+  {
     "id": "aqPmXGqlwJsr",
     "time": 1779477709,
     "title": "[THREAT] rt.pornhub.org - Score 162",
