@@ -1,5 +1,20 @@
 [
   {
+    "id": "5TrFQXKe3k1k",
+    "time": 1783512872,
+    "title": "[THREAT] unknown - Score 555",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_555"
+    ],
+    "source": "extension",
+    "url": "about:srcdoc",
+    "host": "unknown",
+    "score": 555,
+    "body": "**URL:** `about:srcdoc`\n**Host:** ``\n**Score:** 555 / 100\n**Reported:** 2026-07-08 12:14:30 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Sample page · example.com\n**Description:** N/A\n**Language:** en\n**Protocol:** about:\n**Referrer:** http://localhost:3107/\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 6\n\n### Detections\n- **BASE64 PAYLOAD** *(+30pts)*: Verified base64 payload: PowerShell/cmd in decoded, script injection in decoded, shell command in decoded, executable extension in decoded, Windows path in decoded\n  > `282352 chars | PowerShell/cmd in decoded, script injection in decoded, shell command in decoded, exe`\n- **BROWSER LOCK** *(+30pts)*: Browser lock: requestFullscreen + popstate trap + beforeunload trap\n  > `requestFullscreen, popstate trap, beforeunload trap`\n- **CLIPBOARD SOURCE** *(+25pts)*: 1 clipboard write API calls in page source\n  > `clipboard API + suspicious payload`\n- **DATA URI PAYLOAD** *(+25pts)*: Suspicious data: URI with executable content\n  > `data:text/html;base64,PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KPGhlYWQ+CiAgPG1ldGEgY2hhcnNldD0iVV`\n- **DEVICE CODE PHISH** *(+38pts)*: Device code phishing: large/styled code display, non-official domain\n  > `large/styled code display | non-official domain`\n- **FAKE SOFTWARE DL** *(+25pts)*: Fake software download lure detected\n  > `cleanmymac[^.`\n  - *Suspicious keywords matched (5):*\n    - `cleanmymac[^.`\n    - `zk-call-messenger`\n    - `Cracked`\n    - `crack`\n    - `nulled`\n- **FAKE URL BAR** *(+40pts)*: Fake URL bar / BitB: fake certificate indicator\n  > `fake certificate indicator`\n- **FINGER ABUSE** *(+35pts)*: finger.exe abuse or CrashFix lure\n  > `nexshield`\n\n### Extracted URLs (12)\n- `http://localhost:3107`\n- `https://ntfy.sh/*`\n- `http://localhost:3107/__preview-session/__egress`\n- `http://localhost/`\n- `https://developer.chrome.com/`\n- `https://developer.mozilla.org/`\n- `https://github.com/`\n- `https://stackoverflow.com/`\n- `https://news.ycombinator.com/`\n- `https://en.wikipedia.org/`\n- `https://www.youtube.com/`\n- `https://web.dev/`"
+  },
+  {
     "id": "fXzwqipz0N61",
     "time": 1782056183,
     "title": "[THREAT] fandomwire.com - Score 122",
