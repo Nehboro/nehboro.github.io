@@ -1,5 +1,50 @@
 [
   {
+    "id": "AJ40S5QWyne0",
+    "time": 1786455211,
+    "title": "[THREAT] sci-bot.ru - Score 130",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_130"
+    ],
+    "source": "extension",
+    "url": "https://sci-bot.ru/",
+    "host": "sci-bot.ru",
+    "score": 130,
+    "body": "**URL:** `https://sci-bot.ru/`\n**Host:** `sci-bot.ru`\n**Score:** 130 / 100\n**Reported:** 2026-08-11 13:33:31 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** sci-bot\n**Description:** N/A\n**Language:** en\n**Protocol:** https:\n**Referrer:** direct\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 3 | **Links:** 15\n\n### Detections\n- **CLIPBOARD SOURCE** *(+10pts)*: 1 clipboard write API calls in page source\n  > `clipboard API + unknown payload`\n- **FAKE COUNTDOWN** *(+10pts)*: Countdown timer with 2 signals: countdown JS, countdown element\n  > `countdown JS | countdown element`\n- **FAKE SOFTWARE DL** *(+25pts)*: Fake software download lure detected\n  > `nulled`\n  - *Suspicious keywords matched (1):*\n    - `nulled`\n- **FAKE OS UI** *(+18pts)*: Fake system UI: 35 fake window UI elements, stacked overlay dialogs\n  > `35 fake window UI elements | stacked overlay dialogs`\n- **KEYLOGGER PATTERN** *(+35pts)*: Keylogger pattern: captures keystrokes and sends externally\n  > `keydown/keypress listener + data exfil + key storage`\n- **SEARCH HIJACKING** *(+22pts)*: Search hijacking: search form submission interception\n  > `search form submission interception`\n- **BRAND ASSET THEFT** *(+10pts)*: 2 assets loaded from google CDN on non-official domain\n  > `Brand: google, assets: 2`\n\n### Extracted URLs (21)\n- `https://fonts.googleapis.com`\n- `https://fonts.gstatic.com`\n- `https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=JetBrains+Mono:wght@500;700&family=Orbitron:wght@400..900&display=swap`\n- `https://cdn.jsdelivr.net/npm/marked/marked.min.js`\n- `https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css`\n- `https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js`\n- `https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/mhchem.min.js`\n- `https://sci-hub.ru`\n- `https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&amp;family=JetBrains+Mono:wght@500;700&amp;family=Orbitron:wght@400..900&amp;display=swap`\n- `https://sci-net.xyz/exchange\\`\n- `https://sci-hub.box`\n- `https://etherscan.io/address/`\n- `https://solscan.io/account/`\n- `https://xrpscan.com/account/`\n- `https://bscscan.com/address/`\n- `https://tonviewer.com/`\n- `https://etherscan.io/tx/`\n- `https://solscan.io/tx/`\n- `https://xrpscan.com/tx/`\n- `https://bscscan.com/tx/`\n- `https://tonviewer.com/transaction/`"
+  },
+  {
+    "id": "eRolTpiTg4hg",
+    "time": 1786455122,
+    "title": "[THREAT] sci-hub.africa - Score 130",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_130"
+    ],
+    "source": "extension",
+    "url": "https://sci-hub.africa/",
+    "host": "sci-hub.africa",
+    "score": 130,
+    "body": "**URL:** `https://sci-hub.africa/`\n**Host:** `sci-hub.africa`\n**Score:** 130 / 100\n**Reported:** 2026-08-11 13:32:01 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Sci-Hub\n**Description:** N/A\n**Language:** N/A\n**Protocol:** https:\n**Referrer:** https://www.google.com/\n\n### Page Structure\n**Forms:** 1 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 105\n\n### Detections\n- **AV DISMISSAL PRETEXT** *(+30pts)*: AV dismissal pretext with ClickFix: false positive\n  > `false positive`\n- **CLIPBOARD SOURCE** *(+10pts)*: 2 clipboard write API calls in page source\n  > `clipboard API + unknown payload`\n- **CRYPTO ADDRESS SWAP** *(+2pts)*: Crypto address near clipboard API - possible address swap\n  > `bc1q58sp0xad5k3fn4nlhxuvs5g8msrn3qk9mxfr2j`\n- **CRYPTO ADDRESSES LISTED** *(+18pts)*: 2 crypto addresses (BTC, ETH) on page\n  > `bc1q58sp0xad5k3fn4nlhxuvs5g8ms, 0x153F3736940E77A38111CF8bCd64`\n- **FAKE COUNTDOWN** *(+10pts)*: Countdown timer with 2 signals: time format displayed, scarcity context\n  > `time format displayed | scarcity context`\n- **FAKE SOFTWARE DL** *(+25pts)*: Fake software download lure detected\n  > `crack`\n  - *Suspicious keywords matched (1):*\n    - `crack`\n- **KEYLOGGER PATTERN** *(+35pts)*: Keylogger pattern: captures keystrokes and sends externally\n  > `keydown/keypress listener + data exfil + key storage`\n\n### Extracted URLs (11)\n- `//sci-bot.ru/`\n- `//sci-bot.ru/what-is-the-current-size-e170`\n- `//sci-bot.ru/to-be-or-not-to-8eeb`\n- `//sci-bot.ru/what-is-the-most-precise-82a1`\n- `//sci-net.xyz`\n- `//sci-hub.africa`\n- `//sci-hub.su`\n- `//sci-hub.st`\n- `//sci-hub.red`\n- `//sci-hub.box`\n- `//solscan.io/token/2MaFszzCmpJqYPjVXsNytmiHfgckWbtBVq4WSoxjVGkf`"
+  },
+  {
+    "id": "5sGtTL4QFmZR",
+    "time": 1786454613,
+    "title": "[THREAT] newassets.hcaptcha.com - Score 222",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_222"
+    ],
+    "source": "extension",
+    "url": "https://newassets.hcaptcha.com/captcha/v1/10b727eda0af888c8363cf03e23dfdfee91ab83e/static/hcaptcha.html#frame=checkbox-invisible",
+    "host": "newassets.hcaptcha.com",
+    "score": 222,
+    "body": "**URL:** `https://newassets.hcaptcha.com/captcha/v1/10b727eda0af888c8363cf03e23dfdfee91ab83e/static/hcaptcha.html#frame=checkbox-invisible`\n**Host:** `newassets.hcaptcha.com`\n**Score:** 222 / 100\n**Reported:** 2026-08-11 13:23:32 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** hCaptcha\n**Description:** N/A\n**Language:** en\n**Protocol:** https:\n**Referrer:** direct\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 0\n\n### Detections\n- **BASE64 PAYLOAD** *(+8pts)*: 3 large base64 string(s) near decode context\n  > `Longest: 19724 chars`\n- **CONSENTFIX** *(+42pts)*: OAuth ConsentFix token theft pattern\n  > `Copy()}wn.add(\"contrast\",{component:{prompt:{main:{fill:\"#fff\",text:\"#000\"}},expandButton:{main:{fil`\n- **FAKE COUNTDOWN** *(+10pts)*: Countdown timer with 2 signals: time format displayed, scarcity context\n  > `time format displayed | scarcity context`\n- **FAKE URL BAR** *(+40pts)*: Fake URL bar / BitB: base64 image near security text\n  > `base64 image near security text`\n- **KEYLOGGER PATTERN** *(+35pts)*: Keylogger pattern: captures keystrokes and sends externally\n  > `keydown/keypress listener + data exfil + key storage`\n- **SCAM AUDIO** *(+20pts)*: Scam audio: audio.play() in scam context\n  > `audio.play() in scam context`\n- **SCAM PHONE PROMINENT** *(+20pts)*: Scam phone pattern: same number repeated 12x\n  > `Numbers found: 0123456789, 1732584193, -1732584194 | same number repeated 12x`\n- **SEARCH HIJACKING** *(+22pts)*: Search hijacking: search form submission interception\n  > `search form submission interception`\n\n### Extracted URLs (26)\n- `https://hcaptcha.com/license`\n- `http://bit.ly/raven-secret-key`\n- `https://hcaptcha.com`\n- `https://api.hcaptcha.com`\n- `https://api2.hcaptcha.com`\n- `https://cloudflare.hcaptcha.com`\n- `https://newassets.hcaptcha.com`\n- `https://newassets.hcaptcha.com/captcha/v1/10b727eda0af888c8363cf03e23dfdfee91ab83e/static`\n- `https://accounts.hcaptcha.com`\n- `https://pst-issuer.hcaptcha.com`\n- `https://30910f52569b4c17b1081ead2dae43b4@sentry.hcaptcha.com/6`\n- `https://www.whatismybrowser.com/guides/how-to-update-your-browser/auto`\n- `http://www.w3.org/2000/svg`\n- `https://newassets.hcaptcha.com/captcha/v1/10b727eda0af888c8363cf03e23dfdfee91ab83e/static/images`\n- `https://www.hcaptcha.com/what-is-hcaptcha-about?ref=`\n- `https://hcaptcha.com/accessibility?hl=`\n- `https://www.hcaptcha.com/reporting-bugs?hl=`\n- `https://hcaptcha.com/accessibility`\n- `https://dashboard.hcaptcha.com/signup?type=accessibility`\n- `https://hcaptcha.com/accessibility?ref=`\n- `http://www.w3.org/1999/xlink`\n- `https://newassets.hcaptcha.com/captcha/v1/10b727eda0af888c8363cf03e23dfdfee91ab83e/static/images/pulse.gif`\n- `https://hcaptcha.com/privacy`\n- `https://hcaptcha.com/terms`\n- `https://www.hcaptcha.com/what-is-hcaptcha-about`\n- `https://newassets.hcaptcha.com/captcha/v1/10b727eda0af888c8363cf03e23dfdfee91ab83e/static/images/logo_combination-`"
+  },
+  {
     "id": "1f6H6hpYn0al",
     "time": 1784983261,
     "title": "[THREAT] newassets.hcaptcha.com - Score 222",
