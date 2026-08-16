@@ -1,5 +1,20 @@
 [
   {
+    "id": "doRvLPbsBoVd",
+    "time": 1786878528,
+    "title": "[THREAT] 192.168.1.254 - Score 113",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_113"
+    ],
+    "source": "extension",
+    "url": "http://192.168.1.254/",
+    "host": "192.168.1.254",
+    "score": 113,
+    "body": "**URL:** `http://192.168.1.254/`\n**Host:** `192.168.1.254`\n**Score:** 113 / 100\n**Reported:** 2026-08-16 11:08:46 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** GPON Home Gateway\n**Description:** N/A\n**Language:** N/A\n**Protocol:** http:\n**Referrer:** direct\n\n### Page Structure\n**Forms:** 1 | **Password/text/email inputs:** 2\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 0\n\n### Detections\n- **DEVICE CODE PHISH** *(+38pts)*: Device code phishing: large/styled code display, non-official domain\n  > `large/styled code display | non-official domain`\n- **DIALOG SPAM** *(+25pts)*: Dialog spam: 3x alert() calls\n  > `3x alert() calls`\n- **INSECURE LOGIN** *(+25pts)*: Login form submits credentials over HTTP\n  > `Protocol: HTTP page → same`\n- **RAW IP HOSTING** *(+25pts)*: Page served from raw IP address 192.168.1.254\n  > `raw IP: 192.168.1.254 | login form on raw IP`\n\n### Extracted URLs (0)\n- *(no URLs extracted from page)*"
+  },
+  {
     "id": "04KgdvKlgIpf",
     "time": 1786847775,
     "title": "[THREAT] unknown - Score 545",
