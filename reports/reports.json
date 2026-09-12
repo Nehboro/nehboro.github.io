@@ -1,5 +1,20 @@
 [
   {
+    "id": "tFJBgxAuAKqP",
+    "time": 1789200855,
+    "title": "[THREAT] sso.my.gov.ir - Score 120",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_120"
+    ],
+    "source": "extension",
+    "url": "https://sso.my.gov.ir/login",
+    "host": "sso.my.gov.ir",
+    "score": 120,
+    "body": "**URL:** `https://sso.my.gov.ir/login`\n**Host:** `sso.my.gov.ir`\n**Score:** 120 / 100\n**Reported:** 2026-09-12 08:16:24 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** پنجره ملی خدمات دولت هوشمند - ورود یکپارچه\n**Description:** «پنجره ملی خدمات دولت هوشمند» یک راه امن برای دسترسی آنلاین به خدمات دولتی از طریق یک درگاه واحد است. این درگاه، پلتفرم ملی یکپارچه ارائه خدمات دولتی و عمومی به مردم بوده و هدف آن ایجاد سهولت در ارائه\n**Language:** fa\n**Protocol:** https:\n**Referrer:** https://sahim.sabteahval.ir/\n\n### Page Structure\n**Forms:** 4 | **Password/text/email inputs:** 8\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 13\n\n### Detections\n- **DIALOG SPAM** *(+25pts)*: Dialog spam: 6x alert() calls\n  > `6x alert() calls`\n- **FAKE COUNTDOWN** *(+10pts)*: Countdown timer with 2 signals: countdown JS, countdown element\n  > `countdown JS | countdown element`\n- **FAKE URL BAR** *(+40pts)*: Fake URL bar / BitB: base64 image near security text\n  > `base64 image near security text`\n- **SCAM PHONE PROMINENT** *(+20pts)*: Scam phone pattern: same number repeated 5x\n  > `Numbers found:  0218864639,  0218864639,  0218864639 | same number repeated 5x`\n- **BONUS SCAM FULLKIT** *(+25pts)*: Full scam kit: 4 social engineering signals combined\n  > `DIALOG_SPAM, FAKE_COUNTDOWN, FAKE_URL_BAR, SCAM_PHONE_PROMINENT`\n\n### Extracted URLs (16)\n- `https://cafebazaar.ir/app/ir.gov.mygov/`\n- `https://sibapp.com/applications/MyGov`\n- `https://app-star.store/app.php?id=mygov`\n- `https://sibche.com/applications/pngrh-mly-khdmat-dolt-hoshmnd-dolt-mn/`\n- `https://iapps.ir/app/%D9%BE%D9%86%D8%AC%D8%B1%D9%87-%D9%85%D9%84%DB%8C-%D8%AE%D8%AF%D9%85%D8%A7%D8%AA-%D8%AF%D9%88%D9%84%D8%AA-%D9%87%D9%88%D8%B4%D9%85%D9%86%D8%AF-%D8%AF%D9%88%D9%84%D8%AA-%D9%85%D9%8`\n- `https://myket.ir/app/ir.gov.mygov`\n- `https://sibche.com/applications/pngrh-mly-khdmat-dolt-hoshmnd-dolt-mn`\n- `http://www.w3.org/2000/svg`\n- `https://tailwindcss.com`\n- `https://soha.emdad.ir`\n- `https://epolice.ir/home`\n- `https://refahi.ir`\n- `https://epostcode.post.ir/codefinder`\n- `https://spamak.mrud.ir/Real/Home/NoRequest`\n- `http://www.w3.org/1999/xlink`\n- `https://iapps.ir/app/%D9%BE%D9%86%D8%AC%D8%B1%D9%87-%D9%85%D9%84%DB%8C-%D8%AE%D8%AF%D9%85%D8%A7%D8%AA-%D8%AF%D9%88%D9%84%D8%AA-%D9%87%D9%88%D8%B4%D9%85%D9%86%D8%AF-%D8%AF%D9%88%D9%84%D8%AA-%D9%85%D9%8`"
+  },
+  {
     "id": "uOBePgSN6e3S",
     "time": 1789124655,
     "title": "[THREAT] newassets.hcaptcha.com - Score 222",
