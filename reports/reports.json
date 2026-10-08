@@ -1,5 +1,80 @@
 [
   {
+    "id": "4PgQ3UwiWE9O",
+    "time": 1791488934,
+    "title": "[THREAT] nationalhilift.com - Score 144",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_144"
+    ],
+    "source": "extension",
+    "url": "https://nationalhilift.com/wp-content/plugins/wp-responsive/captcha.html",
+    "host": "nationalhilift.com",
+    "score": 144,
+    "body": "**URL:** `https://nationalhilift.com/wp-content/plugins/wp-responsive/captcha.html`\n**Host:** `nationalhilift.com`\n**Score:** 144 / 100\n**Reported:** 2026-10-08 19:48:54 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Checking if you are human\n**Description:** N/A\n**Language:** en\n**Protocol:** https:\n**Referrer:** https://nationalhilift.com/\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 0\n\n### Detections\n- **CLIPBOARD SOURCE** *(+10pts)*: 2 clipboard write API calls in page source\n  > `clipboard API + unknown payload`\n- **CRYPTO ADDRESS SWAP** *(+2pts)*: Crypto address near clipboard API - possible address swap\n  > `36548c955c29635bc99d9936ccdeaa44`\n- **DEVICE CODE PHISH** *(+38pts)*: Device code phishing: large/styled code display, non-official domain\n  > `large/styled code display | non-official domain`\n- **FAKE CLOUDFLARE TEXT** *(+24pts)*: 3 fake Cloudflare/CAPTCHA text signals\n  > `Ray ID: 6bb2e4447dca2ae8`\n  - *Suspicious keywords matched (4):*\n    - `Verify you are human`\n    - `Ray ID: 6bb2e4447dca2ae8`\n    - `nationalhilift.com needs to review the security`\n    - `Platform performance and security`\n- **WEBDAV MOUNT** *(+38pts)*: 3 WebDAV share-mount signals\n  > `net use Z: http://`\n- **VISUAL BRAND IMPERSONATION** *(+12pts)*: Page visually impersonates Google (4 visual signals) on non-official domain nationalhilift.com\n  > `favicon:https://www.google.com/s2/favicons?domain=nationalhilift.com | logo:https://www.google.com/s`\n- **FAVICON BRAND MISMATCH** *(+20pts)*: Favicon loaded from google CDN (www.google.com) but page is on nationalhilift.com\n  > `https://www.google.com/s2/favicons?domain=nationalhilift.com&sz=64`\n\n### Extracted URLs (12)\n- `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css`\n- `https://www.google.com/s2/favicons?domain=nationalhilift.com&sz=64`\n- `https://www.straightsell.com.au/documents/AddOns/cloudflare-logo-main.png`\n- `https://www.google.com/s2/favicons?domain=nationalhilift.com&amp;sz=64`\n- `http://www.w3.org/2000/svg`\n- `http://185.246.223.71/webdav`\n- `https://png.pngtree.com/png-clipart/20250124/original/pngtree-digital-identity-fingerprint-icon-png-image_20012441.png`\n- `https://cf-assets.www.cloudflare.com/slt3lc6tev37/4mhf8gvPA2FDQcpPq2dcaX/36548c955c29635bc99d9936ccdeaa44/time_service_2x__1_.png`\n- `https://cf-assets.www.cloudflare.com/zkvhlag99gkb/7wYHEaqQeVJvIteeEdGz1S/134b9a26f1b9f88dcf6d77459fe08fde/introducing-shadow-it-discovery.png`\n- `https://www.google.com/s2/favicons?domain=`\n- `https://www.cloudflare.com/privacypolicy/`\n- `https://www.cloudflare.com/website-terms/`"
+  },
+  {
+    "id": "3Ht1VLcwp1em",
+    "time": 1791480961,
+    "title": "[THREAT] camilagazola.com.br - Score 112",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_112"
+    ],
+    "source": "extension",
+    "url": "https://camilagazola.com.br/wp-content/plugins/CF/captcha.html",
+    "host": "camilagazola.com.br",
+    "score": 112,
+    "body": "**URL:** `https://camilagazola.com.br/wp-content/plugins/CF/captcha.html`\n**Host:** `camilagazola.com.br`\n**Score:** 112 / 100\n**Reported:** 2026-10-08 17:36:01 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Checking if you are human\n**Description:** N/A\n**Language:** en\n**Protocol:** https:\n**Referrer:** https://camilagazola.com.br/\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 0\n\n### Detections\n- **CLIPBOARD SOURCE** *(+10pts)*: 2 clipboard write API calls in page source\n  > `clipboard API + unknown payload`\n- **CRYPTO ADDRESS SWAP** *(+2pts)*: Crypto address near clipboard API - possible address swap\n  > `36548c955c29635bc99d9936ccdeaa44`\n- **DEVICE CODE PHISH** *(+38pts)*: Device code phishing: large/styled code display, non-official domain\n  > `large/styled code display | non-official domain`\n- **FAKE CLOUDFLARE TEXT** *(+24pts)*: 3 fake Cloudflare/CAPTCHA text signals\n  > `Verify you are human`\n  - *Suspicious keywords matched (3):*\n    - `Verify you are human`\n    - `Ray ID: 09cbfc10e7aafc62`\n    - `Platform performance and security`\n- **VISUAL BRAND IMPERSONATION** *(+18pts)*: Page visually impersonates Google (5 visual signals) on non-official domain camilagazola.com.br\n  > `favicon:https://www.google.com/s2/favicons?domain=camilagazola.com.b | logo:https://www.google.com/s`\n- **FAVICON BRAND MISMATCH** *(+20pts)*: Favicon loaded from google CDN (www.google.com) but page is on camilagazola.com.br\n  > `https://www.google.com/s2/favicons?domain=camilagazola.com.br&sz=64`\n\n### Extracted URLs (12)\n- `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css`\n- `https://www.google.com/s2/favicons?domain=camilagazola.com.br&sz=64`\n- `https://www.straightsell.com.au/documents/AddOns/cloudflare-logo-main.png`\n- `https://www.google.com/s2/favicons?domain=camilagazola.com.br&amp;sz=64`\n- `http://www.w3.org/2000/svg`\n- `http://94.156.170.255/webdav`\n- `https://png.pngtree.com/png-clipart/20250124/original/pngtree-digital-identity-fingerprint-icon-png-image_20012441.png`\n- `https://cf-assets.www.cloudflare.com/slt3lc6tev37/4mhf8gvPA2FDQcpPq2dcaX/36548c955c29635bc99d9936ccdeaa44/time_service_2x__1_.png`\n- `https://cf-assets.www.cloudflare.com/zkvhlag99gkb/7wYHEaqQeVJvIteeEdGz1S/134b9a26f1b9f88dcf6d77459fe08fde/introducing-shadow-it-discovery.png`\n- `https://www.google.com/s2/favicons?domain=`\n- `https://www.cloudflare.com/privacypolicy/`\n- `https://www.cloudflare.com/website-terms/`"
+  },
+  {
+    "id": "Xb3PJJ2aY9u6",
+    "time": 1791480961,
+    "title": "[THREAT] camilagazola.com.br - Score 120",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_120"
+    ],
+    "source": "extension",
+    "url": "https://camilagazola.com.br/?cfcw_captcha_page=1",
+    "host": "camilagazola.com.br",
+    "score": 120,
+    "body": "**URL:** `https://camilagazola.com.br/?cfcw_captcha_page=1`\n**Host:** `camilagazola.com.br`\n**Score:** 120 / 100\n**Reported:** 2026-10-08 17:36:01 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Checking if you are human\n**Description:** N/A\n**Language:** en\n**Protocol:** https:\n**Referrer:** https://camilagazola.com.br/\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 0\n\n### Detections\n- **CLIPBOARD SOURCE** *(+10pts)*: 2 clipboard write API calls in page source\n  > `clipboard API + unknown payload`\n- **CRYPTO ADDRESS SWAP** *(+2pts)*: Crypto address near clipboard API - possible address swap\n  > `36548c955c29635bc99d9936ccdeaa44`\n- **DEVICE CODE PHISH** *(+38pts)*: Device code phishing: large/styled code display, non-official domain\n  > `large/styled code display | non-official domain`\n- **WEBDAV MOUNT** *(+38pts)*: 3 WebDAV share-mount signals\n  > `net use Z: http://`\n- **VISUAL BRAND IMPERSONATION** *(+12pts)*: Page visually impersonates Google (4 visual signals) on non-official domain camilagazola.com.br\n  > `favicon:https://www.google.com/s2/favicons?domain=camilagazola.com.b | logo:https://www.google.com/s`\n- **FAVICON BRAND MISMATCH** *(+20pts)*: Favicon loaded from google CDN (www.google.com) but page is on camilagazola.com.br\n  > `https://www.google.com/s2/favicons?domain=camilagazola.com.br&sz=64`\n\n### Extracted URLs (12)\n- `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css`\n- `https://www.google.com/s2/favicons?domain=camilagazola.com.br&sz=64`\n- `https://www.straightsell.com.au/documents/AddOns/cloudflare-logo-main.png`\n- `https://www.google.com/s2/favicons?domain=camilagazola.com.br&amp;sz=64`\n- `http://www.w3.org/2000/svg`\n- `http://185.246.223.71/webdav`\n- `https://png.pngtree.com/png-clipart/20250124/original/pngtree-digital-identity-fingerprint-icon-png-image_20012441.png`\n- `https://cf-assets.www.cloudflare.com/slt3lc6tev37/4mhf8gvPA2FDQcpPq2dcaX/36548c955c29635bc99d9936ccdeaa44/time_service_2x__1_.png`\n- `https://cf-assets.www.cloudflare.com/zkvhlag99gkb/7wYHEaqQeVJvIteeEdGz1S/134b9a26f1b9f88dcf6d77459fe08fde/introducing-shadow-it-discovery.png`\n- `https://www.google.com/s2/favicons?domain=`\n- `https://www.cloudflare.com/privacypolicy/`\n- `https://www.cloudflare.com/website-terms/`"
+  },
+  {
+    "id": "6T95dicOfAhj",
+    "time": 1791480161,
+    "title": "[THREAT] nationalhilift.com - Score 144",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_144"
+    ],
+    "source": "extension",
+    "url": "https://nationalhilift.com/?cfcw_captcha_page=1",
+    "host": "nationalhilift.com",
+    "score": 144,
+    "body": "**URL:** `https://nationalhilift.com/?cfcw_captcha_page=1`\n**Host:** `nationalhilift.com`\n**Score:** 144 / 100\n**Reported:** 2026-10-08 17:22:41 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Checking if you are human\n**Description:** N/A\n**Language:** en\n**Protocol:** https:\n**Referrer:** https://nationalhilift.com/\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 0\n\n### Detections\n- **CLIPBOARD SOURCE** *(+10pts)*: 2 clipboard write API calls in page source\n  > `clipboard API + unknown payload`\n- **CRYPTO ADDRESS SWAP** *(+2pts)*: Crypto address near clipboard API - possible address swap\n  > `36548c955c29635bc99d9936ccdeaa44`\n- **DEVICE CODE PHISH** *(+38pts)*: Device code phishing: large/styled code display, non-official domain\n  > `large/styled code display | non-official domain`\n- **FAKE CLOUDFLARE TEXT** *(+24pts)*: 3 fake Cloudflare/CAPTCHA text signals\n  > `Ray ID: b4637f04a7614c89`\n  - *Suspicious keywords matched (4):*\n    - `Verify you are human`\n    - `Ray ID: b4637f04a7614c89`\n    - `nationalhilift.com needs to review the security`\n    - `Platform performance and security`\n- **WEBDAV MOUNT** *(+38pts)*: 3 WebDAV share-mount signals\n  > `net use Z: http://`\n- **VISUAL BRAND IMPERSONATION** *(+12pts)*: Page visually impersonates Google (4 visual signals) on non-official domain nationalhilift.com\n  > `favicon:https://www.google.com/s2/favicons?domain=nationalhilift.com | logo:https://www.google.com/s`\n- **FAVICON BRAND MISMATCH** *(+20pts)*: Favicon loaded from google CDN (www.google.com) but page is on nationalhilift.com\n  > `https://www.google.com/s2/favicons?domain=nationalhilift.com&sz=64`\n\n### Extracted URLs (12)\n- `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css`\n- `https://www.google.com/s2/favicons?domain=nationalhilift.com&sz=64`\n- `https://www.straightsell.com.au/documents/AddOns/cloudflare-logo-main.png`\n- `https://www.google.com/s2/favicons?domain=nationalhilift.com&amp;sz=64`\n- `http://www.w3.org/2000/svg`\n- `http://185.246.223.71/webdav`\n- `https://png.pngtree.com/png-clipart/20250124/original/pngtree-digital-identity-fingerprint-icon-png-image_20012441.png`\n- `https://cf-assets.www.cloudflare.com/slt3lc6tev37/4mhf8gvPA2FDQcpPq2dcaX/36548c955c29635bc99d9936ccdeaa44/time_service_2x__1_.png`\n- `https://cf-assets.www.cloudflare.com/zkvhlag99gkb/7wYHEaqQeVJvIteeEdGz1S/134b9a26f1b9f88dcf6d77459fe08fde/introducing-shadow-it-discovery.png`\n- `https://www.google.com/s2/favicons?domain=`\n- `https://www.cloudflare.com/privacypolicy/`\n- `https://www.cloudflare.com/website-terms/`"
+  },
+  {
+    "id": "SiFWVgk0XVfE",
+    "time": 1791480160,
+    "title": "[THREAT] nationalhilift.com - Score 144",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_144"
+    ],
+    "source": "extension",
+    "url": "https://nationalhilift.com/wp-content/plugins/wp-responsive/captcha.html",
+    "host": "nationalhilift.com",
+    "score": 144,
+    "body": "**URL:** `https://nationalhilift.com/wp-content/plugins/wp-responsive/captcha.html`\n**Host:** `nationalhilift.com`\n**Score:** 144 / 100\n**Reported:** 2026-10-08 17:22:40 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Checking if you are human\n**Description:** N/A\n**Language:** en\n**Protocol:** https:\n**Referrer:** https://nationalhilift.com/\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 0\n\n### Detections\n- **CLIPBOARD SOURCE** *(+10pts)*: 2 clipboard write API calls in page source\n  > `clipboard API + unknown payload`\n- **CRYPTO ADDRESS SWAP** *(+2pts)*: Crypto address near clipboard API - possible address swap\n  > `36548c955c29635bc99d9936ccdeaa44`\n- **DEVICE CODE PHISH** *(+38pts)*: Device code phishing: large/styled code display, non-official domain\n  > `large/styled code display | non-official domain`\n- **FAKE CLOUDFLARE TEXT** *(+24pts)*: 3 fake Cloudflare/CAPTCHA text signals\n  > `Ray ID: 6d32bf7c9de0485b`\n  - *Suspicious keywords matched (4):*\n    - `Verify you are human`\n    - `Ray ID: 6d32bf7c9de0485b`\n    - `nationalhilift.com needs to review the security`\n    - `Platform performance and security`\n- **WEBDAV MOUNT** *(+38pts)*: 3 WebDAV share-mount signals\n  > `net use Z: http://`\n- **VISUAL BRAND IMPERSONATION** *(+12pts)*: Page visually impersonates Google (4 visual signals) on non-official domain nationalhilift.com\n  > `favicon:https://www.google.com/s2/favicons?domain=nationalhilift.com | logo:https://www.google.com/s`\n- **FAVICON BRAND MISMATCH** *(+20pts)*: Favicon loaded from google CDN (www.google.com) but page is on nationalhilift.com\n  > `https://www.google.com/s2/favicons?domain=nationalhilift.com&sz=64`\n\n### Extracted URLs (12)\n- `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css`\n- `https://www.google.com/s2/favicons?domain=nationalhilift.com&sz=64`\n- `https://www.straightsell.com.au/documents/AddOns/cloudflare-logo-main.png`\n- `https://www.google.com/s2/favicons?domain=nationalhilift.com&amp;sz=64`\n- `http://www.w3.org/2000/svg`\n- `http://185.246.223.71/webdav`\n- `https://png.pngtree.com/png-clipart/20250124/original/pngtree-digital-identity-fingerprint-icon-png-image_20012441.png`\n- `https://cf-assets.www.cloudflare.com/slt3lc6tev37/4mhf8gvPA2FDQcpPq2dcaX/36548c955c29635bc99d9936ccdeaa44/time_service_2x__1_.png`\n- `https://cf-assets.www.cloudflare.com/zkvhlag99gkb/7wYHEaqQeVJvIteeEdGz1S/134b9a26f1b9f88dcf6d77459fe08fde/introducing-shadow-it-discovery.png`\n- `https://www.google.com/s2/favicons?domain=`\n- `https://www.cloudflare.com/privacypolicy/`\n- `https://www.cloudflare.com/website-terms/`"
+  },
+  {
     "id": "Kg6PY804Ufug",
     "time": 1791367075,
     "title": "[THREAT] firestream.site - Score 113",
