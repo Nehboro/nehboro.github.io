@@ -1,5 +1,20 @@
 [
   {
+    "id": "QymUpoMfcGTz",
+    "time": 1792766560,
+    "title": "[THREAT] firestream.site - Score 115",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_115"
+    ],
+    "source": "extension",
+    "url": "https://firestream.site/e/dzQr1cgr?parent_ref=https%3A%2F%2Ffilmpalast.to%2F",
+    "host": "firestream.site",
+    "score": 115,
+    "body": "**URL:** `https://firestream.site/e/dzQr1cgr?parent_ref=https%3A%2F%2Ffilmpalast.to%2F`\n**Host:** `firestream.site`\n**Score:** 115 / 100\n**Reported:** 2026-10-23 14:42:39 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** FireStream Video\n**Description:** N/A\n**Language:** en\n**Protocol:** https:\n**Referrer:** https://filmpalast.to/\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 1 | **External scripts:** 8 | **Links:** 0\n\n### Detections\n- **BASE64 PAYLOAD** *(+20pts)*: Verified base64 payload: high binary content\n  > `3388 chars | high binary content`\n- **FAKE COUNTDOWN** *(+10pts)*: Countdown timer with 2 signals: countdown JS, time format displayed\n  > `countdown JS | time format displayed`\n- **KEYLOGGER PATTERN** *(+35pts)*: Keylogger pattern: captures keystrokes and sends externally\n  > `keydown/keypress listener + data exfil + key storage`\n- **OBFUSCATION HEAVY** *(+28pts)*: 3 heavy JS obfuscation patterns\n  > `3 obfuscation signals in page scripts`\n  - *Suspicious keywords matched (30):*\n    - `_0x4c585e=Function(_0x3466ca`\n    - `_0x193f=function(_0x193f6e`\n    - `_0x42f69c=function(_0x438db7`\n    - `_0x2b4710=function(_0x4be781`\n    - `_0x2427e4=function(_0x43275a`\n    - `_0x4a7036=function(_0x1986ca`\n    - `_0x592487=function(_0x9fef21`\n    - `_0x5124b6=function(_0x4d0c45`\n    - `_0x197580=function(_0x5ce5ee`\n    - `_0x294a92=function(_0x257d05`\n    - `_0x11ccbf=function(_0x5b7fa1`\n    - `var _0x433a3b=[`\n    - `var _0x2cdeff=[`\n    - `var _0x88c5fd=[`\n    - `var _0x58b903=[`\n    - `var _0x56d778=[`\n    - `var _0x1fab8a=[`\n    - `var _0x29ed6a=[`\n    - `var _0x264a6d=[`\n    - `window[_0x4ac6b1`\n- **SEARCH HIJACKING** *(+22pts)*: Search hijacking: search form submission interception\n  > `search form submission interception`\n\n### Extracted URLs (16)\n- `https://firestream.to/assets/plyr/plyr.css`\n- `https://fireanalytics.firestream.to/js/pa-PwhmrJUicl-8UDKGtP5jL.js`\n- `https://imasdk.googleapis.com/js/sdkloader/ima3.js`\n- `https://fecialnargile.qpon`\n- `https://firestream.to/assets/plyr/plyr.min.js`\n- `https://firestream.to/assets/hls/hls.min.js`\n- `//po.bebangcaromel.com/rbcysrYnUXF/144098`\n- `//cdn.tsyndicate.com/sdk/v1/p.js`\n- `//jnbhi.com/tag.min.js`\n- `https://woofbeginner.com/07/bb/a8/07bba8b5512731526ae58f3a1306b175.js`\n- `http://www.w3.org/2000/svg`\n- `http://www.w3.org/1999/xlink`\n- `https://firestream.site/0e4363d6-94c8-472e-aa53-02fca885223a`\n- `https://firestream.site/media/fi-0/fc2fa061-dd16-4899-a21c-a318412d04df/posters/a7e4eb31-8ff5-4c1b-b275-421febecf600-poster.jpg?v=2`\n- `https://firestream.site/media/fi-0/fc2fa061-dd16-4899-a21c-a318412d04df/posters/a7e4eb31-8ff5-4c1b-b275-421febecf600-poster.jpg?v=2&quot`\n- `https://firestream.to`"
+  },
+  {
     "id": "fYdHdHkukIo4",
     "time": 1791572371,
     "title": "[THREAT] jbhaulingjunkremoval.com - Score 133",
