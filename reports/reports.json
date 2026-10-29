@@ -1,5 +1,35 @@
 [
   {
+    "id": "WxyW6rhThsm2",
+    "time": 1793251588,
+    "title": "[THREAT] luluhypermarket.wypz.buzz - Score 0",
+    "tags": [
+      "information_source",
+      "shield",
+      "score_0"
+    ],
+    "source": "extension",
+    "url": "https://luluhypermarket.wypz.buzz/?id=BG0oMFva1f80019Ezd20Mq#t1793251536192",
+    "host": "luluhypermarket.wypz.buzz",
+    "score": 0,
+    "body": "**URL:** `https://luluhypermarket.wypz.buzz/?id=BG0oMFva1f80019Ezd20Mq#t1793251536192`\n**Host:** `luluhypermarket.wypz.buzz`\n**Score:** 0 / 100\n**Reported:** 2026-10-29 05:26:28 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** N/A\n**Description:** N/A\n**Language:** N/A\n**Protocol:** N/A\n**Referrer:** direct\n\n### Page Structure\n**Forms:** ? | **Password/text/email inputs:** ?\n**Iframes:** ? | **External scripts:** ? | **Links:** ?\n\n### Detections\n- *(manual report - no automated detections)*\n\n### Extracted URLs (0)\n- *(no URLs extracted from page)*"
+  },
+  {
+    "id": "Bu6t54CgsUwu",
+    "time": 1793251492,
+    "title": "[THREAT] unknown - Score 108",
+    "tags": [
+      "rotating_light",
+      "shield",
+      "score_108"
+    ],
+    "source": "extension",
+    "url": "file:///usr/share/kali-defaults/web/homepage.html",
+    "host": "unknown",
+    "score": 108,
+    "body": "**URL:** `file:///usr/share/kali-defaults/web/homepage.html`\n**Host:** ``\n**Score:** 108 / 100\n**Reported:** 2026-10-29 05:24:51 UTC\n**Extension:** v1.0.0\n\n### Page Info\n**Title:** Kali Linux\n**Description:** N/A\n**Language:** en-us\n**Protocol:** file:\n**Referrer:** direct\n\n### Page Structure\n**Forms:** 0 | **Password/text/email inputs:** 0\n**Iframes:** 0 | **External scripts:** 0 | **Links:** 66\n\n### Detections\n- **DEVICE CODE PHISH** *(+38pts)*: Device code phishing: large/styled code display, non-official domain\n  > `large/styled code display | non-official domain`\n- **FAKE SOFTWARE DL** *(+25pts)*: Fake software download lure detected\n  > `crack`\n  - *Suspicious keywords matched (1):*\n    - `crack`\n- **HIDDEN CONTENT** *(+20pts)*: Suspicious commands hidden via CSS\n  > `\n        \n          ▶\n          Fake Software Download\n          +25\n        \n        \n          Fak`\n- **LOLBIN COMMAND** *(+25pts)*: 4 different LOLBin commands referenced in page\n  > `PowerShell, ftp, nslookup, SSH`\n  - *Suspicious keywords matched (4):*\n    - `PowerShell`\n    - `ftp`\n    - `nslookup`\n    - `SSH`\n\n### Extracted URLs (100)\n- `https://www.kali.org/`\n- `https://www.offsec.com/events/the-gauntlet/?utm_source=kali&utm_medium=os&utm_campaign=menu`\n- `https://www.kali.org/get-kali/`\n- `https://www.kali.org/blog/`\n- `https://www.kali.org/docs/`\n- `https://www.kali.org/tools/`\n- `https://www.kali.org/faq/`\n- `https://bugs.kali.org/search.php?project_id=1&category_id[]=General%20Bug&category_id[]=Kali%20Package%20Bug&category_id[]=Kali%20Package%20Improvement&status[]=30&status[]=40&status[]=50&sticky=on&so`\n- `https://www.kali.org/community/`\n- `https://forums.kali.org/`\n- `https://discord.kali.org/`\n- `https://www.kali.org/newsletter/`\n- `https://http.kali.org/README?mirrorlist`\n- `https://www.kali.org/docs/community/contribute/`\n- `https://www.offsec.com/kali-training/courses/?utm_source=kali&utm_medium=os&utm_campaign=menu`\n- `https://gitlab.com/kalilinux`\n- `https://pkg.kali.org/`\n- `https://autopkgtest.kali.org/`\n- `https://bugs.kali.org/`\n- `https://nethunter.kali.org/`\n- `https://www.kali.org/features/`\n- `https://gitlab.com/kalilinux/documentation/press-pack/-/archive/main/press-pack-main.zip`\n- `https://www.kali.org/wallpapers/`\n- `https://offsec.usa.dowlis.com/kali/view-all.html`\n- `https://www.kali.org/about-us/`\n- `https://www.kali.org/partnerships/`\n- `https://www.kali.org/contact/`\n- `https://www.kali.org/blog/latest-release/`\n- `https://status.kali.org/`\n- `https://old.kali.org/`\n- `https://arm.kali.org/`\n- `https://aws.amazon.com/marketplace/pp/B08LL91KKB`\n- `https://hub.docker.com/u/kalilinux`\n- `https://www.linode.com/marketplace/apps/kali-linux/kali-linux/`\n- `https://azuremarketplace.microsoft.com/en/marketplace/apps/kali-linux.kali`\n- `https://www.microsoft.com/en-us/p/kali-linux/9pkr34tncv07`\n- `https://portal.cloud.hashicorp.com/vagrant/discover/kalilinux`\n- `https://video.infosec.exchange/c/kalilinux/videos`\n- `https://bsky.app/profile/kalilinux.bsky.social`\n- `https://www.facebook.com/KaliLinux`\n- `https://www.instagram.com/kalilinux/`\n- `https://infosec.exchange/@kalilinux`\n- `https://kalilinux.substack.com/`\n- `https://x.com/kalilinux`\n- `https://www.kali.org/rss.xml`\n- `https://www.kali.org/docs/policy/cookie/`\n- `https://www.kali.org/docs/policy/privacy/`\n- `https://www.kali.org/docs/policy/trademark/`\n- `https://www.offsec.com/community/?utm_source=kali&utm_medium=os&utm_campaign=www#projects`\n- `https://www.offsec.com/events/the-gauntlet/?utm_source=kali&amp;utm_medium=os&amp;utm_campaign=menu`"
+  },
+  {
     "id": "dNn76oFGbPfj",
     "time": 1793167925,
     "title": "[THREAT] kkkk.com - Score 0",
